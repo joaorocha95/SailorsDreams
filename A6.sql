@@ -38,6 +38,8 @@ CREATE TABLE IF NOT EXISTS sailorsDream.Product (
    active BOOLEAN DEFAULT FALSE,
    price REAL,
    pricePerDay REAL
+   CONSTRAINT price_check CHECK (price > 0)
+   CONSTRAINT pricePerDay_check CHECK (price > 0)
 );
 
 CREATE TABLE IF NOT EXISTS sailorsDream.Order (
@@ -49,6 +51,9 @@ CREATE TABLE IF NOT EXISTS sailorsDream.Order (
    loan_start Date,
    loan_end Date,
    total_price REAL NOT NULL
+   CONSTRAINT noOverlap CHECK (loan_end > loan_start)
+   CONSTRAINT price_check CHECK (total_price > 0)
+
 );
 
 CREATE TABLE IF NOT EXISTS sailorsDream.Review (
@@ -60,6 +65,8 @@ CREATE TABLE IF NOT EXISTS sailorsDream.Review (
    rating_seller INTEGER NOT NULL,
    comment TEXT,
    date DATE DEFAULT now() NOT NULL
+   CONSTRAINT ratingbuyer_ck CHECK (((rating_buyer > 0) OR (rating_buyer <= 5)))
+   CONSTRAINT ratingseller_ck CHECK (((rating_seller > 0) OR (rating_seller <= 5)))
 );
 
 CREATE TABLE IF NOT EXISTS sailorsDream.Addresses(
