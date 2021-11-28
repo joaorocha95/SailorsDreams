@@ -111,31 +111,18 @@ CREATE TABLE IF NOT EXISTS sailorsDream.Wishlist (
 -- Populate the database
 -----------------------------------------
 
-   id SERIAL PRIMARY KEY,
-   username TEXT NOT NULL,
-   email TEXT NOT NULL UNIQUE,
-   birthDate DATE NOT NULL,
-   password TEXT NOT NULL,
-   banned BOOLEAN NOT NULL,
-   accType sailorsDream.accType NOT NULL DEFAULT 'User',
-   img TEXT,
-   phone INTEGER NOT NULL UNIQUE
-
 INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (1,'Thermed','CarlSGossett@dayrep.com','13/02/1946','UTaxe6fieH',FALSE, 'Admin', '', 212288151);
 INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (2,'Selinglese','Virginia J. Crigler','15/12/1974','ohr7ieg2L',FALSE,'Support', '', 212725182);
 INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (3,'Whanterrene','Jeremy T. Tally','13/06/1983','OFK00XCC7OD',FALSE, 'Client', '', 212847851);
-INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (4,'Catelleaden1969','Naja T. Gregersen','12/04/1969','PZJ77DKO2VZ','Cdm',FALSE);
+INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (4,'Catelleaden1969','Naja T. Gregersen','12/04/1969','ieSh2riil',FALSE, 'User', '', 212722946);
 
-INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (5,'','Zeph Griffin','rhoncus. Donec est. Nunc ullamcorper,','GUL95ZXR9EX','Praesent',TRUE);
-INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (6,'','Noah Gibson','nunc ac mattis ornare, lectus','TYT71DOD7YN','sollicitudin',TRUE);
-INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (7,'','Aladdin Davidson','nisl elementum purus, accumsan interdum','OFK00XCC7OD','vel',TRUE);
-INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (8,'','Thor Villarreal','Nunc quis arcu vel quam','PZJ77DKO2VZ','Cdm',FALSE);
+INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (5,'Faidelper','Kaden Muir','1/2/2001','ohGh3uuG0ei',TRUE, 'User', '', 212735614);
+INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (6,'Sathereend','Elliott Ritchie','17/2/1982','woh2be6Auph1',TRUE,'Seller', '', 212735615);
+INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (7,'Whimpappered52','Kayden Clark','23/3/1952','sheiJuot3phai',FALSE, 'Client', '', 212441165);
+INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (8,'Difeentle','Hailey Scott','17/10/1968','PZJ77DKO2VZ',FALSE, 'Support', '', 212655776);
 
-INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (9,'','Zeph Griffin','rhoncus. Donec est. Nunc ullamcorper,','GUL95ZXR9EX','Praesent',TRUE);
-INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (10,'','Noah Gibson','nunc ac mattis ornare, lectus','TYT71DOD7YN','sollicitudin',TRUE);
-INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (11,'','Aladdin Davidson','nisl elementum purus, accumsan interdum','OFK00XCC7OD','vel',TRUE);
-INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (12,'','Thor Villarreal','Nunc quis arcu vel quam','PZJ77DKO2VZ','Cdm',FALSE);
-
+INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (9,'Painged','Charlie Hay','22/4/1971','SahWai0Ie',FALSE, 'Seller', '', 212344626);
+INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (10,'Eneive','Kristian McDonald','19/2/1981','eeNgeiHi5',FALSE, 'Client', '', 212349594);
 
 -- removed for brevity
 
