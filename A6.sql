@@ -124,6 +124,12 @@ INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone
 INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (9,'Painged','paigestew1971@gmail.com','22/4/1971','SahWai0Ie',FALSE, 'Seller', '', 212344626);
 INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (10,'Eneive','mcdonaldgrey@gmail.com','19/2/1981','eeNgeiHi5',FALSE, 'Client', '', 212349594);
 
+INSERT INTO Product (id,seller,productname,description,active,price,pricePerDay) VALUES (1, 6, 'Veleiro', 'Tem uma folha no leme', TRUE, 200.00, );
+
+INSERT INTO Order (id,product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES (1, 1, 3, 'Transaction_Completed', 'Purchase',,, 200.00);
+
+INSERT INTO Review (id,orderid,to_user,from_user,rating_buyer,rating_seller,comment) VALUES (1,1,3,6,5,5, 'Very cheap and fast!');
+
 -- removed for brevity
 
 -----------------------------------------
