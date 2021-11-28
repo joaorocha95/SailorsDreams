@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS sailorsDream.Order (
    id SERIAL PRIMARY KEY,
    product INTEGER REFERENCES sailorsDream.Product (id) ON UPDATE CASCADE,
    client INTEGER REFERENCES sailorsDream.Users (id) ON UPDATE CASCADE,
-   order_tatus sailorsDream.order_status NOT NULL,
+   order_status sailorsDream.order_status NOT NULL,
    order_type sailorsDream.order_type NOT NULL,
    loan_start Date,
    loan_end Date,
