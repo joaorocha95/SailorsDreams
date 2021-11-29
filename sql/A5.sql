@@ -1,10 +1,21 @@
+-----------------------------------------
+-- Drop old schema
+-----------------------------------------
 DROP SCHEMA sailorsDream CASCADE;
+
+-----------------------------------------
+-- Types
+-----------------------------------------
 CREATE SCHEMA sailorsDream;
 
 CREATE TYPE sailorsDream.accType AS ENUM ('User', 'Client', 'Seller', 'Admin', 'Support');
 CREATE TYPE sailorsDream.order_status AS ENUM ('In_Negotiation', 'Transaction_Completed', 'Transaction_Failed');
 CREATE TYPE sailorsDream.message_type AS ENUM ('Ticket', 'Order');
 CREATE TYPE sailorsDream.order_type AS ENUM ('Loan', 'Purchase');
+
+-----------------------------------------
+-- Tables
+-----------------------------------------
 
 CREATE TABLE IF NOT EXISTS sailorsDream.Users (
    id SERIAL PRIMARY KEY,
@@ -21,34 +32,39 @@ CREATE TABLE IF NOT EXISTS sailorsDream.Users (
 --psql --host=db --username=postgres --dbname=gitlab -f BD.sql
 CREATE TABLE IF NOT EXISTS sailorsDream.Product (
    id SERIAL PRIMARY KEY,
-   seller INTEGER REFERENCES sailorsDream.Users (id) ON UPDATE CASCADE,
+   seller INTEGER REFERENCES sailorsDream.Users (id) ON DELETE CASCADE,
    productname TEXT NOT NULL,
    description TEXT NOT NULL,
    active BOOLEAN DEFAULT FALSE,
    price REAL,
    pricePerDay REAL
+   CONSTRAINT price_check CHECK (price > 0)
+   CONSTRAINT pricePerDay_check CHECK (price > 0)
 );
 
 CREATE TABLE IF NOT EXISTS sailorsDream.Order (
    id SERIAL PRIMARY KEY,
-   product INTEGER REFERENCES sailorsDream.Product (id) ON UPDATE CASCADE,
+   product INTEGER REFERENCES sailorsDream.Product (id) ON DELETE CASCADE,
    client INTEGER REFERENCES sailorsDream.Users (id) ON UPDATE CASCADE,
-   order_tatus sailorsDream.order_status NOT NULL,
+   order_status sailorsDream.order_status NOT NULL DEFAULT 'In_Negotiation',
    order_type sailorsDream.order_type NOT NULL,
    loan_start Date,
    loan_end Date,
    total_price REAL NOT NULL
+   CONSTRAINT noOverlap CHECK (loan_end > loan_start OR loan_start = NULL)
+   CONSTRAINT price_check CHECK (total_price > 0)
+
 );
 
 CREATE TABLE IF NOT EXISTS sailorsDream.Review (
    id SERIAL PRIMARY KEY,
-   orderid INTEGER REFERENCES sailorsDream.Order (id) ON UPDATE CASCADE,
-   to_user INTEGER REFERENCES sailorsDream.Users (id) ON UPDATE CASCADE,
+   orderid INTEGER REFERENCES sailorsDream.Order (id) ON DELETE CASCADE,
+   to_user INTEGER REFERENCES sailorsDream.Users (id) ON DELETE CASCADE,
    from_user INTEGER REFERENCES sailorsDream.Users (id) ON UPDATE CASCADE,
-   rating_buyer INTEGER NOT NULL,
-   rating_seller INTEGER NOT NULL,
+   rating INTEGER NOT NULL,
    comment TEXT,
-   date DATE DEFAULT now() NOT NULL
+   review_date DATE DEFAULT now() NOT NULL
+   CONSTRAINT ratingbuyer_ck CHECK (((rating > 0) OR (rating <= 5)))
 );
 
 CREATE TABLE IF NOT EXISTS sailorsDream.Addresses(
@@ -60,7 +76,7 @@ CREATE TABLE IF NOT EXISTS sailorsDream.Addresses(
 );
 
 CREATE TABLE IF NOT EXISTS sailorsDream.Category (
-   product_id INTEGER REFERENCES sailorsDream.Product (id) ON UPDATE CASCADE,
+   product_id INTEGER REFERENCES sailorsDream.Product (id) ON DELETE CASCADE,
    name TEXT NOT NULL,
    UNIQUE (product_id, name)
 );
