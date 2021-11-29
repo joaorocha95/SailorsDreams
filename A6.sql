@@ -125,8 +125,13 @@ INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone
 INSERT INTO Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (10,'Eneive','mcdonaldgrey@gmail.com','19/2/1981','eeNgeiHi5',FALSE, 'Client', '', 212349594);
 
 INSERT INTO Product (id,seller,productname,description,active,price,pricePerDay) VALUES (1, 6, 'Veleiro', 'Tem uma folha no leme', TRUE, 200.00, );
+INSERT INTO Product (id,seller,productname,description,active,price,pricePerDay) VALUES (2, 6, 'Lancha', 'Rápida e ainda está inteira!', TRUE, 100.00, );
+INSERT INTO Product (id,seller,productname,description,active,price,pricePerDay) VALUES (3, 9, 'Iate', 'Brand new', TRUE, , 75.00);
+
+INSERT INTO Category (product_id, name) VALUES (1, 'Water vehicle');
 
 INSERT INTO Order (id,product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES (1, 1, 3, 'Transaction_Completed', 'Purchase',,, 200.00);
+INSERT INTO Order (id,product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES (1, 1, 10, 'Transaction_Completed', 'Loan', 20/11/2021, 23/11/2021, 75.00);
 
 INSERT INTO Review (id,orderid,to_user,from_user,rating_buyer,rating_seller,comment) VALUES (1,1,3,6,5,5, 'Very cheap and fast!');
 
