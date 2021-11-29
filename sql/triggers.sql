@@ -1,4 +1,4 @@
---TRIGGER04
+--TRIGGER01
 DROP FUNCTION IF EXISTS anonymize_reviews CASCADE;
 CREATE OR REPLACE FUNCTION anonymize_reviews() RETURNS TRIGGER AS
 $$BEGIN
@@ -12,7 +12,7 @@ CREATE TRIGGER anonymize_reviews_on_delete
     EXECUTE PROCEDURE anonymize_reviews();
 
 
---TRIGGER05/06
+--TRIGGER02/03
 DROP FUNCTION IF EXISTS remove_products CASCADE;
 CREATE OR REPLACE FUNCTION remove_products() RETURNS TRIGGER AS
 $$BEGIN
@@ -30,7 +30,7 @@ CREATE TRIGGER remove_user_products
     EXECUTE PROCEDURE remove_products();
 
 
---TRIGGER07
+--TRIGGER04
 DROP FUNCTION IF EXISTS auto_order CASCADE;
 CREATE OR REPLACE FUNCTION auto_order() RETURNS TRIGGER AS
 $$BEGIN
@@ -55,7 +55,7 @@ CREATE TRIGGER delete_auto_order
         EXECUTE PROCEDURE auto_order();
 
 
----TRIGGER08/09
+---TRIGGER05/06
 DROP FUNCTION IF EXISTS verify_review_client CASCADE;
 CREATE OR REPLACE FUNCTION verify_review_client() RETURNS TRIGGER AS
 $$BEGIN
@@ -87,7 +87,7 @@ CREATE TRIGGER verify_review
     EXECUTE PROCEDURE verify_review_client();
 
 
----TRIGGER11
+---TRIGGER07
 DROP FUNCTION IF EXISTS remove_item CASCADE;
 CREATE OR REPLACE FUNCTION remove_item() RETURNS TRIGGER AS
 $$BEGIN
@@ -101,7 +101,7 @@ CREATE TRIGGER remove_product_from_order
     EXECUTE PROCEDURE remove_item();
 
 
---TRIGGER12
+--TRIGGER08
 DROP FUNCTION IF EXISTS wishlist_removal CASCADE;
 CREATE OR REPLACE FUNCTION wishlist_removal() RETURNS TRIGGER AS
 $$
@@ -117,3 +117,17 @@ CREATE TRIGGER wishlist_check
     BEFORE DELETE ON sailorsDream.Product
     FOR EACH ROW
         EXECUTE PROCEDURE wishlist_removal();
+
+
+--TRIGGER09
+DROP FUNCTION IF EXISTS remove_item_from_order CASCADE;
+CREATE OR REPLACE FUNCTION remove_item_from_order() RETURNS TRIGGER AS
+$$BEGIN
+    UPDATE sailorsdream."order" SET product = NULL
+        WHERE product = OLD.id;
+    RETURN OLD;
+END;$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER remove_product_from_order
+    BEFORE DELETE ON sailorsDream.Product FOR EACH ROW
+    EXECUTE PROCEDURE remove_item_from_order();
