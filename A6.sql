@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS sailorsDream.Order (
    id SERIAL PRIMARY KEY,
    product INTEGER REFERENCES sailorsDream.Product (id) ON UPDATE CASCADE,
    client INTEGER REFERENCES sailorsDream.Users (id) ON UPDATE CASCADE,
-   order_status sailorsDream.order_status NOT NULL,
+   order_status sailorsDream.order_status NOT NULL DEFAULT 'In_Negotiation',
    order_type sailorsDream.order_type NOT NULL,
    loan_start Date,
    loan_end Date,
@@ -61,12 +61,10 @@ CREATE TABLE IF NOT EXISTS sailorsDream.Review (
    orderid INTEGER REFERENCES sailorsDream.Order (id) ON UPDATE CASCADE,
    to_user INTEGER REFERENCES sailorsDream.Users (id) ON DELETE CASCADE,
    from_user INTEGER REFERENCES sailorsDream.Users (id) ON UPDATE CASCADE,
-   rating_buyer INTEGER NOT NULL,
-   rating_seller INTEGER NOT NULL,
+   rating INTEGER NOT NULL,
    comment TEXT,
    review_date DATE DEFAULT now() NOT NULL
-   CONSTRAINT ratingbuyer_ck CHECK (((rating_buyer > 0) OR (rating_buyer <= 5)))
-   CONSTRAINT ratingseller_ck CHECK (((rating_seller > 0) OR (rating_seller <= 5)))
+   CONSTRAINT ratingbuyer_ck CHECK (((rating > 0) OR (rating <= 5)))
 );
 
 CREATE TABLE IF NOT EXISTS sailorsDream.Addresses(
@@ -133,12 +131,12 @@ INSERT INTO sailorsDream.Category (product_id, name) VALUES (1, 'Water vehicle')
 INSERT INTO sailorsDream.Order (id,product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES (1, 1, 3, 'Transaction_Completed', 'Purchase',NULL,NULL, 200.00);
 INSERT INTO sailorsDream.Order (id,product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES (2, 1, 10, 'Transaction_Completed', 'Loan', '2021-11-20', '2021-11-23', 75.00);
 
-INSERT INTO sailorsDream.Review (id, orderid, to_user, from_user, rating_buyer, rating_seller, comment) VALUES (1, 1, 2, 4, 4, 4, NULL);
+INSERT INTO sailorsDream.Review (id, orderid, to_user, from_user, rating, comment) VALUES (1, 1, 2, 4, 4, NULL);
 
 INSERT INTO sailorsDream.Order (id,product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES (3, 1, 3, 'Transaction_Completed', 'Purchase',NULL,NULL, 200.00);
 INSERT INTO sailorsDream.Order (id,product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES (4, 3, 10, 'Transaction_Completed', 'Loan', '2021-2-11', '2021-1-11', 75.00);
 
-INSERT INTO sailorsDream.Review (id,orderid,to_user,from_user,rating_buyer,rating_seller,comment) VALUES (2,1,3,6,5,5, 'Very cheap and fast!');
+INSERT INTO sailorsDream.Review (id,orderid,to_user,from_user,rating,comment) VALUES (2,1,3,6,5, 'Very cheap and fast!');
 
 -- removed for brevity
 
