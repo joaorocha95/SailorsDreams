@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS sailorsDream.Product (
 
 CREATE TABLE IF NOT EXISTS sailorsDream.Order (
    id SERIAL PRIMARY KEY,
-   product INTEGER REFERENCES sailorsDream.Product (id) ON UPDATE CASCADE,
+   product INTEGER REFERENCES sailorsDream.Product (id) ON DELETE CASCADE,
    client INTEGER REFERENCES sailorsDream.Users (id) ON UPDATE CASCADE,
    order_status sailorsDream.order_status NOT NULL DEFAULT 'In_Negotiation',
    order_type sailorsDream.order_type NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS sailorsDream.Order (
 
 CREATE TABLE IF NOT EXISTS sailorsDream.Review (
    id SERIAL PRIMARY KEY,
-   orderid INTEGER REFERENCES sailorsDream.Order (id) ON UPDATE CASCADE,
+   orderid INTEGER REFERENCES sailorsDream.Order (id) ON DELETE CASCADE,
    to_user INTEGER REFERENCES sailorsDream.Users (id) ON DELETE CASCADE,
    from_user INTEGER REFERENCES sailorsDream.Users (id) ON UPDATE CASCADE,
    rating INTEGER NOT NULL,
