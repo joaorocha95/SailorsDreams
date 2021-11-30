@@ -32,17 +32,16 @@ INSERT INTO sailorsDream.Product (id,seller,productname,description,active,price
 INSERT INTO sailorsDream.Order (id,product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES (1, 1, 3, 'Transaction_Completed', 'Purchase',NULL,NULL, 200.00);
 INSERT INTO sailorsDream.Order (id,product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES (2, 1, 10, 'Transaction_Completed', 'Loan', '2021-11-20', '2021-11-23', 75.00);
 INSERT INTO sailorsDream.Order (id,product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES (3, 6, 7, 'Transaction_Failed', 'Purchase', NULL, NULL, 1175.00);
-INSERT INTO sailorsDream.Order (id,product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES (3, 6, 7, 'In_Negotiation', 'Purchase', NULL, NULL, 1175.00);
+INSERT INTO sailorsDream.Order (id,product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES (4, 6, 7, 'In_Negotiation', 'Purchase', NULL, NULL, 1175.00);
 
 
 -----------------------------------
 --  	Review Inserts
 -----------------------------------
-INSERT INTO sailorsDream.Review (id, orderid, to_user, from_user, rating, comment) VALUES (1, 1, 2, 4, 4, NULL);
-INSERT INTO sailorsDream.Review (id, orderid, to_user, from_user, rating, comment) VALUES (1, 1, 4, 2, 5, NULL);
-
-INSERT INTO sailorsDream.Review (id, orderid, to_user, from_user, rating, comment) VALUES (2, 2, 10, 4, 4, NULL);
-INSERT INTO sailorsDream.Review (id, orderid, to_user, from_user, rating, comment) VALUES (2, 2, 2, 4, 4, NULL);
+INSERT INTO sailorsDream.Review (id, orderid, to_user, from_user, rating, comment) VALUES (1, 1, 3, 6, 4, NULL);
+INSERT INTO sailorsDream.Review (id, orderid, to_user, from_user, rating, comment) VALUES (2, 1, 6, 3, 5, NULL);
+INSERT INTO sailorsDream.Review (id, orderid, to_user, from_user, rating, comment) VALUES (3, 2, 10, 6, 3, NULL);
+INSERT INTO sailorsDream.Review (id, orderid, to_user, from_user, rating, comment) VALUES (4, 2, 6, 10, 2, NULL);
 
 -----------------------------------
 --  	Addresses Inserts
