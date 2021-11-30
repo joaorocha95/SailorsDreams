@@ -4,6 +4,8 @@ CREATE OR REPLACE FUNCTION anonymize_reviews() RETURNS TRIGGER AS
 $$BEGIN
     UPDATE sailorsdream."review" SET from_user = NULL
         WHERE from_user = OLD.id;
+    DELETE FROM sailorsdream."review"
+        WHERE to_user = OLD.id;
     RETURN OLD;
 END;$$ LANGUAGE plpgsql;
 
@@ -18,10 +20,8 @@ CREATE OR REPLACE FUNCTION remove_products() RETURNS TRIGGER AS
 $$BEGIN
     DELETE FROM sailorsdream."product" 
         WHERE seller = OLD.id;
-    DELETE FROM sailorsdream."review"
-        WHERE to_user = OLD.id;
-    UPDATE sailorsdream."review" set from_user = NULL
-        WHERE from_user = OLD.id;
+    UPDATE sailorsDream."ticket" SET support = NULL
+        WHERE support = OLD.id;
     RETURN OLD;
 END;$$ LANGUAGE plpgsql;
 
@@ -37,9 +37,8 @@ $$BEGIN
     IF EXISTS
     (
         SELECT *
-        FROM sailorsDream.Order JOIN sailorsDream.Product 
-            ON sailorsDream.Order.product = sailorsDream.Product.id
-        WHERE sailorsDream.Product.id = sailorsDream.Order.product
+        FROM sailorsDream.Product
+        WHERE sailorsDream.Product.id = NEW.product
         AND NEW.client = sailorsDream.Product.seller
     )
     THEN
@@ -88,17 +87,21 @@ CREATE TRIGGER verify_review
 
 
 ---TRIGGER07
-DROP FUNCTION IF EXISTS remove_item CASCADE;
-CREATE OR REPLACE FUNCTION remove_item() RETURNS TRIGGER AS
+DROP FUNCTION IF EXISTS active_item CASCADE;
+CREATE OR REPLACE FUNCTION active_item() RETURNS TRIGGER AS
 $$BEGIN
-    UPDATE sailorsdream."order" SET product = NULL
-        WHERE product = OLD.id;
-    RETURN OLD;
+    IF NEW.order_status = 'Transaction_Completed'
+        AND NEW.order_type = 'Purchase'
+    THEN
+        UPDATE sailorsdream."product" SET active = FALSE
+            WHERE id = NEW.product;
+    END IF;
+    RETURN NEW;
 END;$$ LANGUAGE plpgsql;
 
-CREATE TRIGGER remove_product_from_order
-    BEFORE DELETE ON sailorsDream.Product FOR EACH ROW
-    EXECUTE PROCEDURE remove_item();
+CREATE TRIGGER item_bought_now_inactive
+    AFTER INSERT OR UPDATE ON sailorsDream.Order FOR EACH ROW
+    EXECUTE PROCEDURE active_item();
 
 
 --TRIGGER08
@@ -106,8 +109,8 @@ DROP FUNCTION IF EXISTS wishlist_removal CASCADE;
 CREATE OR REPLACE FUNCTION wishlist_removal() RETURNS TRIGGER AS
 $$
 BEGIN
-    DELETE FROM sailorsDream.Wishlist WHERE
-        product = OLD.id;
+    DELETE FROM sailorsDream.Wishlist
+        WHERE product = OLD.id;
     RETURN OLD;
 END;
 $$
@@ -122,12 +125,39 @@ CREATE TRIGGER wishlist_check
 --TRIGGER09
 DROP FUNCTION IF EXISTS remove_item_from_order CASCADE;
 CREATE OR REPLACE FUNCTION remove_item_from_order() RETURNS TRIGGER AS
-$$BEGIN
+$$
+BEGIN
     UPDATE sailorsdream."order" SET product = NULL
         WHERE product = OLD.id;
     RETURN OLD;
-END;$$ LANGUAGE plpgsql;
+END;
+$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER remove_product_from_order
-    BEFORE DELETE ON sailorsDream.Product FOR EACH ROW
-    EXECUTE PROCEDURE remove_item_from_order();
+    BEFORE DELETE ON sailorsDream.Product
+    FOR EACH ROW
+        EXECUTE PROCEDURE remove_item_from_order();
+
+
+--TRIGGER10
+DROP FUNCTION IF EXISTS check_account CASCADE;
+CREATE OR REPLACE FUNCTION check_account() RETURNS TRIGGER AS
+$$BEGIN
+    IF NOT EXISTS
+    (
+        SELECT *
+        FROM sailorsDream.Users
+        WHERE NEW.seller = sailorsDream.Users.id
+        AND sailorsDream.Users.accType = 'Seller'
+    )
+    THEN
+    RAISE EXCEPTION 'Only a Seller can Sell Products.';
+    END IF;
+    RETURN NEW;
+END;$$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER check_seller_account
+        BEFORE INSERT ON sailorsDream.Product
+        FOR EACH ROW
+        EXECUTE PROCEDURE check_account();

@@ -55,8 +55,8 @@ INSERT INTO sailorsDream.Ticket(id, userid, support, title) VALUES (2, 6, 8, 'Ca
 -----------------------------------
 --  	Message Inserts
 -----------------------------------
-INSERT INTO sailorsDream.Message(id, message_type, associated_order, associated_ticket, message, date) VALUES (1, 'Ticket', NULL, 2, 'Hey, can you fix the product pages please?', );
-INSERT INTO sailorsDream.Message(id, message_type, associated_order, associated_ticket, message, date) VALUES (2, 'Order', 2, NULL, 'Oi, onde estaciono o iate?', );
+INSERT INTO sailorsDream.Message(id, message_type, associated_order, associated_ticket, message) VALUES (1, 'Ticket', NULL, 2, 'Hey, can you fix the product pages please?');
+INSERT INTO sailorsDream.Message(id, message_type, associated_order, associated_ticket, message) VALUES (2, 'Order', 2, NULL, 'Oi, onde estaciono o iate?');
 
 -----------------------------------
 --  	Wishlist Inserts
