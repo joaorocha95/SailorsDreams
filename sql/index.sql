@@ -1,12 +1,12 @@
 CREATE INDEX message_order
-    ON sailorsDream.Message
+    ON lbaw2182.Message
     USING btree (associated_order);
-    CLUSTER sailorsDream.Message USING message_order;
+    CLUSTER lbaw2182.Message USING message_order;
 
 CREATE INDEX category_name
-    ON sailorsDream.Category
+    ON lbaw2182.Category
     USING hash (name);
 
 CREATE INDEX product_productname
-    ON sailorsDream.Product
+    ON lbaw2182.Product
     USING hash (productname);
