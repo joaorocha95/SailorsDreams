@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Wishlist (
 );
 
 --TRIGGER01
-DROP FUNCTION IF EXISTS lbaw2182.anonymize_reviews CASCADE;
+--DROP FUNCTION IF EXISTS lbaw2182.anonymize_reviews CASCADE;
 CREATE OR REPLACE FUNCTION lbaw2182.anonymize_reviews() RETURNS TRIGGER AS
 $$BEGIN
     UPDATE lbaw2182."review" SET from_user = NULL
@@ -121,7 +121,7 @@ CREATE TRIGGER anonymize_reviews_on_delete
 
 
 --TRIGGER02/03
-DROP FUNCTION IF EXISTS lbaw2182.remove_products CASCADE;
+--DROP FUNCTION IF EXISTS lbaw2182.remove_products CASCADE;
 CREATE OR REPLACE FUNCTION lbaw2182.remove_products() RETURNS TRIGGER AS
 $$BEGIN
     DELETE FROM lbaw2182."product" 
@@ -137,7 +137,7 @@ CREATE TRIGGER remove_user_products
 
 
 --TRIGGER04
-DROP FUNCTION IF EXISTS lbaw2182.auto_order CASCADE;
+--DROP FUNCTION IF EXISTS lbaw2182.auto_order CASCADE;
 CREATE OR REPLACE FUNCTION lbaw2182.auto_order() RETURNS TRIGGER AS
 $$BEGIN
     IF EXISTS
@@ -161,7 +161,7 @@ CREATE TRIGGER delete_auto_order
 
 
 ---TRIGGER05/06
-DROP FUNCTION IF EXISTS lbaw2182.verify_review_client CASCADE;
+--DROP FUNCTION IF EXISTS lbaw2182.verify_review_client CASCADE;
 CREATE OR REPLACE FUNCTION lbaw2182.verify_review_client() RETURNS TRIGGER AS
 $$BEGIN
     IF NOT EXISTS ( 
@@ -193,7 +193,7 @@ CREATE TRIGGER verify_review
 
 
 ---TRIGGER07
-DROP FUNCTION IF EXISTS lbaw2182.active_item CASCADE;
+---DROP FUNCTION IF EXISTS lbaw2182.active_item CASCADE;
 CREATE OR REPLACE FUNCTION lbaw2182.active_item() RETURNS TRIGGER AS
 $$BEGIN
     IF NEW.order_status = 'Transaction_Completed'
@@ -211,7 +211,7 @@ CREATE TRIGGER item_bought_now_inactive
 
 
 --TRIGGER08
-DROP FUNCTION IF EXISTS lbaw2182.wishlist_removal CASCADE;
+--DROP FUNCTION IF EXISTS lbaw2182.wishlist_removal CASCADE;
 CREATE OR REPLACE FUNCTION lbaw2182.wishlist_removal() RETURNS TRIGGER AS
 $$
 BEGIN
@@ -229,7 +229,7 @@ CREATE TRIGGER wishlist_check
 
 
 --TRIGGER09
-DROP FUNCTION IF EXISTS lbaw2182.remove_item_from_order CASCADE;
+--DROP FUNCTION IF EXISTS lbaw2182.remove_item_from_order CASCADE;
 CREATE OR REPLACE FUNCTION lbaw2182.remove_item_from_order() RETURNS TRIGGER AS
 $$
 BEGIN
@@ -246,7 +246,7 @@ CREATE TRIGGER remove_product_from_order
 
 
 --TRIGGER10
-DROP FUNCTION IF EXISTS lbaw2182.check_account CASCADE;
+--DROP FUNCTION IF EXISTS lbaw2182.check_account CASCADE;
 CREATE OR REPLACE FUNCTION lbaw2182.check_account() RETURNS TRIGGER AS
 $$BEGIN
     IF NOT EXISTS
