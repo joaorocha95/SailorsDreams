@@ -1,0 +1,1047 @@
+openapi: 3.0.0
+
+info:
+ version: '1.0'
+ title: 'LBAW MediaLibrary Web API'
+ description: 'Web Resources Specification (A7) for MediaLibrary'
+
+servers:
+- url: http://lbaw.fe.up.pt
+ description: Production server
+
+externalDocs:
+ description: Find more info here.
+ url: https://web.fe.up.pt/~ssn/wiki/teach/lbaw/medialib/a07
+
+tags:
+ - name: 'M01: Perfil e Autenticação'
+    -/login (pagina para dar-mos login) GET*
+    -/login (pedido para dar login com dados do utilizador) POST*
+    -/logout POST*
+    -/register (pagina para registar) GET*
+    -/register (pedido para registar com dados do utilizador) POST*
+    -/user
+      -/{id} GET*
+      -/edit PATCH
+ - name: 'M02: Produtos e Categorias'
+    -/products GET
+      -/{id} GET
+      -/add POST
+      -/delete DELETE
+      -/edit PATCH
+    -/categories/{category} GET
+    -/categories GET
+ - name: 'M03: Reviews e Wishlist'
+    /wishlist GET
+      -/add/ POST
+      -/delete DELETE
+    /review GET
+      -/user GET
+        -/{id} GET
+          -/edit PATCH
+          -/delete DELETE
+      -/product GET
+        -/{id} GET
+          -/edit PATCH
+          -/delete DELETE
+ - name: 'M04: Pedidos'
+    -/orders GET
+      -/{id} GET
+      -/cancel PATCH
+      -/updateStatus PATCH
+  - name: 'M05: Area de Mensagens'
+    -/messages GET
+      -/{id} GET
+        -/send POST
+    -/tickets GET
+      -/{id} GET
+      -/new POST
+ - name: 'M06: Administração de utilizador e paginas estáticas'
+    /faqs GET 
+      -/edit PATCH
+    /about GET
+ - name: 'M07: Área de Gestão'
+    -/admin
+    -/categories
+      -/{category} GET
+        -/add POST 
+        -/delete DELETE
+        -/edit PATCH
+    -/products
+      -/{id}
+        -/add POST
+        -/delete DELETE
+        -/edit PATCH
+    -/accounts 
+      -/{id} GET
+        -/ban PATCH
+    -/applications
+      -/{id} GET
+        -/accept POST
+        -/reject POST
+
+ 
+paths:
+#--------------------------------------------#
+#--------------------M01---------------------#
+#--------------------------------------------#
+  /login:
+    get:
+      operationId: R101
+      summary: 'R101: Login Form'
+      description: 'Página com um Form para efetuar o login com a conta do utilizador. Accesso: GST'
+      tags:
+        - 'M01: Perfil e Autenticação'
+      responses:
+        '200':
+          description: 'Ok. Mostrar o UI do Login'
+    post:
+      operationId: R102
+      summary: 'R102: Ação de Login'
+      description: 'Processa a submissão do "login form". Access: GST'
+      tags:
+        - 'M01: Perfil e Autenticação'
+
+    requestBody:
+      required: true
+       content:
+         application/x-www-form-urlencoded:
+           schema:
+              type: object
+              properties:
+                email:       # <!--- form field name
+                  type: string
+                password:    # <!--- form field name
+                  type: string
+              required:
+                - email
+                - password
+
+      responses:
+        '302':
+          description: 'Redireciona depois de processar as credenciais de login.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Autenticação Bem Sucedidada. Redireciona para o perfil do utilizador.'
+                  value: '/user/{id}'
+                302Error:
+                  description: 'Autenticação falhada. Redireciona de volta para a pagina de /login.'
+                  value: '/login'
+
+ /logout:
+  post:
+    operationId: R103
+    summary: 'R103: Ação de Logout'
+    description: 'Logout do atual utilizador autenticado. Access: USR'
+    tags:
+      - 'M01: Perfil e Autenticação'
+    responses:
+      '302':
+        description: 'Redirect after processing logout.'
+        headers:
+          Location:
+            schema:
+              type: string
+            examples:
+              302Success:
+                description: 'Successful logout. Redirect to login form.'
+                value: '/login'
+
+  /register:
+    get:
+      operationId: R104
+      summary: 'R104: Register Form'
+      description: 'Página com um Form para efetuar o registo com os dados da nova conta. Accesso: GST'
+      tags:
+        - 'M01: Perfil e Autenticação'
+      responses:
+        '200':
+          description: 'Ok. Mostrar o UI do Registo'
+
+    post:
+      operationId: R105
+      summary: 'R105: Ação de Registo'
+      description: 'Processa a submissão do formulário de registo. Access: GST'
+      tags:
+        - 'M01: Perfil e Autenticação'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                email:
+                  type: string
+                fotografia:
+                  type: string
+                  format: binary
+              required:
+                    - email
+                    - password
+                    - nome
+
+      responses:
+        '302':
+          description: 'Redirect after processing the new user information.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Registo bem sucedido. Redirect para o novo utilizador dar login.'
+                  value: '/login/{id}'
+                302Failure:
+                  description: 'Registo falhado. Redirect o guest volar a registar.'
+                  value: '/register'
+
+  /users/{id}:
+    get:
+      operationId: R106
+      summary: 'R106: View user profile'
+      description: 'Mostra a pagina de perfeile individual de um dado utilizador. Access: USR'
+      tags:
+        - 'M01: Perfil e Autenticação'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        '200':
+          description: 'Ok. Mostrar perfil do utilizador'
+  
+  /users/edit:
+    patch:
+      operationId: R107
+      summary: 'R107: Editar os dados de um dados utilizador'
+      description: 'Edita os dados de um dado utilizador. Access: USR'
+      tags:
+        - 'M01: Perfil e Autenticação'
+      
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: id
+                email:
+                  type: string
+                fotografia:
+                  type: string
+                  format: binary
+                nome:
+                  type: string
+              required:
+                    - id
+    
+
+#--------------------------------------------#
+#--------------------M02---------------------#
+#--------------------------------------------#
+ 'M02: Produtos e Categorias'
+    -/products GET
+      -/{id} GET
+      -/add POST
+      -/delete DELETE
+      -/edit PATCH
+    -/categories/{category} GET
+    -/categories GET
+
+/products:
+    get:
+        operationId: R201
+        summary: 'R201: Pagiga com produtos'
+        description: 'Pagina com produtos'
+        tags:
+          - 'M02: Produtos e Categorias'
+        responses:
+          '200':
+            description: 'Ok. Mostrar Produtos'
+            
+/product/{id}:
+    get:
+      operationId: R202
+      summary: 'R202: Pagina do produtos'
+      description: 'Pagina cdoom produtos'
+      tags:
+        - 'M02: Produtos e Categorias'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        '200':
+          description: 'Ok. Mostrar Pagina do Produto'
+        '404':
+          description: 'Erro. Produto não existe'
+
+/product/add:
+  post:
+      operationId: R203
+      summary: 'R203: Adicionar um produto'
+      description: 'Processo de Adição de um produto. Access: SLR'
+      tags:
+        - 'M02: Produtos e Categorias'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+                type: object
+                properties:
+                  id:      
+                    type: integer
+                  seller:     
+                    type: integer
+                  productname:      
+                    type: string
+                  description:   
+                    type: string
+                  active:   
+                    type: boolean
+                  price:    
+                    type: real
+                  pricePerDay: 
+                    type: real
+                required:
+                  - productname
+                  - seller
+                  - price
+                  - description
+
+      responses:
+        '302':
+          description: 'Redireciona após processar a adição.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Adicionado com sucesso. Redireciona para a pagina do produto.'
+                  value: '/product/{id}'
+                302Error:
+                  description: 'Falha ao Adicionar. Redireciona para o prefil de utilizador.'
+                  value: '/users/{id}'
+
+ /product/delete:
+    delete:
+      operationId: R204
+      summary: 'R204: Apagar um produto'
+      description: 'Processo de apagar de um produto. Access: SLR'
+      tags:
+        - 'M02: Produtos e Categorias'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+                type: object
+                properties:
+                  id:      
+                    type: integer
+                required:
+                  - id
+
+      responses:
+        '200':
+          description: 'Produto apagado com sucesso.'
+        '404':
+          description: 'Erro. Produto não existe'
+
+ /product/edit:
+    patch:
+      operationId: R205
+      summary: 'R205: Modificar a Pagina de um produto'
+      description: 'Processo de Modificar a Pagina de um produto. Access: SLR'
+      tags:
+        - 'M02: Produtos e Categorias'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+                type: object
+                properties:
+                  id:      
+                    type: integer
+                  seller:     
+                    type: integer
+                  productname:      
+                    type: string
+                  description:   
+                    type: string
+                  active:   
+                    type: boolean
+                  price:    
+                    type: real
+                  pricePerDay: 
+                    type: real
+                required:
+                  - id
+
+      responses:
+        '200':
+          description: 'Ok. Pagina Alterada'
+        '204':
+          description: 'Sem Conteudo para alterar'
+        '404':
+          description: 'Erro. Produto não existe'
+
+/categories/{category}:
+  get:
+      operationId: R206
+      summary: 'R206: Pagina de uma Categoria'
+      description: 'Pagina de uma Categoria'
+      tags:
+        - 'M02: Produtos e Categorias'
+
+      parameters:
+        - in: path
+          name: category
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        '200':
+          description: 'Ok. Mostrar Produtos'
+        '404':
+          description: 'Erro. Categoria não existe'
+
+/categories:
+  get:
+      operationId: R207
+      summary: 'R207: Pagina do Categorias'
+      description: 'Pagina de Categorias'
+      tags:
+        - 'M02: Produtos e Categorias'
+
+      responses:
+        '200':
+          description: 'Ok. Mostrar Categorias'
+  
+
+#--------------------------------------------#
+#--------------------M03---------------------#
+#--------------------------------------------#
+ - name: 'M03: Reviews e Wishlist'
+    /wishlist GET
+      -/add POST
+      -/delete DELETE
+    /review GET
+      -/user GET
+        -/{id} GET
+          -/edit PATCH
+          -/delete DELETE
+      -/product GET
+        -/{id} GET
+          -/edit PATCH
+          -/delete DELETE
+
+/wishlist:
+    get:
+      operationId: R301
+      summary: 'R301: Aceder à wishlist'
+      description: 'Searches for works and returns the results as JSON. Access: PUB.'
+
+      tags:
+        - 'M03: Reviews e Wishlist'
+
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    products:
+                      type: array
+                example:
+                  - id: 1
+                    products: [1,4,6,77]
+    /add:
+      post:
+        operationId: R302
+        summary: 'R302: Adicionar à wishlist'
+        description: 'Searches for works and returns the results as JSON. Access: PUB.'
+
+        tags:
+          - 'M03: Reviews e Wishlist'
+          
+        requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                userId:          
+                  type: integer
+                productId:          
+                  type: integer
+              required:
+                - userId
+                - productId
+
+        responses:
+          '201':
+            description: Created
+            content:
+              application/json:
+                schema:
+                  type: array
+                examples:
+                  200Success:
+                    description: 'Produto adicionado à wishlist com sucesso'
+                    value: '/add'                
+    /delete:
+      delete:
+        operationId: R303
+        summary: 'R302: Apagar produto da wishlist'
+        description: ''
+        
+        tags:
+          - 'M03: Reviews e Wishlist'
+          
+        requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                userId:          
+                  type: integer
+                productId:          
+                  type: integer
+              required:
+                - userId
+                - productId
+
+        responses:
+          '200':
+            description: Success
+            content:
+              application/json:
+                schema:
+                  type: array
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  type: array
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  type: array
+/review:
+    get:
+      operationId: R304
+      summary: 'R304: Aceder a todas as reviews'
+      description: ''
+
+      tags:
+        - 'M03: Reviews e Wishlist'
+
+      responses:
+        '200':
+          description: 'Ok. Mostrar todas as Reviews feitas'
+  /user/{id}:
+    get:
+      operationId: R305
+      summary: 'R305: Aceder às reviews de um dado user'
+      description: ''
+
+      tags:
+        - 'M03: Reviews e Wishlist'
+
+      parameters:
+        - in: path
+          name: category
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        '200':
+          description: 'Ok. Mostrar todas as Reviews feitas por um dado user'
+    /edit:
+      operationId: R306
+      summary: 'R306: Editar review'
+      description: ''
+
+      tags:
+        - 'M03: Reviews e Wishlist'
+
+        requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+                type: object
+                properties:
+                  id:      
+                    type: integer
+                  rating:     
+                    type: integer
+                  comment:      
+                    type: string
+                required:
+                  - id
+
+        responses:
+          '200':
+            description: 'Ok. Review Alterada'
+          '204':
+            description: 'Sem Review para alterar'
+          '404':
+            description: 'Erro. Produto não existe'
+             
+    /delete:
+      patch:
+        operationId: R307
+        summary: 'R307: Apagar review'
+        description: ''
+
+        tags:
+          - 'M03: Reviews e Wishlist'
+
+        requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+                type: object
+                properties:
+                  id:      
+                    type: integer
+                required:
+                  - id
+
+        responses:
+          '200':
+            description: 'Review apagado com sucesso.'
+          '404':
+            description: 'Erro. Review não existe'
+/product:
+  /{id}:
+    get:
+      operationId: R308
+      summary: 'R308: Aceder a um produto'
+      description: ''
+
+      tags:
+        - 'M03: Reviews e Wishlist'
+
+      parameters:
+        - in: path
+          name: category
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        '200':
+          description: 'Ok. Mostrar todas as Reviews feitas por um dado user'
+    
+    /edit:
+      operationId: R306
+      summary: 'R306: Editar produto'
+      description: ''
+
+      tags:
+        - 'M03: Reviews e Wishlist'
+
+        requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+                type: object
+                properties:
+                  id:      
+                    type: integer
+                  name:     
+                    type: string
+                  description:      
+                    type: string
+                  active:
+                    type: boolean
+                  price:
+                    type: real
+                  price_per_day:
+                    type: real
+                required:
+                  - id
+
+        responses:
+          '200':
+            description: 'Ok. Produto Alterado'
+          '204':
+            description: 'Sem Produto para alterar'
+          '404':
+            description: 'Erro. Produto não existe'
+             
+    /delete:
+      patch:
+        operationId: R307
+        summary: 'R307: Apagar produto'
+        description: ''
+
+        tags:
+          - 'M03: Reviews e Wishlist'
+
+        requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+                type: object
+                properties:
+                  id:      
+                    type: integer
+                required:
+                  - id
+
+        responses:
+          '200':
+            description: 'Produto apagado com sucesso.'
+          '404':
+            description: 'Erro. Produto não existe'
+
+#--------------------------------------------#
+#--------------------M04---------------------#
+#--------------------------------------------#
+
+/orders:
+  get:
+    operationId: R401
+    summary: 'R401: Página de Pedidos'
+    description: 'Página de Pedidos. Access: CLT'
+    tags:
+      - 'M04: Pedidos'
+    responses:
+      '200':
+        description: 'Ok. Mostrar Pedidos'
+      '404':
+          description: 'Erro. Não existem pedidos'
+
+/orders/{id}:
+  get:
+    operationId: R402
+    summary: 'R402: Página do Pedido'
+    description: 'Página do Pedido. Access: CLT'
+    tags:
+      - 'M04: Pedidos'
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+    responses:
+      '200':
+        description: 'Ok. Mostrar Pedido'
+      '404':
+        description: 'Erro. Pedido não existe'
+
+/orders/{id}/cancel:
+  patch:
+    operationId: R403
+    summary: 'R403: Cancelar pedido'
+    description: 'Cancelar pedido caso este ainda não esteja em execução. Access: CLT'
+    tags:
+      - 'M04: Pedidos'
+
+    requestBody:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              product:
+                type: integer
+              client:
+                type: integer
+              order_status:
+                type: string
+              order_type:
+                type: string
+              loan_start:
+                type: date
+              loan_end:
+                type: date  
+              total_price:
+                type: real    
+            required:
+              - id
+              - order_status
+    
+    responses:
+        '200':
+          description: 'Ok. Pedido cancelado'
+        '204':
+          description: 'Sem Conteudo para alterar'
+        '403':
+          description: 'Erro. Pedido não pode ser cancelado'
+        '404':
+          description: 'Erro. Pedido não existe'
+  
+/orders/{id}/updateStatus:
+  patch:
+    operationId: R404
+    summary: 'R404: Atualizar estado de pedido'
+    description: 'Atualizar estado de pedido. Access: CLT'
+    tags:
+      - 'M04: Pedidos'
+
+    requestBody:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              product:
+                type: integer
+              client:
+                type: integer
+              order_status:
+                type: string
+              order_type:
+                type: string
+              loan_start:
+                type: date
+              loan_end:
+                type: date  
+              total_price:
+                type: real    
+            required:
+              - id
+              - order_status
+    
+    responses:
+        '200':
+          description: 'Ok. Estado atualizado'
+        '204':
+          description: 'Sem Conteudo para alterar'
+        '404':
+          description: 'Erro. Pedido não existe'
+
+#--------------------------------------------#
+#--------------------M05---------------------#
+#--------------------------------------------#
+    
+/messages:
+  get:
+    operationId: R501
+    summary: 'R501: Página de Mensagens'
+    description: 'Página de Mensagens. Access: XXX'
+    tags:
+      - 'M05: Area de Mensagens'
+    responses:
+      '200':
+        description: 'Ok. Mostrar mensagens'
+      '404':
+          description: 'Erro. Não existem mensagens'
+
+/messages/{id}:
+  get:
+    operationId: R502
+    summary: 'R502: Página de Mensagem'
+    description: 'Página de Mensagem. Access: XXX'
+    tags:
+      - 'M05: Area de Mensagens'
+    responses:
+      '200':
+        description: 'Ok. Mostrar mensagem'
+      '404':
+          description: 'Erro. A mensagem não existe.'
+
+/messages/{id}/send:
+  post:
+    operationId: R503
+    summary: 'R503: Mandar mensagem'
+    description: 'Mandar mensagem. Access: XXX'
+    tags:
+      - 'M05: Area de Mensagens'
+
+    requestBody:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              message_type:
+                type: enum
+              associated_order:
+                type: integer
+              associated_ticket:
+                type: integer
+              message:
+                type: string
+              date:
+                type: date
+            required:
+              - id
+              - message_type
+              - associated_order
+              - associated_ticket
+              - message
+              - date
+    
+    responses:
+      '302':
+        description: 'Redireciona após processar o envio.'
+        headers:
+          Location:
+            schema:
+              type: string
+            examples:
+              302Success:
+                description: 'Envio bem sucedido. Redireciona para a pagina de mensagens.'
+                value: '/messages/{id}'
+              302Error:
+                description: 'Falha no envio. Redireciona para a pagina de mensagens.'
+                value: '/messages/{id}'
+
+/tickets:
+  get:
+    operationId: R504
+    summary: 'R504: Página de Tickets'
+    description: 'Página de Tickets. Access: XXX'
+    tags:
+      - 'M05: Area de Mensagens'
+    responses:
+      '200':
+        description: 'Ok. Mostrar tickets'
+      '404':
+          description: 'Erro. Não existem tickets'
+
+/tickets/{id}:
+  get:
+    operationId: R505
+    summary: 'R505: Página de Ticket'
+    description: 'Página de Ticket. Access: XXX'
+    tags:
+      - 'M05: Area de Mensagens'
+    responses:
+      '200':
+        description: 'Ok. Mostrar ticket'
+      '404':
+          description: 'Erro. O ticket não existe.'
+
+/tickets/new:
+  post:
+    operationId: R506
+    summary: 'R506: Criar ticket'
+    description: 'Criar ticket. Access: XXX'
+    tags:
+      - 'M05: Area de Mensagens'
+
+    requestBody:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+              userid:
+                type: integer
+              support:
+                type: integer
+              title:
+                type: string
+            required:
+              - id
+              - userid
+              - support
+              - title
+    
+    responses:
+      '302':
+        description: 'Redireciona após processar a criação do novo ticket.'
+        headers:
+          Location:
+            schema:
+              type: string
+            examples:
+              302Success:
+                description: 'Criação bem sucedida. Redireciona para a pagina do ticket.'
+                value: '/ticket/{id}'
+              302Error:
+                description: 'Falha na criação. Redireciona para a pagina de tickets.'
+                value: '/tickets'
+
+#--------------------------------------------#
+#--------------------M06---------------------#
+#--------------------------------------------#
+    /faqs GET 
+      -/edit PATCH
+    /about GET
+
+/faqs:
+  get:
+    operationId: R601
+    summary: 'R601: Página de FAQ'
+    description: 'Página com as perguntas mais frequentes'
+    tags:
+      - 'M06: Perfil e Autenticação'
+    responses:
+      '200':
+        description: 'Ok. Mostrar página de FAQ'
+  
+/about:
+  get:
+    operationId: R602
+    summary: 'R602: Pagina About Us'
+    description: 'Página com um Informação sobre os criadores do site. Accesso: GST'
+    tags:
+      - 'M06: Administração de utilizador e paginas estáticas'
+    responses:
+      '200':
+        description: 'Ok. Mostrar Pagina About Us'
+
+#--------------------------------------------#
+#--------------------M07---------------------#
+#--------------------------------------------#
+  
