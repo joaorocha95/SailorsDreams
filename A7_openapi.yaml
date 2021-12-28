@@ -1045,26 +1045,6 @@ paths:
 #--------------------M07---------------------#
 #--------------------------------------------#
 
-- name: 'M07: Área de Gestão'
-    #-/admin GET
-    #-/categories
-      #-/{category} GET
-        #-/add POST 
-        #-/delete DELETE
-        #-/edit PATCH
-    #-/products
-     # -/{id}
-      #  -/add POST
-      #  -/delete DELETE
-      #  -/edit PATCH
-    #-/accounts 
-      #-/{id} GET
-       # -/ban PATCH
-    -/applications
-      -/{id} GET
-        -/accept POST
-        -/reject POST
-
 /admin:
   get:
     operationId: R701
