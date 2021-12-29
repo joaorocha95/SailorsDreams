@@ -1262,7 +1262,7 @@ paths:
       summary: 'R717: Submete o forms de "Seller Applications". Acesso USR'
       description:
       tags:
-        - 'M07'
+        - 'M07: Área de Gestão'
       requestBody:
         required: true
         content:
