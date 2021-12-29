@@ -105,9 +105,9 @@ paths:
 
     requestBody:
       required: true
-       content:
-         application/x-www-form-urlencoded:
-           schema:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
               type: object
               properties:
                 email:       # <!--- form field name
