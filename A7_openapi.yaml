@@ -377,14 +377,6 @@ paths:
             type: integer
           required: true
 
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-                type: object
-                properties:
-
       responses:
         '200':
           description: 'Produto apagado com sucesso.'
