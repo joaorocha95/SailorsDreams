@@ -949,7 +949,7 @@ paths:
       summary: 'R601: Página de FAQ'
       description: 'Página com as perguntas mais frequentes'
       tags:
-        - 'M06: Perfil e Autenticação'
+        - 'M06: Administração de utilizador e paginas estáticas'
       responses:
         '200':
           description: 'Ok. Mostrar página de FAQ'
