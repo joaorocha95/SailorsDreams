@@ -1,84 +1,85 @@
+swagger: "2.0"
 openapi: 3.0.0
 
 info:
- version: '1.0'
- title: 'LBAW MediaLibrary Web API'
- description: 'Web Resources Specification (A7) for MediaLibrary'
+  version: '1.0'
+  title: 'LBAW MediaLibrary Web API'
+  description: 'Web Resources Specification (A7) for MediaLibrary'
 
 servers:
-- url: http://lbaw.fe.up.pt
- description: Production server
+  url: http://lbaw.fe.up.pt
+  description: Production server
 
 externalDocs:
- description: Find more info here.
- url: https://web.fe.up.pt/~ssn/wiki/teach/lbaw/medialib/a07
+  description: Find more info here.
+  url: https://web.fe.up.pt/~ssn/wiki/teach/lbaw/medialib/a07
 
 tags:
- - name: 'M01: Perfil e Autenticação'
-    -/login (pagina para dar-mos login) GET*
-    -/login (pedido para dar login com dados do utilizador) POST*
-    -/logout POST*
-    -/register (pagina para registar) GET*
-    -/register (pedido para registar com dados do utilizador) POST*
-    -/user
-      -/{id} GET*
-      -/edit PATCH
- - name: 'M02: Produtos e Categorias'
-    -/products GET
-      -/{id} GET
-      -/add POST
-      -/delete DELETE
-      -/edit PATCH
-    -/categories/{category} GET
-    -/categories GET
- - name: 'M03: Reviews e Wishlist'
-    /wishlist GET
-      -/add/ POST
-      -/delete DELETE
-    /review GET
-      -/user GET
-        -/{id} GET
-          -/edit PATCH
-          -/delete DELETE
-      -/product GET
-        -/{id} GET
-          -/edit PATCH
-          -/delete DELETE
- - name: 'M04: Pedidos'
-    -/orders GET
-      -/{id} GET
-      -/cancel PATCH
-      -/updateStatus PATCH
+  - name: 'M01: Perfil e Autenticação'
+    #-/login (pagina para dar-mos login) GET*
+    #-/login (pedido para dar login com dados do utilizador) POST*
+    #-/logout POST*
+    #-/register (pagina para registar) GET*
+    #-/register (pedido para registar com dados do utilizador) POST*
+    #-/user
+      #-/{id} GET*
+      #-/edit PATCH
+  - name: 'M02: Produtos e Categorias'
+    #-/products GET
+      #-/{id} GET
+      #-/add POST
+      #-/delete DELETE
+      #-/edit PATCH
+    #-/categories/{category} GET
+    #-/categories GET
+  - name: 'M03: Reviews e Wishlist'
+    #/wishlist GET
+      #-/add/ POST
+      #-/delete DELETE
+    #/review GET
+      #-/user GET
+        #-/{id} GET
+          #-/edit PATCH
+          #-/delete DELETE
+      #-/product GET
+        #-/{id} GET
+          #-/edit PATCH
+          #-/delete DELETE
+  - name: 'M04: Pedidos'
+    #-/orders GET
+      #-/{id} GET
+      #-/cancel PATCH
+      #-/updateStatus PATCH
   - name: 'M05: Area de Mensagens'
-    -/messages GET
-      -/{id} GET
-        -/send POST
-    -/tickets GET
-      -/{id} GET
-      -/new POST
- - name: 'M06: Administração de utilizador e paginas estáticas'
-    /faqs GET 
-      -/edit PATCH
-    /about GET
- - name: 'M07: Área de Gestão'
-    -/admin
-    -/categories
-      -/{category} GET
-        -/add POST 
-        -/delete DELETE
-        -/edit PATCH
-    -/products
-      -/{id}
-        -/add POST
-        -/delete DELETE
-        -/edit PATCH
-    -/accounts 
-      -/{id} GET
-        -/ban PATCH
-    -/applications
-      -/{id} GET
-        -/accept POST
-        -/reject POST
+    #-/messages GET
+      #-/{id} GET
+        #-/send POST
+    #-/tickets GET
+      #-/{id} GET
+      #-/new POST
+  - name: 'M06: Administração de utilizador e paginas estáticas'
+    #/faqs GET 
+      #-/edit PATCH
+    #/about GET
+  - name: 'M07: Área de Gestão'
+    #-/admin
+    #-/categories
+      #-/{category} GET
+        #-/add POST 
+        #-/delete DELETE
+        #-/edit PATCH
+    #-/products
+      #-/{id}
+        #-/add POST
+        #-/delete DELETE
+        #-/edit PATCH
+    #-/accounts 
+      #-/{id} GET
+        #-/ban PATCH
+    #-/applications
+      #-/{id} GET
+        #-/accept POST
+        #-/reject POST
 
  
 paths:
