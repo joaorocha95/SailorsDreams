@@ -133,24 +133,24 @@ paths:
                   description: 'Autenticação falhada. Redireciona de volta para a pagina de /login.'
                   value: '/login'
 
- /logout:
-  post:
-    operationId: R103
-    summary: 'R103: Ação de Logout'
-    description: 'Logout do atual utilizador autenticado. Acesso: USR'
-    tags:
-      - 'M01: Perfil e Autenticação'
-    responses:
-      '302':
-        description: 'Redirect after processing logout.'
-        headers:
-          Location:
-            schema:
-              type: string
-            examples:
-              302Success:
-                description: 'Successful logout. Redirect to login form.'
-                value: '/login'
+  /logout:
+    post:
+      operationId: R103
+      summary: 'R103: Ação de Logout'
+      description: 'Logout do atual utilizador autenticado. Acesso: USR'
+      tags:
+        - 'M01: Perfil e Autenticação'
+      responses:
+        '302':
+          description: 'Redirect after processing logout.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful logout. Redirect to login form.'
+                  value: '/login'
 
   /register:
     get:
