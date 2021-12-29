@@ -473,7 +473,7 @@ paths:
                 example:
                   - id: 1
                     products: [1,4,6,77]
-  /add:
+  /wishlist/add:
     post:
       operationId: R302
       summary: 'R302: Adicionar à wishlist'
@@ -508,7 +508,7 @@ paths:
                 200Success:
                   description: 'Produto adicionado à wishlist com sucesso'
                   value: '/add'                
-  /delete:
+  /wishlist/delete:
     delete:
       operationId: R303
       summary: 'R302: Apagar produto da wishlist'
@@ -564,7 +564,7 @@ paths:
         '200':
           description: 'Ok. Mostrar todas as Reviews feitas'
 
-  /user/{id}:
+  /review/user/{id}:
     get:
       operationId: R305
       summary: 'R305: Aceder às reviews de um dado user'
@@ -584,11 +584,11 @@ paths:
         '200':
           description: 'Ok. Mostrar todas as Reviews feitas por um dado user'
           
-  /edit:
+  /review/product/{id}/edit:
     patch:
       operationId: R306
       summary: 'R306: Editar review'
-      description: ''
+      description: 'Editar a review'
 
       tags:
         - 'M03: Reviews e Wishlist'
@@ -617,7 +617,7 @@ paths:
           '404':
             description: 'Erro. Produto não existe'
              
-  /delete:
+  /review/product/{id}/delete:
     patch:
       operationId: R307
       summary: 'R307: Apagar review'
@@ -644,10 +644,10 @@ paths:
           '404':
             description: 'Erro. Review não existe'
 
-  /product/{id}:
+  /review/product/{id}:
     get:
       operationId: R308
-      summary: 'R308: Aceder a um produto'
+      summary: 'R308: Review de um produto'
       description: ''
 
       tags:
@@ -663,72 +663,6 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostrar todas as Reviews feitas por um dado user'
-    
-  /edit:
-    patch:
-      operationId: R306
-      summary: 'R306: Editar produto'
-      description: ''
-
-      tags:
-        - 'M03: Reviews e Wishlist'
-
-        requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-                type: object
-                properties:
-                  id:      
-                    type: integer
-                  name:     
-                    type: string
-                  description:      
-                    type: string
-                  active:
-                    type: boolean
-                  price:
-                    type: real
-                  price_per_day:
-                    type: real
-                required:
-                  - id
-
-        responses:
-          '200':
-            description: 'Ok. Produto Alterado'
-          '204':
-            description: 'Sem Produto para alterar'
-          '404':
-            description: 'Erro. Produto não existe'
-             
-  /delete:
-    patch:
-      operationId: R307
-      summary: 'R307: Apagar produto'
-      description: ''
-
-      tags:
-        - 'M03: Reviews e Wishlist'
-
-      requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-            properties:
-              id:      
-                type: integer
-            required:
-              - id
-
-      responses:
-        '200':
-          description: 'Produto apagado com sucesso.'
-        '404':
-          description: 'Erro. Produto não existe'
 
 #--------------------------------------------#
 #--------------------M04---------------------#
