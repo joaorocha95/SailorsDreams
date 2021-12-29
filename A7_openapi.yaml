@@ -1065,14 +1065,14 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               type: object
-                properties:
-                  product_id:      
-                    type: integer
-                  name:
-                    type: string
-                required:
-                  - product_id
-                  - name
+              properties:
+                product_id:      
+                  type: integer
+                name:
+                  type: string
+              required:
+                - product_id
+                - name
 
         responses:
           '200':
@@ -1080,7 +1080,7 @@ paths:
           '404':
             description: 'Erro. Categoria não existe'
 
-  /categories/{category}/edit:
+  /admin/categories/{category}/edit:
     patch:
       operationId: R706
       summary: 'R706: Editar os dados de uma categoria'
@@ -1094,14 +1094,14 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               type: object
-                properties:
-                  product_id:      
-                    type: integer
-                  name:
-                    type: string
-                required:
-                  - product_id
-                  - name
+              properties:
+                product_id:      
+                  type: integer
+                name:
+                  type: string
+              required:
+                - product_id
+                - name
 
       responses:
           '200':
@@ -1111,7 +1111,7 @@ paths:
           '404':
             description: 'Erro. Categoria não existe'
 
-  /products:
+  /admin/products:
     get:
         operationId: R707
         summary: 'R707: Pagina de Produtos'
@@ -1123,11 +1123,11 @@ paths:
           '200':
             description: 'Ok. Mostrar Produtos'
 
-  /products/{id}:
+  /admin/products/{id}:
     get:
         operationId: R708
         summary: 'R708: Pagina de um produto'
-        description: 'Pagina de um produto Acesso: ADM'
+        description: 'Pagina de um produto Acesso: SEL'
         tags:
           - 'M07: Área de Gestão'
 
@@ -1148,7 +1148,7 @@ paths:
     post:
       operationId: R709
       summary: 'R709: Adicionar um produto'
-      description: 'Processo de adicionar de um produto. Acesso: ADM'
+      description: 'Processo de adicionar de um produto. Acesso: SEL'
       tags:
         - 'M07: Área de Gestão'
 
@@ -1158,29 +1158,29 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               type: object
-                properties:
-                  id:      
-                    type: integer
-                  seller:      
-                    type: integer
-                  productname:      
-                    type: string
-                  description:      
-                    type: string
-                  active:      
-                    type: boolean
-                  price:      
-                    type: real
-                  pricePerDay:
-                    type: real
-                required:
-                  - id
-                  - seller
-                  - productname
-                  - description
-                  - active
-                  - price
-                  - pricePerDay
+              properties:
+                id:      
+                  type: integer
+                seller:      
+                  type: integer
+                productname:      
+                  type: string
+                description:      
+                  type: string
+                active:      
+                  type: boolean
+                price:      
+                  type: real
+                pricePerDay:
+                  type: real
+              required:
+                - id
+                - seller
+                - productname
+                - description
+                - active
+                - price
+                - pricePerDay
 
         responses:
           '302':
@@ -1197,11 +1197,11 @@ paths:
                     description: 'Falha ao adicionar novo produto. Redireciona de volta para a pagina de produtos.'
                     value: '/products'
 
-  /products/{id}/delete:
+  /admin/products/{id}/delete:
     delete:
       operationId: R710
       summary: 'R710: Apagar um produto'
-      description: 'Processo de apagar de um produto. Acesso: ADM'
+      description: 'Processo de apagar de um produto. Acesso: SEL'
       tags:
         - 'M07: Área de Gestão'
 
@@ -1211,23 +1211,23 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               type: object
-                properties:
-                  id:      
-                    type: integer
-                  seller:      
-                    type: integer
-                  productname:      
-                    type: string
-                  description:      
-                    type: string
-                  active:      
-                    type: boolean
-                  price:      
-                    type: real
-                  pricePerDay:
-                    type: real
-                required:
-                  - id
+              properties:
+                id:      
+                  type: integer
+                seller:      
+                  type: integer
+                productname:      
+                  type: string
+                description:      
+                  type: string
+                active:      
+                  type: boolean
+                price:      
+                  type: real
+                pricePerDay:
+                  type: real
+              required:
+                - id
 
         responses:
           '200':
@@ -1249,29 +1249,29 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               type: object
-                properties:
-                  id:      
-                    type: integer
-                  seller:      
-                    type: integer
-                  productname:      
-                    type: string
-                  description:      
-                    type: string
-                  active:      
-                    type: boolean
-                  price:      
-                    type: real
-                  pricePerDay:
-                    type: real
-                required:
-                  - id
-                  - seller
-                  - productname
-                  - description
-                  - active
-                  - price
-                  - pricePerDay
+              properties:
+                id:      
+                  type: integer
+                seller:      
+                  type: integer
+                productname:      
+                  type: string
+                description:      
+                  type: string
+                active:      
+                  type: boolean
+                price:      
+                  type: real
+                pricePerDay:
+                  type: real
+              required:
+                - id
+                - seller
+                - productname
+                - description
+                - active
+                - price
+                - pricePerDay
 
       responses:
           '200':
@@ -1328,28 +1328,28 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               type: object
-                properties:
-                  id:      
-                    type: integer
-                  username:      
-                    type: string
-                  email:      
-                    type: string
-                  birthDate:      
-                    type: date
-                  password:      
-                    type: string
-                  banned:      
-                    type: boolean
-                  accType:
-                    type: enum
-                  img:
-                    type: string
-                  phone:
-                    type: integer
-                required:
-                  - id
-                  - banned
+              properties:
+                id:      
+                  type: integer
+                username:      
+                  type: string
+                email:      
+                  type: string
+                birthDate:      
+                  type: date
+                password:      
+                  type: string
+                banned:      
+                  type: boolean
+                accType:
+                  type: enum
+                img:
+                  type: string
+                phone:
+                  type: integer
+              required:
+                - id
+                - banned
 
       responses:
           '200':
@@ -1373,28 +1373,28 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               type: object
-                properties:
-                  id:      
-                    type: integer
-                  username:      
-                    type: string
-                  email:      
-                    type: string
-                  birthDate:      
-                    type: date
-                  password:      
-                    type: string
-                  banned:      
-                    type: boolean
-                  accType:
-                    type: enum
-                  img:
-                    type: string
-                  phone:
-                    type: integer
-                required:
-                  - id
-                  - banned
+              properties:
+                id:      
+                  type: integer
+                username:      
+                  type: string
+                email:      
+                  type: string
+                birthDate:      
+                  type: date
+                password:      
+                  type: string
+                banned:      
+                  type: boolean
+                accType:
+                  type: enum
+                img:
+                  type: string
+                phone:
+                  type: integer
+              required:
+                - id
+                - banned
 
       responses:
           '200':
@@ -1407,81 +1407,81 @@ paths:
   /applications:
     get:
       operationId: R716
-        summary: 'R716: Página de "Seller Applications"'
-        description: 'Mostra a Página com a informação relativa à "Seller Application" e com o Forms de aplicação. Acesso: USR, ADM'
-        tags:
-          - 'M07: Área de Gestão'
-        
-        requestBody:
-          required: false
-          content:
-            application/x-www-form-urlencoded:
-              schema:
-                type: object
-                  properties:
-                    id:
-                      type: integer
+      summary: 'R716: Página de "Seller Applications"'
+      description: 'Mostra a Página com a informação relativa à "Seller Application" e com o Forms de aplicação. Acesso: USR, ADM'
+      tags:
+        - 'M07: Área de Gestão'
+      
+      requestBody:
+        required: false
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
 
-        responses:
-          '200':
-            description: 'Ok. Mostrar o UI de aplicação e o Forms para os utilizadores e uma lista de candidaturas para os administradores'
+      responses:
+        '200':
+          description: 'Ok. Mostrar o UI de aplicação e o Forms para os utilizadores e uma lista de candidaturas para os administradores'
         
 
   /applications/submit:
     post:
       operationId: R717
-        summary: 'R717: Submete o forms de "Seller Applications". Acesso USR'
-          description:
-          tags:
-            - 'M07'
-          requestBody:
-            required: true
-            content:
-              application/x-www-form-urlencoded:
-                schema:
-                  type: object
-                    properties:
-                      id:      
-                        type: integer
-                      application:      
-                        type: string
-                    required:
-                      - id
-                      - application
+      summary: 'R717: Submete o forms de "Seller Applications". Acesso USR'
+      description:
+      tags:
+        - 'M07'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:      
+                  type: integer
+                application:      
+                  type: string
+              required:
+                - id
+                - application
 
   /aplications/{id}:
     get:
       operationId: R718
-        summary: 'R718: Pagina de candidatura'
-        description: 'Mostra ao administrador a aplicação com um dado id: Acesso: ADM'
-        tags:
-        - 'M07: Área de Gestão'
-        responses:
-          '200':
-            description: 'Ok. Mostrar o UI da Candidatura'
+      summary: 'R718: Pagina de candidatura'
+      description: 'Mostra ao administrador a aplicação com um dado id: Acesso: ADM'
+      tags:
+      - 'M07: Área de Gestão'
+      responses:
+        '200':
+          description: 'Ok. Mostrar o UI da Candidatura'
 
   /applications/{id}/accept:
     get:
       operationId: R719
-        summary: 'R719: Validação de candidatura'
-        description: 'Valida a candidatura com um dado id tornando assim o utilizador a ela associado num Seller. Acesso: ADM'
-        tags:
-        - 'M07: Área de Gestão'
-        responses:
-          '200':
-            description: 'Ok. Candidatura Validada'
+      summary: 'R719: Validação de candidatura'
+      description: 'Valida a candidatura com um dado id tornando assim o utilizador a ela associado num Seller. Acesso: ADM'
+      tags:
+      - 'M07: Área de Gestão'
+      responses:
+        '200':
+          description: 'Ok. Candidatura Validada'
         
 
   /applications/{id}/reject:
     get:
       operationId: R720
-        summary: 'R720: Rejeição de Candidatura'
-        description: 'Rejeita a candidatura com um dado id. Acesso: ADM'
-        tags:
-        - 'M07: Área de Gestão'
-        responses:
-          '200':
-            description: 'Ok. Candidatura Rejeitada'
+      summary: 'R720: Rejeição de Candidatura'
+      description: 'Rejeita a candidatura com um dado id. Acesso: ADM'
+      tags:
+      - 'M07: Área de Gestão'
+      responses:
+        '200':
+          description: 'Ok. Candidatura Rejeitada'
 
 
 
