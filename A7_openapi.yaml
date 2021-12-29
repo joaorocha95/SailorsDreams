@@ -254,27 +254,27 @@ paths:
 #--------------------------------------------#
 #--------------------M02---------------------#
 #--------------------------------------------#
- 'M02: Produtos e Categorias'
-    -/products GET
-      -/{id} GET
-      -/add POST
-      -/delete DELETE
-      -/edit PATCH
-    -/categories/{category} GET
-    -/categories GET
+ #'M02: Produtos e Categorias'
+    #-/products GET
+      #-/{id} GET
+      #-/add POST
+      #-/delete DELETE
+      #-/edit PATCH
+    #-/categories/{category} GET
+    #-/categories GET
 
-/products:
+  /products:
     get:
-        operationId: R201
-        summary: 'R201: Pagiga com produtos'
-        description: 'Pagina com produtos'
-        tags:
-          - 'M02: Produtos e Categorias'
-        responses:
-          '200':
-            description: 'Ok. Mostrar Produtos'
+      operationId: R201
+      summary: 'R201: Pagiga com produtos'
+      description: 'Pagina com produtos'
+      tags:
+        - 'M02: Produtos e Categorias'
+      responses:
+        '200':
+          description: 'Ok. Mostrar Produtos'
             
-/product/{id}:
+  /product/{id}:
     get:
       operationId: R202
       summary: 'R202: Pagina do produtos'
@@ -295,8 +295,8 @@ paths:
         '404':
           description: 'Erro. Produto não existe'
 
-/product/add:
-  post:
+  /product/add:
+    post:
       operationId: R203
       summary: 'R203: Adicionar um produto'
       description: 'Processo de Adição de um produto. Acesso: SLR'
@@ -325,10 +325,10 @@ paths:
                   pricePerDay: 
                     type: real
                 required:
-                  - productname
-                  - seller
-                  - price
-                  - description
+                      - productname
+                      - seller
+                      - price
+                      - description
 
       responses:
         '302':
@@ -345,7 +345,7 @@ paths:
                   description: 'Falha ao Adicionar. Redireciona para o prefil de utilizador.'
                   value: '/users/{id}'
 
- /product/delete:
+  /product/delete:
     delete:
       operationId: R204
       summary: 'R204: Apagar um produto'
@@ -371,7 +371,7 @@ paths:
         '404':
           description: 'Erro. Produto não existe'
 
- /product/edit:
+  /product/edit:
     patch:
       operationId: R205
       summary: 'R205: Modificar a Pagina de um produto'
@@ -411,8 +411,8 @@ paths:
         '404':
           description: 'Erro. Produto não existe'
 
-/categories/{category}:
-  get:
+  /categories/{category}:
+    get:
       operationId: R206
       summary: 'R206: Pagina de uma Categoria'
       description: 'Pagina de uma Categoria'
@@ -432,8 +432,8 @@ paths:
         '404':
           description: 'Erro. Categoria não existe'
 
-/categories:
-  get:
+  /categories:
+    get:
       operationId: R207
       summary: 'R207: Pagina do Categorias'
       description: 'Pagina de Categorias'
@@ -448,21 +448,8 @@ paths:
 #--------------------------------------------#
 #--------------------M03---------------------#
 #--------------------------------------------#
- - name: 'M03: Reviews e Wishlist'
-    /wishlist GET
-      -/add POST
-      -/delete DELETE
-    /review GET
-      -/user GET
-        -/{id} GET
-          -/edit PATCH
-          -/delete DELETE
-      -/product GET
-        -/{id} GET
-          -/edit PATCH
-          -/delete DELETE
-
-/wishlist:
+  
+  /wishlist:
     get:
       operationId: R301
       summary: 'R301: Aceder à wishlist'
@@ -486,85 +473,85 @@ paths:
                 example:
                   - id: 1
                     products: [1,4,6,77]
-    /add:
-      post:
-        operationId: R302
-        summary: 'R302: Adicionar à wishlist'
-        description: 'Searches for works and returns the results as JSON. Acesso: PUB.'
+  /add:
+    post:
+      operationId: R302
+      summary: 'R302: Adicionar à wishlist'
+      description: 'Searches for works and returns the results as JSON. Acesso: PUB.'
 
-        tags:
-          - 'M03: Reviews e Wishlist'
-          
-        requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                userId:          
-                  type: integer
-                productId:          
-                  type: integer
-              required:
-                - userId
-                - productId
-
-        responses:
-          '201':
-            description: Created
-            content:
-              application/json:
-                schema:
-                  type: array
-                examples:
-                  200Success:
-                    description: 'Produto adicionado à wishlist com sucesso'
-                    value: '/add'                
-    /delete:
-      delete:
-        operationId: R303
-        summary: 'R302: Apagar produto da wishlist'
-        description: ''
+      tags:
+        - 'M03: Reviews e Wishlist'
         
-        tags:
-          - 'M03: Reviews e Wishlist'
-          
-        requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                userId:          
-                  type: integer
-                productId:          
-                  type: integer
-              required:
-                - userId
-                - productId
+      requestBody:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              userId:          
+                type: integer
+              productId:          
+                type: integer
+            required:
+              - userId
+              - productId
 
-        responses:
-          '200':
-            description: Success
-            content:
-              application/json:
-                schema:
-                  type: array
-          '400':
-            description: Bad Request
-            content:
-              application/json:
-                schema:
-                  type: array
-          '404':
-            description: Not Found
-            content:
-              application/json:
-                schema:
-                  type: array
-/review:
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+              examples:
+                200Success:
+                  description: 'Produto adicionado à wishlist com sucesso'
+                  value: '/add'                
+  /delete:
+    delete:
+      operationId: R303
+      summary: 'R302: Apagar produto da wishlist'
+      description: ''
+      
+      tags:
+        - 'M03: Reviews e Wishlist'
+        
+      requestBody:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              userId:          
+                type: integer
+              productId:          
+                type: integer
+            required:
+              - userId
+              - productId
+
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: array
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: array
+  /review:
     get:
       operationId: R304
       summary: 'R304: Aceder a todas as reviews'
@@ -576,6 +563,7 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostrar todas as Reviews feitas'
+
   /user/{id}:
     get:
       operationId: R305
@@ -595,7 +583,9 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostrar todas as Reviews feitas por um dado user'
-    /edit:
+          
+  /edit:
+    patch:
       operationId: R306
       summary: 'R306: Editar review'
       description: ''
@@ -627,34 +617,34 @@ paths:
           '404':
             description: 'Erro. Produto não existe'
              
-    /delete:
-      patch:
-        operationId: R307
-        summary: 'R307: Apagar review'
-        description: ''
+  /delete:
+    patch:
+      operationId: R307
+      summary: 'R307: Apagar review'
+      description: ''
 
-        tags:
-          - 'M03: Reviews e Wishlist'
+      tags:
+        - 'M03: Reviews e Wishlist'
 
-        requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-                type: object
-                properties:
-                  id:      
-                    type: integer
-                required:
-                  - id
+      requestBody:
+      required: true
+      content:
+        application/x-www-form-urlencoded:
+          schema:
+            type: object
+            properties:
+              id:      
+                type: integer
+            required:
+              - id
 
         responses:
           '200':
             description: 'Review apagado com sucesso.'
           '404':
             description: 'Erro. Review não existe'
-/product:
-  /{id}:
+
+  /product/{id}:
     get:
       operationId: R308
       summary: 'R308: Aceder a um produto'
@@ -674,7 +664,8 @@ paths:
         '200':
           description: 'Ok. Mostrar todas as Reviews feitas por um dado user'
     
-    /edit:
+  /edit:
+    patch:
       operationId: R306
       summary: 'R306: Editar produto'
       description: ''
@@ -712,105 +703,107 @@ paths:
           '404':
             description: 'Erro. Produto não existe'
              
-    /delete:
-      patch:
-        operationId: R307
-        summary: 'R307: Apagar produto'
-        description: ''
+  /delete:
+    patch:
+      operationId: R307
+      summary: 'R307: Apagar produto'
+      description: ''
 
-        tags:
-          - 'M03: Reviews e Wishlist'
+      tags:
+        - 'M03: Reviews e Wishlist'
 
-        requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-                type: object
-                properties:
-                  id:      
-                    type: integer
-                required:
-                  - id
-
-        responses:
-          '200':
-            description: 'Produto apagado com sucesso.'
-          '404':
-            description: 'Erro. Produto não existe'
-
-#--------------------------------------------#
-#--------------------M04---------------------#
-#--------------------------------------------#
-
-/orders:
-  get:
-    operationId: R401
-    summary: 'R401: Página de Pedidos'
-    description: 'Página de Pedidos. Acesso: CLT'
-    tags:
-      - 'M04: Pedidos'
-    responses:
-      '200':
-        description: 'Ok. Mostrar Pedidos'
-      '404':
-          description: 'Erro. Não existem pedidos'
-
-/orders/{id}:
-  get:
-    operationId: R402
-    summary: 'R402: Página do Pedido'
-    description: 'Página do Pedido. Acesso: CLT'
-    tags:
-      - 'M04: Pedidos'
-    parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        required: true
-    responses:
-      '200':
-        description: 'Ok. Mostrar Pedido'
-      '404':
-        description: 'Erro. Pedido não existe'
-
-/orders/{id}/cancel:
-  patch:
-    operationId: R403
-    summary: 'R403: Cancelar pedido'
-    description: 'Cancelar pedido caso este ainda não esteja em execução. Acesso: CLT'
-    tags:
-      - 'M04: Pedidos'
-
-    requestBody:
+      requestBody:
       required: true
       content:
         application/x-www-form-urlencoded:
           schema:
             type: object
             properties:
-              id:
+              id:      
                 type: integer
-              product:
-                type: integer
-              client:
-                type: integer
-              order_status:
-                type: string
-              order_type:
-                type: string
-              loan_start:
-                type: date
-              loan_end:
-                type: date  
-              total_price:
-                type: real    
             required:
               - id
-              - order_status
+
+      responses:
+        '200':
+          description: 'Produto apagado com sucesso.'
+        '404':
+          description: 'Erro. Produto não existe'
+
+#--------------------------------------------#
+#--------------------M04---------------------#
+#--------------------------------------------#
+
+  /orders:
+    get:
+      operationId: R401
+      summary: 'R401: Página de Pedidos'
+      description: 'Página de Pedidos. Acesso: CLT'
+      tags:
+        - 'M04: Pedidos'
+      responses:
+        '200':
+          description: 'Ok. Mostrar Pedidos'
+        '404':
+          description: 'Erro. Não existem pedidos'
+
+  /orders/{id}:
+    get:
+      operationId: R402
+      summary: 'R402: Página do Pedido'
+      description: 'Página do Pedido. Acesso: CLT'
+      tags:
+        - 'M04: Pedidos'
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      
+      responses:
+        '200':
+          description: 'Ok. Mostrar Pedido'
+        '404':
+          description: 'Erro. Pedido não existe'
+
+  /orders/{id}/cancel:
+    patch:
+      operationId: R403
+      summary: 'R403: Cancelar pedido'
+      description: 'Cancelar pedido caso este ainda não esteja em execução. Acesso: CLT'
+      tags:
+        - 'M04: Pedidos'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                product:
+                  type: integer
+                client:
+                  type: integer
+                order_status:
+                  type: string
+                order_type:
+                  type: string
+                loan_start:
+                  type: date
+                loan_end:
+                  type: date  
+                total_price:
+                  type: real    
+              required:
+                - id
+                - order_status
     
-    responses:
+      responses:
         '200':
           description: 'Ok. Pedido cancelado'
         '204':
@@ -820,744 +813,741 @@ paths:
         '404':
           description: 'Erro. Pedido não existe'
   
-/orders/{id}/updateStatus:
-  patch:
-    operationId: R404
-    summary: 'R404: Atualizar estado de pedido'
-    description: 'Atualizar estado de pedido. Acesso: CLT'
-    tags:
-      - 'M04: Pedidos'
+  /orders/{id}/updateStatus:
+    patch:
+      operationId: R404
+      summary: 'R404: Atualizar estado de pedido'
+      description: 'Atualizar estado de pedido. Acesso: CLT'
+      tags:
+        - 'M04: Pedidos'
 
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              product:
-                type: integer
-              client:
-                type: integer
-              order_status:
-                type: string
-              order_type:
-                type: string
-              loan_start:
-                type: date
-              loan_end:
-                type: date  
-              total_price:
-                type: real    
-            required:
-              - id
-              - order_status
-    
-    responses:
-        '200':
-          description: 'Ok. Estado atualizado'
-        '204':
-          description: 'Sem Conteudo para alterar'
-        '404':
-          description: 'Erro. Pedido não existe'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                product:
+                  type: integer
+                client:
+                  type: integer
+                order_status:
+                  type: string
+                order_type:
+                  type: string
+                loan_start:
+                  type: date
+                loan_end:
+                  type: date  
+                total_price:
+                  type: real    
+              required:
+                - id
+                - order_status
+      
+      responses:
+          '200':
+            description: 'Ok. Estado atualizado'
+          '204':
+            description: 'Sem Conteudo para alterar'
+          '404':
+            description: 'Erro. Pedido não existe'
 
 #--------------------------------------------#
 #--------------------M05---------------------#
 #--------------------------------------------#
     
-/messages:
-  get:
-    operationId: R501
-    summary: 'R501: Página de Mensagens'
-    description: 'Página de Mensagens. Acesso: XXX'
-    tags:
-      - 'M05: Area de Mensagens'
-    responses:
-      '200':
-        description: 'Ok. Mostrar mensagens'
-      '404':
-          description: 'Erro. Não existem mensagens'
+  /messages:
+    get:
+      operationId: R501
+      summary: 'R501: Página de Mensagens'
+      description: 'Página de Mensagens. Acesso: XXX'
+      tags:
+        - 'M05: Area de Mensagens'
+      responses:
+        '200':
+          description: 'Ok. Mostrar mensagens'
+        '404':
+            description: 'Erro. Não existem mensagens'
 
-/messages/{id}:
-  get:
-    operationId: R502
-    summary: 'R502: Página de Mensagem'
-    description: 'Página de Mensagem. Acesso: XXX'
-    tags:
-      - 'M05: Area de Mensagens'
-    responses:
-      '200':
-        description: 'Ok. Mostrar mensagem'
-      '404':
-          description: 'Erro. A mensagem não existe.'
+  /messages/{id}:
+    get:
+      operationId: R502
+      summary: 'R502: Página de Mensagem'
+      description: 'Página de Mensagem. Acesso: XXX'
+      tags:
+        - 'M05: Area de Mensagens'
+      responses:
+        '200':
+          description: 'Ok. Mostrar mensagem'
+        '404':
+            description: 'Erro. A mensagem não existe.'
 
-/messages/{id}/send:
-  post:
-    operationId: R503
-    summary: 'R503: Mandar mensagem'
-    description: 'Mandar mensagem. Acesso: XXX'
-    tags:
-      - 'M05: Area de Mensagens'
+  /messages/{id}/send:
+    post:
+      operationId: R503
+      summary: 'R503: Mandar mensagem'
+      description: 'Mandar mensagem. Acesso: XXX'
+      tags:
+        - 'M05: Area de Mensagens'
 
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              message_type:
-                type: enum
-              associated_order:
-                type: integer
-              associated_ticket:
-                type: integer
-              message:
-                type: string
-              date:
-                type: date
-            required:
-              - id
-              - message_type
-              - associated_order
-              - associated_ticket
-              - message
-              - date
-    
-    responses:
-      '302':
-        description: 'Redireciona após processar o envio.'
-        headers:
-          Location:
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
             schema:
-              type: string
-            examples:
-              302Success:
-                description: 'Envio bem sucedido. Redireciona para a pagina de mensagens.'
-                value: '/messages/{id}'
-              302Error:
-                description: 'Falha no envio. Redireciona para a pagina de mensagens.'
-                value: '/messages/{id}'
-
-/tickets:
-  get:
-    operationId: R504
-    summary: 'R504: Página de Tickets'
-    description: 'Página de Tickets. Acesso: XXX'
-    tags:
-      - 'M05: Area de Mensagens'
-    responses:
-      '200':
-        description: 'Ok. Mostrar tickets'
-      '404':
-          description: 'Erro. Não existem tickets'
-
-/tickets/{id}:
-  get:
-    operationId: R505
-    summary: 'R505: Página de Ticket'
-    description: 'Página de Ticket. Acesso: XXX'
-    tags:
-      - 'M05: Area de Mensagens'
-    responses:
-      '200':
-        description: 'Ok. Mostrar ticket'
-      '404':
-          description: 'Erro. O ticket não existe.'
-
-/tickets/new:
-  post:
-    operationId: R506
-    summary: 'R506: Criar ticket'
-    description: 'Criar ticket. Acesso: XXX'
-    tags:
-      - 'M05: Area de Mensagens'
-
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              userid:
-                type: integer
-              support:
-                type: integer
-              title:
+              type: object
+              properties:
+                id:
+                  type: integer
+                message_type:
+                  type: enum
+                associated_order:
+                  type: integer
+                associated_ticket:
+                  type: integer
+                message:
+                  type: string
+                date:
+                  type: date
+              required:
+                - id
+                - message_type
+                - associated_order
+                - associated_ticket
+                - message
+                - date
+      
+      responses:
+        '302':
+          description: 'Redireciona após processar o envio.'
+          headers:
+            Location:
+              schema:
                 type: string
-            required:
-              - id
-              - userid
-              - support
-              - title
-    
-    responses:
-      '302':
-        description: 'Redireciona após processar a criação do novo ticket.'
-        headers:
-          Location:
+              examples:
+                302Success:
+                  description: 'Envio bem sucedido. Redireciona para a pagina de mensagens.'
+                  value: '/messages/{id}'
+                302Error:
+                  description: 'Falha no envio. Redireciona para a pagina de mensagens.'
+                  value: '/messages/{id}'
+
+  /tickets:
+    get:
+      operationId: R504
+      summary: 'R504: Página de Tickets'
+      description: 'Página de Tickets. Acesso: XXX'
+      tags:
+        - 'M05: Area de Mensagens'
+      responses:
+        '200':
+          description: 'Ok. Mostrar tickets'
+        '404':
+            description: 'Erro. Não existem tickets'
+
+  /tickets/{id}:
+    get:
+      operationId: R505
+      summary: 'R505: Página de Ticket'
+      description: 'Página de Ticket. Acesso: XXX'
+      tags:
+        - 'M05: Area de Mensagens'
+      responses:
+        '200':
+          description: 'Ok. Mostrar ticket'
+        '404':
+            description: 'Erro. O ticket não existe.'
+
+  /tickets/new:
+    post:
+      operationId: R506
+      summary: 'R506: Criar ticket'
+      description: 'Criar ticket. Acesso: XXX'
+      tags:
+        - 'M05: Area de Mensagens'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
             schema:
-              type: string
-            examples:
-              302Success:
-                description: 'Criação bem sucedida. Redireciona para a pagina do ticket.'
-                value: '/ticket/{id}'
-              302Error:
-                description: 'Falha na criação. Redireciona para a pagina de tickets.'
-                value: '/tickets'
+              type: object
+              properties:
+                id:
+                  type: integer
+                userid:
+                  type: integer
+                support:
+                  type: integer
+                title:
+                  type: string
+              required:
+                - id
+                - userid
+                - support
+                - title
+      
+      responses:
+        '302':
+          description: 'Redireciona após processar a criação do novo ticket.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Criação bem sucedida. Redireciona para a pagina do ticket.'
+                  value: '/ticket/{id}'
+                302Error:
+                  description: 'Falha na criação. Redireciona para a pagina de tickets.'
+                  value: '/tickets'
 
 #--------------------------------------------#
 #--------------------M06---------------------#
 #--------------------------------------------#
-    /faqs GET 
-      -/edit PATCH
-    /about GET
 
-/faqs:
-  get:
-    operationId: R601
-    summary: 'R601: Página de FAQ'
-    description: 'Página com as perguntas mais frequentes'
-    tags:
-      - 'M06: Perfil e Autenticação'
-    responses:
-      '200':
-        description: 'Ok. Mostrar página de FAQ'
-  
-/about:
-  get:
-    operationId: R602
-    summary: 'R602: Pagina About Us'
-    description: 'Página com um Informação sobre os criadores do site. Acessoo: GST'
-    tags:
-      - 'M06: Administração de utilizador e paginas estáticas'
-    responses:
-      '200':
-        description: 'Ok. Mostrar Pagina About Us'
+  /faqs:
+    get:
+      operationId: R601
+      summary: 'R601: Página de FAQ'
+      description: 'Página com as perguntas mais frequentes'
+      tags:
+        - 'M06: Perfil e Autenticação'
+      responses:
+        '200':
+          description: 'Ok. Mostrar página de FAQ'
+    
+  /about:
+    get:
+      operationId: R602
+      summary: 'R602: Pagina About Us'
+      description: 'Página com um Informação sobre os criadores do site. Acessoo: GST'
+      tags:
+        - 'M06: Administração de utilizador e paginas estáticas'
+      responses:
+        '200':
+          description: 'Ok. Mostrar Pagina About Us'
 
 #--------------------------------------------#
 #--------------------M07---------------------#
 #--------------------------------------------#
 
-/admin:
-  get:
-    operationId: R701
-    summary: 'R701: Página do administrador'
-    description: 'Página da área de gestão do administrador Acesso: ADM'
-    tags:
-      - 'M07: Área de Gestão'
-    responses:
-      '200':
-        description: 'Ok. Mostrar página do administrador'
+  /admin:
+    get:
+      operationId: R701
+      summary: 'R701: Página do administrador'
+      description: 'Página da área de gestão do administrador Acesso: ADM'
+      tags:
+        - 'M07: Área de Gestão'
+      responses:
+        '200':
+          description: 'Ok. Mostrar página do administrador'
 
-/categories:
-  get:
-      operationId: R702
-      summary: 'R702: Pagina do Categorias'
-      description: 'Pagina de Categorias Acesso: ADM'
+  /categories:
+    get:
+        operationId: R702
+        summary: 'R702: Pagina do Categorias'
+        description: 'Pagina de Categorias Acesso: ADM'
+        tags:
+          - 'M07: Área de Gestão'
+
+        responses:
+          '200':
+            description: 'Ok. Mostrar Categorias'
+
+  /categories/{category}:
+    get:
+        operationId: R703
+        summary: 'R703: Pagina de uma Categoria'
+        description: 'Pagina de uma Categoria Acesso: ADM'
+        tags:
+          - 'M07: Área de Gestão'
+
+        parameters:
+          - in: path
+            name: category
+            schema:
+              type: integer
+            required: true
+
+        responses:
+          '200':
+            description: 'Ok. Mostrar Categoria'
+          '404':
+            description: 'Erro. Categoria não existe'
+
+  /categories/{category}/add:
+    post:
+      operationId: R704
+      summary: 'R704: Adicionar uma categoria'
+      description: 'Processo de adicionar de uma categoria. Acesso: ADM'
       tags:
         - 'M07: Área de Gestão'
 
-      responses:
-        '200':
-          description: 'Ok. Mostrar Categorias'
-
-/categories/{category}:
-  get:
-      operationId: R703
-      summary: 'R703: Pagina de uma Categoria'
-      description: 'Pagina de uma Categoria Acesso: ADM'
-      tags:
-        - 'M07: Área de Gestão'
-
-      parameters:
-        - in: path
-          name: category
-          schema:
-            type: integer
-          required: true
-
-      responses:
-        '200':
-          description: 'Ok. Mostrar Categoria'
-        '404':
-          description: 'Erro. Categoria não existe'
-
-/categories/{category}/add:
-  post:
-    operationId: R704
-    summary: 'R704: Adicionar uma categoria'
-    description: 'Processo de adicionar de uma categoria. Acesso: ADM'
-    tags:
-      - 'M07: Área de Gestão'
-
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-              properties:
-                product_id:      
-                  type: integer
-                name:
-                  type: string
-              required:
-                - name
-
-      responses:
-        '302':
-          description: 'Redireciona depois de processar os dados da nova categoria.'
-          headers:
-            Location:
-              schema:
-                type: string
-              examples:
-                302Success:
-                  description: 'Adicionada com sucesso. Redireciona para a página de categoria.'
-                  value: '/categories/{category}'
-                302Error:
-                  description: 'Falha ao adicionar nova categoria. Redireciona de volta para a pagina de categorias.'
-                  value: '/categories'
-
-/categories/{category}/delete:
-  delete:
-    operationId: R705
-    summary: 'R705: Apagar uma categoria'
-    description: 'Processo de apagar de uma categoria. Acesso: ADM'
-    tags:
-      - 'M07: Área de Gestão'
-
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-              properties:
-                product_id:      
-                  type: integer
-                name:
-                  type: string
-              required:
-                - product_id
-                - name
-
-      responses:
-        '200':
-          description: 'Categoria apagado com sucesso.'
-        '404':
-          description: 'Erro. Categoria não existe'
-
-/categories/{category}/edit:
-  patch:
-    operationId: R706
-    summary: 'R706: Editar os dados de uma categoria'
-    description: 'Edita os dados de uma dada categoria. Acesso: ADM'
-    tags:
-      - 'M07: Área de Gestão'
-
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-              properties:
-                product_id:      
-                  type: integer
-                name:
-                  type: string
-              required:
-                - product_id
-                - name
-
-    responses:
-        '200':
-          description: 'Ok. Categoria atualizada'
-        '204':
-          description: 'Sem Conteudo para alterar'
-        '404':
-          description: 'Erro. Categoria não existe'
-
-/products:
-  get:
-      operationId: R707
-      summary: 'R707: Pagina de Produtos'
-      description: 'Pagina de produtos Acesso: ADM'
-      tags:
-        - 'M07: Área de Gestão'
-
-      responses:
-        '200':
-          description: 'Ok. Mostrar Produtos'
-
-/products/{id}:
-  get:
-      operationId: R708
-      summary: 'R708: Pagina de um produto'
-      description: 'Pagina de um produto Acesso: ADM'
-      tags:
-        - 'M07: Área de Gestão'
-
-      parameters:
-        - in: path
-          name: category
-          schema:
-            type: integer
-          required: true
-
-      responses:
-        '200':
-          description: 'Ok. Mostrar Produto'
-        '404':
-          description: 'Erro. Produto não existe'
-
-/products/{id}/add:
-  post:
-    operationId: R709
-    summary: 'R709: Adicionar um produto'
-    description: 'Processo de adicionar de um produto. Acesso: ADM'
-    tags:
-      - 'M07: Área de Gestão'
-
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-              properties:
-                id:      
-                  type: integer
-                seller:      
-                  type: integer
-                productname:      
-                  type: string
-                description:      
-                  type: string
-                active:      
-                  type: boolean
-                price:      
-                  type: real
-                pricePerDay:
-                  type: real
-              required:
-                - id
-                - seller
-                - productname
-                - description
-                - active
-                - price
-                - pricePerDay
-
-      responses:
-        '302':
-          description: 'Redireciona depois de processar os dados do novo produto.'
-          headers:
-            Location:
-              schema:
-                type: string
-              examples:
-                302Success:
-                  description: 'Produto adicionado com sucesso. Redireciona para a página de produto.'
-                  value: '/products/{id}'
-                302Error:
-                  description: 'Falha ao adicionar novo produto. Redireciona de volta para a pagina de produtos.'
-                  value: '/products'
-
-/products/{id}/delete:
-  delete:
-    operationId: R710
-    summary: 'R710: Apagar um produto'
-    description: 'Processo de apagar de um produto. Acesso: ADM'
-    tags:
-      - 'M07: Área de Gestão'
-
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-              properties:
-                id:      
-                  type: integer
-                seller:      
-                  type: integer
-                productname:      
-                  type: string
-                description:      
-                  type: string
-                active:      
-                  type: boolean
-                price:      
-                  type: real
-                pricePerDay:
-                  type: real
-              required:
-                - id
-
-      responses:
-        '200':
-          description: 'Produto apagado com sucesso.'
-        '404':
-          description: 'Erro. Produto não existe'
-
-/products/{id}/edit:
-  patch:
-    operationId: R711
-    summary: 'R711: Editar os dados de um produto'
-    description: 'Edita os dados de um dado produto. Acesso: ADM'
-    tags:
-      - 'M07: Área de Gestão'
-
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-              properties:
-                id:      
-                  type: integer
-                seller:      
-                  type: integer
-                productname:      
-                  type: string
-                description:      
-                  type: string
-                active:      
-                  type: boolean
-                price:      
-                  type: real
-                pricePerDay:
-                  type: real
-              required:
-                - id
-                - seller
-                - productname
-                - description
-                - active
-                - price
-                - pricePerDay
-
-    responses:
-        '200':
-          description: 'Ok. Produto atualizada'
-        '204':
-          description: 'Sem Conteudo para alterar'
-        '404':
-          description: 'Erro. Produto não existe'
-
-/accounts:
-  get:
-      operationId: R712
-      summary: 'R712: Pagina de Contas registadas'
-      description: 'Mostra todas as contas registadas na plataforma. Acesso: ADM'
-      tags:
-        - 'M07: Área de Gestão'
-
-      responses:
-        '200':
-          description: 'Ok. Mostrar contas'
-
-/accounts/{id}:
-  get:
-      operationId: R713
-      summary: 'R713: Pagina de uma conta'
-      description: 'Mostra a página de uma dada conta. Acesso: ADM'
-      tags:
-        - 'M07: Área de Gestão'
-
-      parameters:
-        - in: path
-          name: category
-          schema:
-            type: integer
-          required: true
-
-      responses:
-        '200':
-          description: 'Ok. Mostrar conta'
-        '404':
-          description: 'Erro. Conta não existe'
-
-/accounts/{id}/ban:
-  patch:
-    operationId: R714
-    summary: 'R714: Banir uma conta'
-    description: 'Procede com a suspensão da atividade de uma conta. Acesso: ADM'
-    tags:
-      - 'M07: Área de Gestão'
-
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-              properties:
-                id:      
-                  type: integer
-                username:      
-                  type: string
-                email:      
-                  type: string
-                birthDate:      
-                  type: date
-                password:      
-                  type: string
-                banned:      
-                  type: boolean
-                accType:
-                  type: enum
-                img:
-                  type: string
-                phone:
-                  type: integer
-              required:
-                - id
-                - banned
-
-    responses:
-        '200':
-          description: 'Ok. Conta banida com sucesso'
-        '204':
-          description: 'Sem Conteudo para alterar'
-        '404':
-          description: 'Erro. Conta não existe'
-
-/accounts/{id}/unban:
-  patch:
-    operationId: R715
-    summary: 'R715: Reativar uma conta banida'
-    description: 'Procede com a reativação da atividade de uma conta banida. Acesso: ADM'
-    tags:
-      - 'M07: Área de Gestão'
-
-    requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-              properties:
-                id:      
-                  type: integer
-                username:      
-                  type: string
-                email:      
-                  type: string
-                birthDate:      
-                  type: date
-                password:      
-                  type: string
-                banned:      
-                  type: boolean
-                accType:
-                  type: enum
-                img:
-                  type: string
-                phone:
-                  type: integer
-              required:
-                - id
-                - banned
-
-    responses:
-        '200':
-          description: 'Ok. Conta reativada com sucesso'
-        '204':
-          description: 'Sem Conteudo para alterar'
-        '404':
-          description: 'Erro. Conta não existe'
-
-/applications:
-  get:
-    operationId: R716
-      summary: 'R716: Página de "Seller Applications"'
-      description: 'Mostra a Página com a informação relativa à "Seller Application" e com o Forms de aplicação. Acesso: USR, ADM'
-      tags:
-        - 'M07: Área de Gestão'
-      
       requestBody:
-        required: false
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
               type: object
                 properties:
-                  id:
+                  product_id:      
                     type: integer
+                  name:
+                    type: string
+                required:
+                  - name
+
+        responses:
+          '302':
+            description: 'Redireciona depois de processar os dados da nova categoria.'
+            headers:
+              Location:
+                schema:
+                  type: string
+                examples:
+                  302Success:
+                    description: 'Adicionada com sucesso. Redireciona para a página de categoria.'
+                    value: '/categories/{category}'
+                  302Error:
+                    description: 'Falha ao adicionar nova categoria. Redireciona de volta para a pagina de categorias.'
+                    value: '/categories'
+
+  /categories/{category}/delete:
+    delete:
+      operationId: R705
+      summary: 'R705: Apagar uma categoria'
+      description: 'Processo de apagar de uma categoria. Acesso: ADM'
+      tags:
+        - 'M07: Área de Gestão'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+                properties:
+                  product_id:      
+                    type: integer
+                  name:
+                    type: string
+                required:
+                  - product_id
+                  - name
+
+        responses:
+          '200':
+            description: 'Categoria apagado com sucesso.'
+          '404':
+            description: 'Erro. Categoria não existe'
+
+  /categories/{category}/edit:
+    patch:
+      operationId: R706
+      summary: 'R706: Editar os dados de uma categoria'
+      description: 'Edita os dados de uma dada categoria. Acesso: ADM'
+      tags:
+        - 'M07: Área de Gestão'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+                properties:
+                  product_id:      
+                    type: integer
+                  name:
+                    type: string
+                required:
+                  - product_id
+                  - name
 
       responses:
-        '200':
-          description: 'Ok. Mostrar o UI de aplicação e o Forms para os utilizadores e uma lista de candidaturas para os administradores'
-      
+          '200':
+            description: 'Ok. Categoria atualizada'
+          '204':
+            description: 'Sem Conteudo para alterar'
+          '404':
+            description: 'Erro. Categoria não existe'
 
-/applications/submit:
-  post:
-    operationId: R717
-      summary: 'R717: Submete o forms de "Seller Applications". Acesso USR'
-        description:
+  /products:
+    get:
+        operationId: R707
+        summary: 'R707: Pagina de Produtos'
+        description: 'Pagina de produtos Acesso: ADM'
         tags:
-          - 'M07'
+          - 'M07: Área de Gestão'
+
+        responses:
+          '200':
+            description: 'Ok. Mostrar Produtos'
+
+  /products/{id}:
+    get:
+        operationId: R708
+        summary: 'R708: Pagina de um produto'
+        description: 'Pagina de um produto Acesso: ADM'
+        tags:
+          - 'M07: Área de Gestão'
+
+        parameters:
+          - in: path
+            name: category
+            schema:
+              type: integer
+            required: true
+
+        responses:
+          '200':
+            description: 'Ok. Mostrar Produto'
+          '404':
+            description: 'Erro. Produto não existe'
+
+  /products/{id}/add:
+    post:
+      operationId: R709
+      summary: 'R709: Adicionar um produto'
+      description: 'Processo de adicionar de um produto. Acesso: ADM'
+      tags:
+        - 'M07: Área de Gestão'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+                properties:
+                  id:      
+                    type: integer
+                  seller:      
+                    type: integer
+                  productname:      
+                    type: string
+                  description:      
+                    type: string
+                  active:      
+                    type: boolean
+                  price:      
+                    type: real
+                  pricePerDay:
+                    type: real
+                required:
+                  - id
+                  - seller
+                  - productname
+                  - description
+                  - active
+                  - price
+                  - pricePerDay
+
+        responses:
+          '302':
+            description: 'Redireciona depois de processar os dados do novo produto.'
+            headers:
+              Location:
+                schema:
+                  type: string
+                examples:
+                  302Success:
+                    description: 'Produto adicionado com sucesso. Redireciona para a página de produto.'
+                    value: '/products/{id}'
+                  302Error:
+                    description: 'Falha ao adicionar novo produto. Redireciona de volta para a pagina de produtos.'
+                    value: '/products'
+
+  /products/{id}/delete:
+    delete:
+      operationId: R710
+      summary: 'R710: Apagar um produto'
+      description: 'Processo de apagar de um produto. Acesso: ADM'
+      tags:
+        - 'M07: Área de Gestão'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+                properties:
+                  id:      
+                    type: integer
+                  seller:      
+                    type: integer
+                  productname:      
+                    type: string
+                  description:      
+                    type: string
+                  active:      
+                    type: boolean
+                  price:      
+                    type: real
+                  pricePerDay:
+                    type: real
+                required:
+                  - id
+
+        responses:
+          '200':
+            description: 'Produto apagado com sucesso.'
+          '404':
+            description: 'Erro. Produto não existe'
+
+  /products/{id}/edit:
+    patch:
+      operationId: R711
+      summary: 'R711: Editar os dados de um produto'
+      description: 'Edita os dados de um dado produto. Acesso: ADM'
+      tags:
+        - 'M07: Área de Gestão'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+                properties:
+                  id:      
+                    type: integer
+                  seller:      
+                    type: integer
+                  productname:      
+                    type: string
+                  description:      
+                    type: string
+                  active:      
+                    type: boolean
+                  price:      
+                    type: real
+                  pricePerDay:
+                    type: real
+                required:
+                  - id
+                  - seller
+                  - productname
+                  - description
+                  - active
+                  - price
+                  - pricePerDay
+
+      responses:
+          '200':
+            description: 'Ok. Produto atualizada'
+          '204':
+            description: 'Sem Conteudo para alterar'
+          '404':
+            description: 'Erro. Produto não existe'
+
+  /accounts:
+    get:
+        operationId: R712
+        summary: 'R712: Pagina de Contas registadas'
+        description: 'Mostra todas as contas registadas na plataforma. Acesso: ADM'
+        tags:
+          - 'M07: Área de Gestão'
+
+        responses:
+          '200':
+            description: 'Ok. Mostrar contas'
+
+  /accounts/{id}:
+    get:
+        operationId: R713
+        summary: 'R713: Pagina de uma conta'
+        description: 'Mostra a página de uma dada conta. Acesso: ADM'
+        tags:
+          - 'M07: Área de Gestão'
+
+        parameters:
+          - in: path
+            name: category
+            schema:
+              type: integer
+            required: true
+
+        responses:
+          '200':
+            description: 'Ok. Mostrar conta'
+          '404':
+            description: 'Erro. Conta não existe'
+
+  /accounts/{id}/ban:
+    patch:
+      operationId: R714
+      summary: 'R714: Banir uma conta'
+      description: 'Procede com a suspensão da atividade de uma conta. Acesso: ADM'
+      tags:
+        - 'M07: Área de Gestão'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+                properties:
+                  id:      
+                    type: integer
+                  username:      
+                    type: string
+                  email:      
+                    type: string
+                  birthDate:      
+                    type: date
+                  password:      
+                    type: string
+                  banned:      
+                    type: boolean
+                  accType:
+                    type: enum
+                  img:
+                    type: string
+                  phone:
+                    type: integer
+                required:
+                  - id
+                  - banned
+
+      responses:
+          '200':
+            description: 'Ok. Conta banida com sucesso'
+          '204':
+            description: 'Sem Conteudo para alterar'
+          '404':
+            description: 'Erro. Conta não existe'
+
+  /accounts/{id}/unban:
+    patch:
+      operationId: R715
+      summary: 'R715: Reativar uma conta banida'
+      description: 'Procede com a reativação da atividade de uma conta banida. Acesso: ADM'
+      tags:
+        - 'M07: Área de Gestão'
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+                properties:
+                  id:      
+                    type: integer
+                  username:      
+                    type: string
+                  email:      
+                    type: string
+                  birthDate:      
+                    type: date
+                  password:      
+                    type: string
+                  banned:      
+                    type: boolean
+                  accType:
+                    type: enum
+                  img:
+                    type: string
+                  phone:
+                    type: integer
+                required:
+                  - id
+                  - banned
+
+      responses:
+          '200':
+            description: 'Ok. Conta reativada com sucesso'
+          '204':
+            description: 'Sem Conteudo para alterar'
+          '404':
+            description: 'Erro. Conta não existe'
+
+  /applications:
+    get:
+      operationId: R716
+        summary: 'R716: Página de "Seller Applications"'
+        description: 'Mostra a Página com a informação relativa à "Seller Application" e com o Forms de aplicação. Acesso: USR, ADM'
+        tags:
+          - 'M07: Área de Gestão'
+        
         requestBody:
-          required: true
+          required: false
           content:
             application/x-www-form-urlencoded:
               schema:
                 type: object
                   properties:
-                    id:      
+                    id:
                       type: integer
-                    application:      
-                      type: string
-                  required:
-                    - id
-                    - application
 
-/aplications/{id}:
-  get:
-    operationId: R718
-      summary: 'R718: Pagina de candidatura'
-      description: 'Mostra ao administrador a aplicação com um dado id: Acesso: ADM'
-      tags:
-       - 'M07: Área de Gestão'
-      responses:
-        '200':
-          description: 'Ok. Mostrar o UI da Candidatura'
+        responses:
+          '200':
+            description: 'Ok. Mostrar o UI de aplicação e o Forms para os utilizadores e uma lista de candidaturas para os administradores'
+        
 
-/applications/{id}/accept:
-  get:
-    operationId: R719
-      summary: 'R719: Validação de candidatura'
-      description: 'Valida a candidatura com um dado id tornando assim o utilizador a ela associado num Seller. Acesso: ADM'
-      tags:
-      - 'M07: Área de Gestão'
-      responses:
-        '200':
-          description: 'Ok. Candidatura Validada'
-      
+  /applications/submit:
+    post:
+      operationId: R717
+        summary: 'R717: Submete o forms de "Seller Applications". Acesso USR'
+          description:
+          tags:
+            - 'M07'
+          requestBody:
+            required: true
+            content:
+              application/x-www-form-urlencoded:
+                schema:
+                  type: object
+                    properties:
+                      id:      
+                        type: integer
+                      application:      
+                        type: string
+                    required:
+                      - id
+                      - application
 
-/applications/{id}/reject:
-  get:
-    operationId: R720
-      summary: 'R720: Rejeição de Candidatura'
-      description: 'Rejeita a candidatura com um dado id. Acesso: ADM'
-      tags:
-      - 'M07: Área de Gestão'
-      responses:
-        '200':
-          description: 'Ok. Candidatura Rejeitada'
+  /aplications/{id}:
+    get:
+      operationId: R718
+        summary: 'R718: Pagina de candidatura'
+        description: 'Mostra ao administrador a aplicação com um dado id: Acesso: ADM'
+        tags:
+        - 'M07: Área de Gestão'
+        responses:
+          '200':
+            description: 'Ok. Mostrar o UI da Candidatura'
+
+  /applications/{id}/accept:
+    get:
+      operationId: R719
+        summary: 'R719: Validação de candidatura'
+        description: 'Valida a candidatura com um dado id tornando assim o utilizador a ela associado num Seller. Acesso: ADM'
+        tags:
+        - 'M07: Área de Gestão'
+        responses:
+          '200':
+            description: 'Ok. Candidatura Validada'
+        
+
+  /applications/{id}/reject:
+    get:
+      operationId: R720
+        summary: 'R720: Rejeição de Candidatura'
+        description: 'Rejeita a candidatura com um dado id. Acesso: ADM'
+        tags:
+        - 'M07: Área de Gestão'
+        responses:
+          '200':
+            description: 'Ok. Candidatura Rejeitada'
 
 
 
