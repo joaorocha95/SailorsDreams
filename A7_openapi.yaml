@@ -183,10 +183,19 @@ paths:
                 fotografia:
                   type: string
                   format: binary
+                morada:
+                  type: string
+                telefone:
+                  type: int
+                birthday:
+                  type: date
               required:
                     - email
                     - password
                     - nome
+                    - telefone
+                    - morada
+                    - birthday
 
       responses:
         '302':
