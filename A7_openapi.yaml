@@ -314,7 +314,14 @@ paths:
       description: 'Processo de Adição de um produto. Acesso: SLR'
       tags:
         - 'M02: Produtos e Categorias'
-
+      
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      
       requestBody:
         required: true
         content:
@@ -363,6 +370,13 @@ paths:
       tags:
         - 'M02: Produtos e Categorias'
 
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
       requestBody:
         required: true
         content:
@@ -370,10 +384,6 @@ paths:
             schema:
                 type: object
                 properties:
-                  id:      
-                    type: integer
-                required:
-                  - id
 
       responses:
         '200':
@@ -388,7 +398,14 @@ paths:
       description: 'Processo de Modificar a Pagina de um produto. Acesso: SLR, ADM'
       tags:
         - 'M02: Produtos e Categorias'
-
+      
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      
       requestBody:
         required: true
         content:
@@ -396,8 +413,6 @@ paths:
             schema:
                 type: object
                 properties:
-                  id:      
-                    type: integer
                   seller:     
                     type: integer
                   productname:      
@@ -410,8 +425,6 @@ paths:
                     type: real
                   pricePerDay: 
                     type: real
-                required:
-                  - id
 
       responses:
         '200':
@@ -463,7 +476,7 @@ paths:
     get:
       operationId: R301
       summary: 'R301: Aceder à wishlist'
-      description: ' ,Acesso: USR, ADM'
+      description: 'Aceder à wishlist ,Acesso: USR, ADM'
 
       tags:
         - 'M03: Reviews e Wishlist'
@@ -487,7 +500,7 @@ paths:
     post:
       operationId: R302
       summary: 'R302: Adicionar à wishlist'
-      description: 'Searches for works and returns the results as JSON. Acesso: PUB.'
+      description: ' Adicionar à wishlist. Acesso: USR, ADM.'
 
       tags:
         - 'M03: Reviews e Wishlist'
@@ -509,7 +522,7 @@ paths:
 
       responses:
         '200':
-          description: 'Added to wishlis'            
+          description: 'Produto acrescentado com sucesso '            
   /wishlist/delete:
     delete:
       operationId: R303
@@ -577,7 +590,7 @@ paths:
 
       parameters:
         - in: path
-          name: category
+          name: id
           schema:
             type: integer
           required: true
@@ -595,6 +608,13 @@ paths:
       tags:
         - 'M03: Reviews e Wishlist'
 
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
       requestBody:
         required: true
         content:
@@ -602,14 +622,10 @@ paths:
             schema:
                 type: object
                 properties:
-                  id:      
-                    type: integer
                   rating:     
                     type: integer
                   comment:      
                     type: string
-                required:
-                  - id
 
         responses:
           '200':
