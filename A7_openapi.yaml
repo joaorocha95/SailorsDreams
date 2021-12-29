@@ -6,7 +6,7 @@ info:
   description: 'Web Resources Specification (A7) for MediaLibrary'
 
 servers:
-  url: http://lbaw.fe.up.pt
+- url: http://lbaw.fe.up.pt
   description: Production server
 
 externalDocs:
@@ -265,7 +265,7 @@ paths:
   /products:
     get:
       operationId: R201
-      summary: 'R201: Pagiga com produtos'
+      summary: 'R201: Página com produtos'
       description: 'Pagina com produtos'
       tags:
         - 'M02: Produtos e Categorias'
@@ -273,7 +273,7 @@ paths:
         '200':
           description: 'Ok. Mostrar Produtos'
             
-  /product/{id}:
+  /products/{id}:
     get:
       operationId: R202
       summary: 'R202: Pagina do produtos'
@@ -294,7 +294,7 @@ paths:
         '404':
           description: 'Erro. Produto não existe'
 
-  /product/add:
+  /products/add:
     post:
       operationId: R203
       summary: 'R203: Adicionar um produto'
@@ -344,7 +344,7 @@ paths:
                   description: 'Falha ao Adicionar. Redireciona para o prefil de utilizador.'
                   value: '/users/{id}'
 
-  /product/delete:
+  /products/{id}/delete:
     delete:
       operationId: R204
       summary: 'R204: Apagar um produto'
@@ -370,7 +370,7 @@ paths:
         '404':
           description: 'Erro. Produto não existe'
 
-  /product/edit:
+  /products/{id}/edit:
     patch:
       operationId: R205
       summary: 'R205: Modificar a Pagina de um produto'
@@ -550,7 +550,7 @@ paths:
             application/json:
               schema:
                 type: array
-  /review:
+  /reviews:
     get:
       operationId: R304
       summary: 'R304: Aceder a todas as reviews'
@@ -563,7 +563,7 @@ paths:
         '200':
           description: 'Ok. Mostrar todas as Reviews feitas'
 
-  /review/user/{id}:
+  /reviews/user/{id}:
     get:
       operationId: R305
       summary: 'R305: Aceder às reviews de um dado user'
@@ -583,7 +583,7 @@ paths:
         '200':
           description: 'Ok. Mostrar todas as Reviews feitas por um dado user'
           
-  /review/product/{id}/edit:
+  /reviews/product/{id}/edit:
     patch:
       operationId: R306
       summary: 'R306: Editar review'
@@ -616,7 +616,7 @@ paths:
           '404':
             description: 'Erro. Produto não existe'
              
-  /review/product/{id}/delete:
+  /reviews/product/{id}/delete:
     patch:
       operationId: R307
       summary: 'R307: Apagar review'
@@ -643,7 +643,7 @@ paths:
           '404':
             description: 'Erro. Review não existe'
 
-  /review/product/{id}:
+  /reviews/product/{id}:
     get:
       operationId: R308
       summary: 'R308: Review de um produto'
@@ -819,7 +819,7 @@ paths:
         '404':
             description: 'Erro. A mensagem não existe.'
 
-  /messages/{id}/send:
+  /messages/send:
     post:
       operationId: R503
       summary: 'R503: Mandar mensagem'
@@ -1013,7 +1013,7 @@ paths:
           '404':
             description: 'Erro. Categoria não existe'
 
-  /admin/categories/{category}/add:
+  /admin/categories/add:
     post:
       operationId: R704
       summary: 'R704: Adicionar uma categoria'
@@ -1110,177 +1110,7 @@ paths:
           '404':
             description: 'Erro. Categoria não existe'
 
-  /admin/products:
-    get:
-        operationId: R707
-        summary: 'R707: Pagina de Produtos'
-        description: 'Pagina de produtos Acesso: ADM'
-        tags:
-          - 'M07: Área de Gestão'
-
-        responses:
-          '200':
-            description: 'Ok. Mostrar Produtos'
-
-  /admin/products/{id}:
-    get:
-        operationId: R708
-        summary: 'R708: Pagina de um produto'
-        description: 'Pagina de um produto Acesso: SEL'
-        tags:
-          - 'M07: Área de Gestão'
-
-        parameters:
-          - in: path
-            name: category
-            schema:
-              type: integer
-            required: true
-
-        responses:
-          '200':
-            description: 'Ok. Mostrar Produto'
-          '404':
-            description: 'Erro. Produto não existe'
-
-  /products/{id}/add:
-    post:
-      operationId: R709
-      summary: 'R709: Adicionar um produto'
-      description: 'Processo de adicionar de um produto. Acesso: SEL'
-      tags:
-        - 'M07: Área de Gestão'
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                id:      
-                  type: integer
-                seller:      
-                  type: integer
-                productname:      
-                  type: string
-                description:      
-                  type: string
-                active:      
-                  type: boolean
-                price:      
-                  type: real
-                pricePerDay:
-                  type: real
-              required:
-                - id
-                - seller
-                - productname
-                - description
-                - active
-                - price
-                - pricePerDay
-
-        responses:
-          '302':
-            description: 'Redireciona depois de processar os dados do novo produto.'
-            headers:
-              Location:
-                schema:
-                  type: string
-                examples:
-                  302Success:
-                    description: 'Produto adicionado com sucesso. Redireciona para a página de produto.'
-                    value: '/products/{id}'
-                  302Error:
-                    description: 'Falha ao adicionar novo produto. Redireciona de volta para a pagina de produtos.'
-                    value: '/products'
-
-  /admin/products/{id}/delete:
-    delete:
-      operationId: R710
-      summary: 'R710: Apagar um produto'
-      description: 'Processo de apagar de um produto. Acesso: SEL'
-      tags:
-        - 'M07: Área de Gestão'
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                id:      
-                  type: integer
-                seller:      
-                  type: integer
-                productname:      
-                  type: string
-                description:      
-                  type: string
-                active:      
-                  type: boolean
-                price:      
-                  type: real
-                pricePerDay:
-                  type: real
-              required:
-                - id
-
-        responses:
-          '200':
-            description: 'Produto apagado com sucesso.'
-          '404':
-            description: 'Erro. Produto não existe'
-
-  /products/{id}/edit:
-    patch:
-      operationId: R711
-      summary: 'R711: Editar os dados de um produto'
-      description: 'Edita os dados de um dado produto. Acesso: ADM'
-      tags:
-        - 'M07: Área de Gestão'
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                id:      
-                  type: integer
-                seller:      
-                  type: integer
-                productname:      
-                  type: string
-                description:      
-                  type: string
-                active:      
-                  type: boolean
-                price:      
-                  type: real
-                pricePerDay:
-                  type: real
-              required:
-                - id
-                - seller
-                - productname
-                - description
-                - active
-                - price
-                - pricePerDay
-
-      responses:
-          '200':
-            description: 'Ok. Produto atualizada'
-          '204':
-            description: 'Sem Conteudo para alterar'
-          '404':
-            description: 'Erro. Produto não existe'
-
-  /accounts:
+  /admin/accounts:
     get:
         operationId: R712
         summary: 'R712: Pagina de Contas registadas'
@@ -1292,7 +1122,7 @@ paths:
           '200':
             description: 'Ok. Mostrar contas'
 
-  /accounts/{id}:
+  /admin/accounts/{id}:
     get:
         operationId: R713
         summary: 'R713: Pagina de uma conta'
@@ -1313,7 +1143,7 @@ paths:
           '404':
             description: 'Erro. Conta não existe'
 
-  /accounts/{id}/ban:
+  /admin/accounts/{id}/ban:
     patch:
       operationId: R714
       summary: 'R714: Banir uma conta'
@@ -1358,7 +1188,7 @@ paths:
           '404':
             description: 'Erro. Conta não existe'
 
-  /accounts/{id}/unban:
+  /admin/accounts/{id}/unban:
     patch:
       operationId: R715
       summary: 'R715: Reativar uma conta banida'
@@ -1448,7 +1278,7 @@ paths:
                 - id
                 - application
 
-  /aplications/{id}:
+  /applications/{id}:
     get:
       operationId: R718
       summary: 'R718: Pagina de candidatura'
