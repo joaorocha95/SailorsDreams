@@ -981,7 +981,7 @@ paths:
         '200':
           description: 'Ok. Mostrar página do administrador'
 
-  /categories:
+  /admin/categories:
     get:
         operationId: R702
         summary: 'R702: Pagina do Categorias'
@@ -993,7 +993,7 @@ paths:
           '200':
             description: 'Ok. Mostrar Categorias'
 
-  /categories/{category}:
+  /admin/categories/{category}:
     get:
         operationId: R703
         summary: 'R703: Pagina de uma Categoria'
@@ -1014,7 +1014,7 @@ paths:
           '404':
             description: 'Erro. Categoria não existe'
 
-  /categories/{category}/add:
+  /admin/categories/{category}/add:
     post:
       operationId: R704
       summary: 'R704: Adicionar uma categoria'
@@ -1028,13 +1028,13 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               type: object
-                properties:
-                  product_id:      
-                    type: integer
-                  name:
-                    type: string
-                required:
-                  - name
+              properties:
+                product_id:      
+                  type: integer
+                name:
+                  type: string
+              required:
+                - name
 
         responses:
           '302':
@@ -1051,7 +1051,7 @@ paths:
                     description: 'Falha ao adicionar nova categoria. Redireciona de volta para a pagina de categorias.'
                     value: '/categories'
 
-  /categories/{category}/delete:
+  /admin/categories/{category}/delete:
     delete:
       operationId: R705
       summary: 'R705: Apagar uma categoria'
