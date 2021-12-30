@@ -148,8 +148,10 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: 'Successful logout. Redirect to login form.'
+                  description: 'Logout bem Sucedido. Redireciona de volta para a pagina de /login.'
                   value: '/login'
+                302Error:
+                  description: 'Logout falhado. Redireciona de volta para a pagina de /login.'
 
   /register:
     get:
@@ -522,7 +524,10 @@ paths:
 
       responses:
         '200':
-          description: 'Produto acrescentado com sucesso!'            
+          description: 'Produto acrescentado com sucesso!'
+        '404':
+          description: 'Falha ao acrescentar produto.'   
+                   
   /wishlist/delete:
     delete:
       operationId: R303
@@ -688,13 +693,13 @@ paths:
                 required:
                   - rating
 
-        responses:
-          '200':
-            description: 'Ok. Review Alterada'
-          '204':
-            description: 'Sem Review para alterar'
-          '404':
-            description: 'Erro. Produto não existe'
+      responses:
+        '200':
+          description: 'Ok. Review Alterada'
+        '204':
+          description: 'Sem Review para alterar'
+        '404':
+          description: 'Erro. Produto não existe'
           
   /reviews/product/{id}/{review_id}/edit:
     patch:
@@ -731,13 +736,13 @@ paths:
                 required:
                   - rating
 
-        responses:
-          '200':
-            description: 'Ok. Review Alterada'
-          '204':
-            description: 'Sem Review para alterar'
-          '404':
-            description: 'Erro. Produto não existe'
+      responses:
+        '200':
+          description: 'Ok. Review Alterada'
+        '204':
+          description: 'Sem Review para alterar'
+        '404':
+          description: 'Erro. Produto não existe'
              
   /reviews/product/{id}/{review_id}/delete:
     delete:
