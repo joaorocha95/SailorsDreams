@@ -630,10 +630,10 @@ paths:
             description: 'Erro. Produto não existe'
              
   /reviews/product/{id}/delete:
-    patch:
+    delete:
       operationId: R307
       summary: 'R307: Apagar review'
-      description: ''
+      description: 'Apagar review. Acesso: USR'
 
       tags:
         - 'M03: Reviews e Wishlist'
@@ -645,11 +645,11 @@ paths:
             type: integer
           required: true
 
-        responses:
-          '200':
-            description: 'Review apagado com sucesso.'
-          '404':
-            description: 'Erro. Review não existe'
+      responses:
+        '200':
+          description: 'Review apagado com sucesso.'
+        '404':
+          description: 'Erro. Review não existe'
 
   /reviews/product/{id}:
     get:
