@@ -514,12 +514,12 @@ paths:
 
       responses:
         '200':
-          description: 'Produto acrescentado com sucesso '            
+          description: 'Produto acrescentado com sucesso!'            
   /wishlist/delete:
     delete:
       operationId: R303
-      summary: 'R302: Apagar produto da wishlist'
-      description: ''
+      summary: 'R303: Apagar produto da wishlist'
+      description: 'Apagar produto da wishlist. Acesso: CLT, SLR, ADM'
       
       tags:
         - 'M03: Reviews e Wishlist'
@@ -562,7 +562,7 @@ paths:
     get:
       operationId: R304
       summary: 'R304: Aceder a todas as reviews'
-      description: ''
+      description: 'Aceder a todas as reviews. Acesso: GST'
 
       tags:
         - 'M03: Reviews e Wishlist'
@@ -595,7 +595,7 @@ paths:
     patch:
       operationId: R306
       summary: 'R306: Editar review'
-      description: 'Editar a review'
+      description: 'Editar a review. Acesso: CLT, SLR, ADM'
 
       tags:
         - 'M03: Reviews e Wishlist'
@@ -633,7 +633,7 @@ paths:
     delete:
       operationId: R307
       summary: 'R307: Apagar review'
-      description: 'Apagar review. Acesso: USR'
+      description: 'Apagar review. Acesso: CLT, SLR, ADM'
 
       tags:
         - 'M03: Reviews e Wishlist'
@@ -655,21 +655,21 @@ paths:
     get:
       operationId: R308
       summary: 'R308: Review de um produto'
-      description: ''
+      description: 'Ver review de um produto. Acesso: GST'
 
       tags:
         - 'M03: Reviews e Wishlist'
 
       parameters:
         - in: path
-          name: category
+          name: id
           schema:
             type: integer
           required: true
 
       responses:
         '200':
-          description: 'Ok. Mostrar todas as Reviews feitas por um dado user'
+          description: 'Ok. Mostrar todas as Reviews de um dado produto'
 
 #--------------------------------------------#
 #--------------------M04---------------------#
