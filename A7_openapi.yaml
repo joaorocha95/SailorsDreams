@@ -519,7 +519,7 @@ paths:
     delete:
       operationId: R303
       summary: 'R303: Apagar produto da wishlist'
-      description: 'Apagar produto da wishlist. Acesso: CLT, SLR, ADM'
+      description: 'Apagar produto da wishlist. Acesso: CLT'
       
       tags:
         - 'M03: Reviews e Wishlist'
@@ -579,12 +579,82 @@ paths:
       responses:
         '200':
           description: 'Ok. Mostrar todas as Reviews feitas por um dado user'
-          
-  /reviews/product/{id}/edit:
+
+  /reviews/user/{id}/{review_id}/edit:
     patch:
       operationId: R306
       summary: 'R306: Editar review'
-      description: 'Editar a review. Acesso: CLT, SLR, ADM'
+      description: 'Editar a review de um cliente. Acesso: SLR, ADM'
+
+      tags:
+        - 'M03: Reviews e Wishlist'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: review_id
+          schema:
+            type: integer
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+                type: object
+                properties:
+                  rating:     
+                    type: integer
+                  comment:      
+                    type: string
+                required:
+                  - rating
+
+        responses:
+          '200':
+            description: 'Ok. Review Alterada'
+          '204':
+            description: 'Sem Review para alterar'
+          '404':
+            description: 'Erro. Produto não existe'
+
+  /reviews/user/{id}/{review_id}/delete:
+    delete:
+      operationId: R307
+      summary: 'R307: Apagar review'
+      description: 'Apagar review. Acesso: SLR, ADM'
+
+      tags:
+        - 'M03: Reviews e Wishlist'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: review_id
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        '200':
+          description: 'Review apagado com sucesso.'
+        '404':
+          description: 'Erro. Review não existe'
+  
+   /reviews/product/{id}/add:
+    post:
+      operationId: R308
+      summary: 'R308: Adicionar review'
+      description: 'Editar a review. Acesso: CLT'
 
       tags:
         - 'M03: Reviews e Wishlist'
@@ -617,11 +687,54 @@ paths:
             description: 'Sem Review para alterar'
           '404':
             description: 'Erro. Produto não existe'
+          
+  /reviews/product/{id}/{review_id}/edit:
+    patch:
+      operationId: R309
+      summary: 'R309: Editar review'
+      description: 'Editar a review. Acesso: CLT, ADM'
+
+      tags:
+        - 'M03: Reviews e Wishlist'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: review_id
+          schema:
+            type: integer
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+                type: object
+                properties:
+                  rating:     
+                    type: integer
+                  comment:      
+                    type: string
+                required:
+                  - rating
+
+        responses:
+          '200':
+            description: 'Ok. Review Alterada'
+          '204':
+            description: 'Sem Review para alterar'
+          '404':
+            description: 'Erro. Produto não existe'
              
-  /reviews/product/{id}/delete:
+  /reviews/product/{id}/{riview_id}/delete:
     delete:
-      operationId: R307
-      summary: 'R307: Apagar review'
+      operationId: R310
+      summary: 'R310: Apagar review'
       description: 'Apagar review. Acesso: CLT, SLR, ADM'
 
       tags:
@@ -630,6 +743,11 @@ paths:
       parameters:
         - in: path
           name: id
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: review_id
           schema:
             type: integer
           required: true
@@ -642,8 +760,8 @@ paths:
 
   /reviews/product/{id}:
     get:
-      operationId: R308
-      summary: 'R308: Review de um produto'
+      operationId: R311
+      summary: 'R311: Review de um produto'
       description: 'Ver review de um produto. Acesso: GST'
 
       tags:
