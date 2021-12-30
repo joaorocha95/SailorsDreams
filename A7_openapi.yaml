@@ -896,22 +896,28 @@ paths:
     get:
       operationId: R501
       summary: 'R501: Página de Mensagens'
-      description: 'Página de Mensagens. Acesso: XXX'
+      description: 'Página de Mensagens. Acesso: USR'
       tags:
         - 'M05: Area de Mensagens'
       responses:
         '200':
           description: 'Ok. Mostrar mensagens'
-        '404':
-            description: 'Erro. Não existem mensagens'
 
   /messages/{id}:
     get:
       operationId: R502
       summary: 'R502: Página de Mensagem'
-      description: 'Página de Mensagem. Acesso: XXX'
+      description: 'Página de Mensagem. Acesso: USR'
       tags:
         - 'M05: Area de Mensagens'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true  
+
       responses:
         '200':
           description: 'Ok. Mostrar mensagem'
@@ -922,7 +928,7 @@ paths:
     post:
       operationId: R503
       summary: 'R503: Mandar mensagem'
-      description: 'Mandar mensagem. Acesso: XXX'
+      description: 'Mandar mensagem. Acesso: USR'
       tags:
         - 'M05: Area de Mensagens'
 
@@ -933,8 +939,6 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  type: integer
                 message_type:
                   type: enum
                 associated_order:
@@ -946,7 +950,6 @@ paths:
                 date:
                   type: date
               required:
-                - id
                 - message_type
                 - associated_order
                 - associated_ticket
@@ -972,22 +975,28 @@ paths:
     get:
       operationId: R504
       summary: 'R504: Página de Tickets'
-      description: 'Página de Tickets. Acesso: XXX'
+      description: 'Página de Tickets. Acesso: USR, SUP'
       tags:
         - 'M05: Area de Mensagens'
       responses:
         '200':
           description: 'Ok. Mostrar tickets'
-        '404':
-            description: 'Erro. Não existem tickets'
 
   /tickets/{id}:
     get:
       operationId: R505
       summary: 'R505: Página de Ticket'
-      description: 'Página de Ticket. Acesso: XXX'
+      description: 'Página de Ticket. Acesso: USR, SUP'
       tags:
         - 'M05: Area de Mensagens'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true  
+
       responses:
         '200':
           description: 'Ok. Mostrar ticket'
@@ -998,7 +1007,7 @@ paths:
     post:
       operationId: R506
       summary: 'R506: Criar ticket'
-      description: 'Criar ticket. Acesso: XXX'
+      description: 'Criar ticket. Acesso: USR'
       tags:
         - 'M05: Area de Mensagens'
 
@@ -1009,18 +1018,12 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  type: integer
                 userid:
-                  type: integer
-                support:
                   type: integer
                 title:
                   type: string
               required:
-                - id
                 - userid
-                - support
                 - title
       
       responses:
