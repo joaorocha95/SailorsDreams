@@ -628,13 +628,13 @@ paths:
                 required:
                   - rating
 
-        responses:
-          '200':
-            description: 'Ok. Review Alterada'
-          '204':
-            description: 'Sem Review para alterar'
-          '404':
-            description: 'Erro. Produto não existe'
+      responses:
+        '200':
+          description: 'Ok. Review Alterada'
+        '204':
+          description: 'Sem Review para alterar'
+        '404':
+          description: 'Erro. Produto não existe'
 
   /reviews/user/{id}/{review_id}/delete:
     delete:
