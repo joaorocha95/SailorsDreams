@@ -1351,7 +1351,7 @@ paths:
     post:
       operationId: R712
       summary: 'R712: Submete o forms de "Seller Applications".'
-      description: 'Submete o forms de "Seller Applications". Acesso USR'
+      description: 'Submete o forms de "Seller Applications". Acesso: USR'
       tags:
         - 'M07: Área de Gestão'
         
