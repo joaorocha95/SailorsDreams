@@ -341,6 +341,10 @@ paths:
                     type: real
                   pricePerDay: 
                     type: real
+                  category:
+                    type: array
+                    items:
+                      type: string
                 required:
                       - productname
                       - seller
