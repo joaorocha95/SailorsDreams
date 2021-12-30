@@ -735,7 +735,7 @@ paths:
     delete:
       operationId: R310
       summary: 'R310: Apagar review'
-      description: 'Apagar review. Acesso: CLT, SLR, ADM'
+      description: 'Apagar review. Acesso: CLT, ADM'
 
       tags:
         - 'M03: Reviews e Wishlist'
@@ -824,33 +824,13 @@ paths:
       tags:
         - 'M04: Pedidos'
 
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                product:
-                  type: integer
-                client:
-                  type: integer
-                order_status:
-                  type: string
-                order_type:
-                  type: string
-                loan_start:
-                  type: date
-                loan_end:
-                  type: date  
-                total_price:
-                  type: real    
-              required:
-                - id
-                - order_status
-    
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
       responses:
         '200':
           description: 'Ok. Pedido cancelado'
@@ -861,13 +841,20 @@ paths:
         '404':
           description: 'Erro. Pedido não existe'
   
-  /orders/{id}/updateStatus:
+  /orders/{id}/edit:
     patch:
       operationId: R404
       summary: 'R404: Atualizar estado de pedido'
-      description: 'Atualizar estado de pedido. Acesso: CLT'
+      description: 'Atualizar estado de pedido. Acesso: SLR, ADM'
       tags:
         - 'M04: Pedidos'
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true  
 
       requestBody:
         required: true
@@ -876,8 +863,6 @@ paths:
             schema:
               type: object
               properties:
-                id:
-                  type: integer
                 product:
                   type: integer
                 client:
@@ -893,7 +878,6 @@ paths:
                 total_price:
                   type: real    
               required:
-                - id
                 - order_status
       
       responses:
