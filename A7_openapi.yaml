@@ -317,13 +317,6 @@ paths:
       tags:
         - 'M02: Produtos e Categorias'
       
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-      
       requestBody:
         required: true
         content:
@@ -508,19 +501,16 @@ paths:
         - 'M03: Reviews e Wishlist'
         
       requestBody:
-      required: true
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            type: object
-            properties:
-              userId:          
-                type: integer
-              productId:          
-                type: integer
-            required:
-              - userId
-              - productId
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                productId:          
+                  type: integer
+              required:
+                - productId
 
       responses:
         '200':
