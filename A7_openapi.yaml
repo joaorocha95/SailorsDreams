@@ -534,12 +534,9 @@ paths:
             schema:
               type: object
               properties:
-                userId:          
-                  type: integer
                 productId:          
                   type: integer
               required:
-                - userId
                 - productId
 
       responses:
