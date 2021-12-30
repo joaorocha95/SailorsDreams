@@ -1049,7 +1049,7 @@ paths:
     get:
       operationId: R601
       summary: 'R601: Página de FAQ'
-      description: 'Página com as perguntas mais frequentes'
+      description: 'Página com as perguntas mais frequentes Acesso: GST'
       tags:
         - 'M06: Administração de utilizador e paginas estáticas'
       responses:
@@ -1059,8 +1059,8 @@ paths:
   /about:
     get:
       operationId: R602
-      summary: 'R602: Pagina About Us'
-      description: 'Página com um Informação sobre os criadores do site. Acessoo: GST'
+      summary: 'R602: Página About Us'
+      description: 'Página com um Informação sobre os criadores do site. Acesso: GST'
       tags:
         - 'M06: Administração de utilizador e paginas estáticas'
       responses:
@@ -1130,27 +1130,25 @@ paths:
             schema:
               type: object
               properties:
-                product_id:      
-                  type: integer
                 name:
                   type: string
               required:
                 - name
 
-        responses:
-          '302':
-            description: 'Redireciona depois de processar os dados da nova categoria.'
-            headers:
-              Location:
-                schema:
-                  type: string
-                examples:
-                  302Success:
-                    description: 'Adicionada com sucesso. Redireciona para a página de categoria.'
-                    value: '/categories/{category}'
-                  302Error:
-                    description: 'Falha ao adicionar nova categoria. Redireciona de volta para a pagina de categorias.'
-                    value: '/categories'
+      responses:
+        '302':
+          description: 'Redireciona depois de processar os dados da nova categoria.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Adicionada com sucesso. Redireciona para a página de categoria.'
+                  value: '/categories/{category}'
+                302Error:
+                  description: 'Falha ao adicionar nova categoria. Redireciona de volta para a pagina de categorias.'
+                  value: '/categories'
 
   /admin/categories/{category}/delete:
     delete:
@@ -1160,6 +1158,13 @@ paths:
       tags:
         - 'M07: Área de Gestão'
 
+      parameters:
+          - in: path
+            name: category
+            schema:
+              type: integer
+            required: true
+
       requestBody:
         required: true
         content:
@@ -1167,19 +1172,16 @@ paths:
             schema:
               type: object
               properties:
-                product_id:      
-                  type: integer
                 name:
                   type: string
               required:
-                - product_id
                 - name
 
-        responses:
-          '200':
-            description: 'Categoria apagado com sucesso.'
-          '404':
-            description: 'Erro. Categoria não existe'
+      responses:
+        '200':
+          description: 'Categoria apagado com sucesso.'
+        '404':
+          description: 'Erro. Categoria não existe'
 
   /admin/categories/{category}/edit:
     patch:
@@ -1189,6 +1191,13 @@ paths:
       tags:
         - 'M07: Área de Gestão'
 
+      parameters:
+          - in: path
+            name: category
+            schema:
+              type: integer
+            required: true
+
       requestBody:
         required: true
         content:
@@ -1196,12 +1205,9 @@ paths:
             schema:
               type: object
               properties:
-                product_id:      
-                  type: integer
                 name:
                   type: string
               required:
-                - product_id
                 - name
 
       responses:
@@ -1214,8 +1220,8 @@ paths:
 
   /admin/accounts:
     get:
-        operationId: R712
-        summary: 'R712: Pagina de Contas registadas'
+        operationId: R707
+        summary: 'R707: Pagina de Contas registadas'
         description: 'Mostra todas as contas registadas na plataforma. Acesso: ADM'
         tags:
           - 'M07: Área de Gestão'
@@ -1226,15 +1232,15 @@ paths:
 
   /admin/accounts/{id}:
     get:
-        operationId: R713
-        summary: 'R713: Pagina de uma conta'
+        operationId: R708
+        summary: 'R708: Pagina de uma conta'
         description: 'Mostra a página de uma dada conta. Acesso: ADM'
         tags:
           - 'M07: Área de Gestão'
 
         parameters:
           - in: path
-            name: category
+            name: id
             schema:
               type: integer
             required: true
@@ -1247,11 +1253,18 @@ paths:
 
   /admin/accounts/{id}/ban:
     patch:
-      operationId: R714
-      summary: 'R714: Banir uma conta'
+      operationId: R709
+      summary: 'R709: Banir uma conta'
       description: 'Procede com a suspensão da atividade de uma conta. Acesso: ADM'
       tags:
         - 'M07: Área de Gestão'
+
+      parameters:
+          - in: path
+            name: id
+            schema:
+              type: integer
+            required: true
 
       requestBody:
         required: true
@@ -1260,26 +1273,9 @@ paths:
             schema:
               type: object
               properties:
-                id:      
-                  type: integer
-                username:      
-                  type: string
-                email:      
-                  type: string
-                birthDate:      
-                  type: date
-                password:      
-                  type: string
                 banned:      
                   type: boolean
-                accType:
-                  type: enum
-                img:
-                  type: string
-                phone:
-                  type: integer
               required:
-                - id
                 - banned
 
       responses:
@@ -1292,11 +1288,18 @@ paths:
 
   /admin/accounts/{id}/unban:
     patch:
-      operationId: R715
-      summary: 'R715: Reativar uma conta banida'
+      operationId: R710
+      summary: 'R710: Reativar uma conta banida'
       description: 'Procede com a reativação da atividade de uma conta banida. Acesso: ADM'
       tags:
         - 'M07: Área de Gestão'
+
+      parameters:
+          - in: path
+            name: id
+            schema:
+              type: integer
+            required: true
 
       requestBody:
         required: true
@@ -1305,26 +1308,9 @@ paths:
             schema:
               type: object
               properties:
-                id:      
-                  type: integer
-                username:      
-                  type: string
-                email:      
-                  type: string
-                birthDate:      
-                  type: date
-                password:      
-                  type: string
                 banned:      
                   type: boolean
-                accType:
-                  type: enum
-                img:
-                  type: string
-                phone:
-                  type: integer
               required:
-                - id
                 - banned
 
       responses:
@@ -1337,21 +1323,11 @@ paths:
 
   /applications:
     get:
-      operationId: R716
-      summary: 'R716: Página de "Seller Applications"'
+      operationId: R711
+      summary: 'R711: Página de "Seller Applications"'
       description: 'Mostra a Página com a informação relativa à "Seller Application" e com o Forms de aplicação. Acesso: USR, ADM'
       tags:
         - 'M07: Área de Gestão'
-      
-      requestBody:
-        required: false
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
 
       responses:
         '200':
@@ -1360,11 +1336,12 @@ paths:
 
   /applications/submit:
     post:
-      operationId: R717
-      summary: 'R717: Submete o forms de "Seller Applications". Acesso USR'
-      description:
+      operationId: R712
+      summary: 'R712: Submete o forms de "Seller Applications".'
+      description: 'Submete o forms de "Seller Applications". Acesso USR'
       tags:
         - 'M07: Área de Gestão'
+        
       requestBody:
         required: true
         content:
@@ -1382,22 +1359,38 @@ paths:
 
   /applications/{id}:
     get:
-      operationId: R718
-      summary: 'R718: Pagina de candidatura'
+      operationId: R713
+      summary: 'R713: Pagina de candidatura'
       description: 'Mostra ao administrador a aplicação com um dado id: Acesso: ADM'
       tags:
       - 'M07: Área de Gestão'
+
+      parameters:
+          - in: path
+            name: id
+            schema:
+              type: integer
+            required: true
+
       responses:
         '200':
           description: 'Ok. Mostrar o UI da Candidatura'
 
   /applications/{id}/accept:
     get:
-      operationId: R719
-      summary: 'R719: Validação de candidatura'
+      operationId: R714
+      summary: 'R714: Validação de candidatura'
       description: 'Valida a candidatura com um dado id tornando assim o utilizador a ela associado num Seller. Acesso: ADM'
       tags:
       - 'M07: Área de Gestão'
+
+      parameters:
+          - in: path
+            name: id
+            schema:
+              type: integer
+            required: true
+
       responses:
         '200':
           description: 'Ok. Candidatura Validada'
@@ -1405,11 +1398,19 @@ paths:
 
   /applications/{id}/reject:
     get:
-      operationId: R720
-      summary: 'R720: Rejeição de Candidatura'
+      operationId: R715
+      summary: 'R715: Rejeição de Candidatura'
       description: 'Rejeita a candidatura com um dado id. Acesso: ADM'
       tags:
       - 'M07: Área de Gestão'
+
+      parameters:
+          - in: path
+            name: id
+            schema:
+              type: integer
+            required: true
+
       responses:
         '200':
           description: 'Ok. Candidatura Rejeitada'
