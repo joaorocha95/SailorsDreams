@@ -731,7 +731,7 @@ paths:
           '404':
             description: 'Erro. Produto não existe'
              
-  /reviews/product/{id}/{riview_id}/delete:
+  /reviews/product/{id}/{review_id}/delete:
     delete:
       operationId: R310
       summary: 'R310: Apagar review'
