@@ -844,8 +844,8 @@ paths:
   /orders/{id}/edit:
     patch:
       operationId: R404
-      summary: 'R404: Atualizar estado de pedido'
-      description: 'Atualizar estado de pedido. Acesso: SLR, ADM'
+      summary: 'R404: Editar o pedido'
+      description: 'Editar o pedido. Acesso: SLR, ADM'
       tags:
         - 'M04: Pedidos'
         
