@@ -650,7 +650,7 @@ paths:
         '404':
           description: 'Erro. Review não existe'
   
-   /reviews/product/{id}/add:
+  /reviews/product/{id}/add:
     post:
       operationId: R308
       summary: 'R308: Adicionar review'
