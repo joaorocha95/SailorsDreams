@@ -1365,6 +1365,10 @@ paths:
                 - id
                 - application
 
+      responses:
+        '302':
+          description: 'Redireciona para a página de candidaturas'
+
   /applications/{id}:
     get:
       operationId: R713
