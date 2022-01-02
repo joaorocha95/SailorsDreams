@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Users (
    email TEXT NOT NULL UNIQUE,
    birthDate DATE NOT NULL,
    password TEXT NOT NULL,
-   banned BOOLEAN NOT NULL,
+   banned BOOLEAN NOT NULL DEFAULT FALSE,
    accType lbaw2182.accType NOT NULL DEFAULT 'User',
    img TEXT,
    phone INTEGER NOT NULL UNIQUE
