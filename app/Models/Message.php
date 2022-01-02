@@ -10,7 +10,7 @@ class Message extends Model
     use HasFactory;
 
 
-    public function message(){return $this->belongsTo('App\Models\Message');}
+    public function ticketAssociated(){return $this->belongsTo('App\Models\Ticket');}
 
     public function writenBy(){return $this->belongsTo('App\Models\User');}
 
