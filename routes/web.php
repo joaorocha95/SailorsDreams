@@ -13,6 +13,8 @@
 // Home
 Route::get('/', 'Auth\LoginController@home');
 
+//test
+
 // Cards
 Route::get('cards', 'CardController@list');
 Route::get('cards/{id}', 'CardController@show');
