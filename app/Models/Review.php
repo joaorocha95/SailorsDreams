@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
+
+    public function owner(){return $this->belongsTo('App\Models\User');}
+
+    public function aboutUser(){return $this->belongsTo('App\Models\User');}
+
+    public function aboutOrder(){return $this->belongsTo('App\Models\Order');}
 }
+
+
