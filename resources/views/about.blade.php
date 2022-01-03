@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>About</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>About</title>
 
-        <!-- Styles -->
-        <style>
-        </style>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-        <style>
-            body {
-                font-family: 'Nunito', sans-serif;
-                background-color: #343434;
-                color: #B9B9B9;
-            }
-        </style>
-    </head>
-    <body class="antialiased">
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            ABOUT
-        </div>
-    </body>
+    <!-- Styles -->
+    <style>
+        html {
+            font-family: 'Nunito', sans-serif;
+            background-color: #343434;
+            color: #B9B9B9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body class="container mt-5 pt-5">
+    <h2 class="display-3">About</h2>
+</body>
+
 </html>
-
