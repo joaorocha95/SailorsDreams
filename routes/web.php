@@ -61,8 +61,8 @@ Route::post('/tickets/new', 'TicketController@createTicket');
 
 
 //Administração de utilizador e paginas estáticas - M06
-Route::get('/faqs', function(){
-    return view('pages.faqs');
+Route::get('/faq', function(){
+    return view('pages.faq');
 });
 
 Route::get('/about', function(){

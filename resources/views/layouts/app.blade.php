@@ -13,6 +13,16 @@
     <!-- Styles -->
     <link href="{{ asset('css/milligram.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+      body {
+          font-family: 'Nunito', sans-serif;
+          background-color: #343434;
+          color: #B9B9B9;
+      }
+    </style>
+
     <script type="text/javascript">
         // Fix for Firefox autofocus CSS bug
         // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
@@ -20,10 +30,10 @@
     <script type="text/javascript" src={{ asset('js/app.js') }} defer>
 </script>
   </head>
-  <body>
-    <main>
+  <body class="antialiased">
+    <main class="relative flex items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
       <header>
-        <h1><a href="{{ url('/cards') }}">Thingy!</a></h1>
+        <h1><a href="{{ url('/cards') }}">Sailor's Dream</a></h1>
         @if (Auth::check())
         <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
         @endif
