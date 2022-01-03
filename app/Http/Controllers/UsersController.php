@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Users;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
-class UsersController extends Controller
-{
+class UsersController extends Controller {
+
+    /**
+     * Returns a specific User based on its E-mail
+     * 
+     * @return User
+     */
+    public function getUser(){
+        $users = self::all();
+        error_log("Uma possivel lista de users: ".$users);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,7 +42,12 @@ class UsersController extends Controller
         $user->username = $request->input('username');
         $user->email = $request->input('email');
         $user->birthdate = $request->input('birthdate');
-        $user->password = $request->input('password');
+        
+        $password = $request->input('password');
+        /*error_log($password);
+        $password = Hash::make($password);
+        error_log($password);*/
+        $user->password = $password;
         $user->phone = $request->input('phone');
         error_log($user);
         
@@ -95,4 +111,5 @@ class UsersController extends Controller
 
         return $user;
     }
+
 }

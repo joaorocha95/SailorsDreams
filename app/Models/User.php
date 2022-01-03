@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Http\Controllers\UsersController;
 
-class Users extends Authenticatable{
+class User extends Authenticatable{
   
   use Notifiable;
   // Don't add create and update timestamps in database.
