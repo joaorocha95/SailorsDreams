@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/Order';
 
     /**
      * Create a new controller instance.
@@ -54,16 +54,23 @@ class RegisterController extends Controller
         ]);
     }
 
+    public function register(){
+        echo "coisa1";
+        return void; 
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
-    {
+    public function create(array $data){
+        \Log::info($data);
         return User::create([
-            'name' => $data['name'],
+            'username' => $data['username'],
+            'birthdate' => $data['birthdate'],
+            'phone' => $data['phone'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);

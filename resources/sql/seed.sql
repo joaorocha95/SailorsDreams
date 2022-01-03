@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Users (
 --psql --host=db --username=postgres --dbname=gitlab -f BD.sql
 CREATE TABLE IF NOT EXISTS lbaw2182.Product (
    id SERIAL PRIMARY KEY,
-   seller INTEGER REFERENCES lbaw2182.Users (id) ON DELETE CASCADE,
+   seller INTEGER REFERENCES lbaw2182.users (id) ON DELETE CASCADE,
    productname TEXT NOT NULL,
    description TEXT NOT NULL,
    active BOOLEAN DEFAULT FALSE,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Product (
 CREATE TABLE IF NOT EXISTS lbaw2182.Order (
    id SERIAL PRIMARY KEY,
    product INTEGER REFERENCES lbaw2182.Product (id) ON DELETE CASCADE,
-   client INTEGER REFERENCES lbaw2182.Users (id) ON UPDATE CASCADE,
+   client INTEGER REFERENCES lbaw2182.users (id) ON UPDATE CASCADE,
    order_status lbaw2182.order_status NOT NULL DEFAULT 'In_Negotiation',
    order_type lbaw2182.order_type NOT NULL,
    loan_start Date,
@@ -59,8 +59,8 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Order (
 CREATE TABLE IF NOT EXISTS lbaw2182.Review (
    id SERIAL PRIMARY KEY,
    orderid INTEGER REFERENCES lbaw2182.Order (id) ON DELETE CASCADE,
-   to_user INTEGER REFERENCES lbaw2182.Users (id) ON DELETE CASCADE,
-   from_user INTEGER REFERENCES lbaw2182.Users (id) ON UPDATE CASCADE,
+   to_user INTEGER REFERENCES lbaw2182.users (id) ON DELETE CASCADE,
+   from_user INTEGER REFERENCES lbaw2182.users (id) ON UPDATE CASCADE,
    rating INTEGER NOT NULL,
    comment TEXT,
    review_date DATE DEFAULT now() NOT NULL
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Review (
 );
 
 CREATE TABLE IF NOT EXISTS lbaw2182.Addresses(
-   userid INTEGER REFERENCES lbaw2182.Users (id) ON DELETE CASCADE ON UPDATE CASCADE,
+   userid INTEGER REFERENCES lbaw2182.users (id) ON DELETE CASCADE ON UPDATE CASCADE,
    addr TEXT NOT NULL,
    city TEXT NOT NULL,
    country TEXT NOT NULL, 
@@ -83,8 +83,8 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Category (
 
 CREATE TABLE IF NOT EXISTS lbaw2182.Ticket (
    id SERIAL PRIMARY KEY,
-   userid INTEGER REFERENCES lbaw2182.Users (id) ON UPDATE CASCADE ON DELETE CASCADE,
-   support INTEGER REFERENCES lbaw2182.Users (id) ON UPDATE CASCADE,
+   userid INTEGER REFERENCES lbaw2182.users (id) ON UPDATE CASCADE ON DELETE CASCADE,
+   support INTEGER REFERENCES lbaw2182.users (id) ON UPDATE CASCADE,
    title TEXT NOT NULL
 );
 
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Message (
 );
 
 CREATE TABLE IF NOT EXISTS lbaw2182.Wishlist (
-   userid INTEGER NOT NULL REFERENCES lbaw2182.Users (id) ON UPDATE CASCADE,
+   userid INTEGER NOT NULL REFERENCES lbaw2182.users (id) ON UPDATE CASCADE,
    product INTEGER NOT NULL REFERENCES lbaw2182.Product (id) ON UPDATE CASCADE,
    PRIMARY KEY (userid, product)
 );
@@ -116,7 +116,7 @@ $$BEGIN
 END;$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER anonymize_reviews_on_delete
-    BEFORE DELETE ON lbaw2182.Users FOR EACH ROW
+    BEFORE DELETE ON lbaw2182.users FOR EACH ROW
     EXECUTE PROCEDURE lbaw2182.anonymize_reviews();
 
 
@@ -132,7 +132,7 @@ $$BEGIN
 END;$$ LANGUAGE plpgsql;
 
 CREATE TRIGGER remove_user_products
-    BEFORE DELETE ON lbaw2182.Users FOR EACH ROW
+    BEFORE DELETE ON lbaw2182.users FOR EACH ROW
     EXECUTE PROCEDURE lbaw2182.remove_products();
 
 
@@ -252,9 +252,9 @@ $$BEGIN
     IF NOT EXISTS
     (
         SELECT *
-        FROM lbaw2182.Users
-        WHERE NEW.seller = lbaw2182.Users.id
-        AND lbaw2182.Users.accType = 'Seller'
+        FROM lbaw2182.users
+        WHERE NEW.seller = lbaw2182.users.id
+        AND lbaw2182.users.accType = 'Seller'
     )
     THEN
     RAISE EXCEPTION 'Only a Seller can Sell Products.';
@@ -274,16 +274,16 @@ CREATE TRIGGER check_seller_account
 -----------------------------------
 --  	User Inserts
 -----------------------------------
-INSERT INTO lbaw2182.Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (1,'Thermed','admin@sailorsdream.com','1946-02-13','UTaxe6fieH',FALSE, 'Admin', '', 212288151);
-INSERT INTO lbaw2182.Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (2,'Selinglese','selinglese@sailorsdream.com','1945-07-18','ohr7ieg2L',FALSE,'Support', '', 212725182);
-INSERT INTO lbaw2182.Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (3,'Whanterrene','jemtally83@gmail.com','1956-04-13','OFK00XCC7OD',FALSE, 'Client', '', 212847851);
-INSERT INTO lbaw2182.Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (4,'Catelleaden1969','najagreen12@gmail.com','1977-08-19','ieSh2riil',FALSE, 'User', '', 212722946);
-INSERT INTO lbaw2182.Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (5,'Faidelper','kadenn2001@gmail.com','1984-02-12','ohGh3uuG0ei',TRUE, 'User', '', 212735614);
-INSERT INTO lbaw2182.Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (6,'Sathereend','sunelliot17@gmail.com','1995-12-13','woh2be6Auph1',TRUE,'Seller', '', 212735615);
-INSERT INTO lbaw2182.Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (7,'Whimpappered52','kaydenstark1952@gmail.com','1956-11-30','sheiJuot3phai',FALSE, 'Client', '', 212441165);
-INSERT INTO lbaw2182.Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (8,'Difeentle','difeentle@sailorsdream.com','1966-06-17','PZJ77DKO2VZ',FALSE, 'Support', '', 212655776);
-INSERT INTO lbaw2182.Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (9,'Painged','paigestew1971@gmail.com','1969-09-19','SahWai0Ie',FALSE, 'Seller', '', 212344626);
-INSERT INTO lbaw2182.Users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (10,'Eneive','mcdonaldgrey@gmail.com','1995-05-16','eeNgeiHi5',FALSE, 'Client', '', 212349594);
+INSERT INTO lbaw2182.users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (1,'Thermed','admin@sailorsdream.com','1946-02-13','UTaxe6fieH',FALSE, 'Admin', '', 212288151);
+INSERT INTO lbaw2182.users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (2,'Selinglese','selinglese@sailorsdream.com','1945-07-18','ohr7ieg2L',FALSE,'Support', '', 212725182);
+INSERT INTO lbaw2182.users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (3,'Whanterrene','jemtally83@gmail.com','1956-04-13','OFK00XCC7OD',FALSE, 'Client', '', 212847851);
+INSERT INTO lbaw2182.users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (4,'Catelleaden1969','najagreen12@gmail.com','1977-08-19','ieSh2riil',FALSE, 'User', '', 212722946);
+INSERT INTO lbaw2182.users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (5,'Faidelper','kadenn2001@gmail.com','1984-02-12','ohGh3uuG0ei',TRUE, 'User', '', 212735614);
+INSERT INTO lbaw2182.users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (6,'Sathereend','sunelliot17@gmail.com','1995-12-13','woh2be6Auph1',TRUE,'Seller', '', 212735615);
+INSERT INTO lbaw2182.users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (7,'Whimpappered52','kaydenstark1952@gmail.com','1956-11-30','sheiJuot3phai',FALSE, 'Client', '', 212441165);
+INSERT INTO lbaw2182.users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (8,'Difeentle','difeentle@sailorsdream.com','1966-06-17','PZJ77DKO2VZ',FALSE, 'Support', '', 212655776);
+INSERT INTO lbaw2182.users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (9,'Painged','paigestew1971@gmail.com','1969-09-19','SahWai0Ie',FALSE, 'Seller', '', 212344626);
+INSERT INTO lbaw2182.users (id,username,email,birthDate,password,banned,accType,img,phone) VALUES (10,'Eneive','mcdonaldgrey@gmail.com','1995-05-16','eeNgeiHi5',FALSE, 'Client', '', 212349594);
 
 -----------------------------------
 --  	Product Inserts

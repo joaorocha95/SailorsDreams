@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable{
+class Users extends Authenticatable{
   
   use Notifiable;
   // Don't add create and update timestamps in database.
@@ -17,7 +17,7 @@ class User extends Authenticatable{
    * @var array
    */
   protected $fillable = [
-      'username', 'email', 'password'
+      'username', 'email', 'password', 'birthDate', 'phone'
   ];
 
   /**

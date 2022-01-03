@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Users;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,19 +25,22 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $birthDate, $banned, $accType, $img)
-    {
-        $user = new User();
-
-        $this->authorize('create', $user);
+    public function create(Request $request)
+    {   
+        error_log("AQUI");
+        //error_log($request->input('username'));
+        $user = new Users();
+        $user->username = $request->input('username');
+        
+        //$this->authorize('create', $user);
+        $user->id = 13;
         $user->username = $request->input('username');
         $user->email = $request->input('email');
-        $user->birthDate = $birthDate;
+        $user->birthdate = $request->input('birthdate');
         $user->password = $request->input('password');
-        $user->banned = $banned;
-        $user->accType = $accType;
-        $user->img = $img;
         $user->phone = $request->input('phone');
+        error_log($user);
+        
         $user->save();
 
         return $user;

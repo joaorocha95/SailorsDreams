@@ -11,15 +11,15 @@
 |
 */
 
-use App\Http\Controller\Address;
-use App\Http\Controller\Category;
-use App\Http\Controller\Message;
-use App\Http\Controller\Order;
-use App\Http\Controller\Product;
-use App\Http\Controller\Review;
-use App\Http\Controller\Ticket;
-use App\Http\Controller\User;
-use App\Http\Controller\Wishlist;
+use App\Http\Controller\AddressController;
+use App\Http\Controller\CategoryController;
+use App\Http\Controller\MessageController;
+use App\Http\Controller\OrderController;
+use App\Http\Controller\ProductController;
+use App\Http\Controller\ReviewController;
+use App\Http\Controller\TicketController;
+use App\Http\Controller\UserController;
+use App\Http\Controller\WishlistController;
 
 
 // Home
@@ -30,7 +30,12 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-Route::post('register', 'Auth\RegisterController@register');
+//Route::post('register', 'Auth\RegisterController@Register');
+/*
+Route::post('register', function(){
+    
+});*/
+Route::post('register', 'UsersController@create');
 
 //Users - M01
 Route::get('/users/{id}', 'UserController@show');

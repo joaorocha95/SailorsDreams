@@ -11,7 +11,15 @@
           {{ $errors->first('username') }}
       </span>
     @endif
-    
+
+    <label for="email">E-Mail Address</label>
+    <input id="email" type="email" name="email" value="{{ old('email') }}" required>
+    @if ($errors->has('email'))
+      <span class="error">
+          {{ $errors->first('email') }}
+      </span>
+    @endif
+
     <label for="birthdate">Birth Date</label>
     <input id="birthdate" type="date" name="birthdate" value="{{ old('birthdate') }}" required autofocus>
     @if ($errors->has('birthdate'))
@@ -19,22 +27,13 @@
           {{ $errors->first('birthdate') }}
       </span>
     @endif
-
-    
-    <label for="name">Name</label>
-    <input id="name" type="text" name="username" value="{{ old('name') }}" required autofocus>
-    @if ($errors->has('name'))
-      <span class="error">
-          {{ $errors->first('name') }}
-      </span>
-    @endif
     
 
-    <label for="email">E-Mail Address</label>
-    <input id="email" type="email" name="email" value="{{ old('email') }}" required>
-    @if ($errors->has('email'))
+    <label for="phone">Phone Number</label>
+    <input id="phone" type="integer" name="phone" value="{{ old('phone') }}" required autofocus>
+    @if ($errors->has('phone'))
       <span class="error">
-          {{ $errors->first('email') }}
+          {{ $errors->first('phone') }}
       </span>
     @endif
 
