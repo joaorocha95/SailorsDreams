@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model{
     use HasFactory;
 
-    public function ownedBy(){return $this->belongsTo('App\Models\User');}
+    public function ownedBy(){return $this->belongsTo('App\Models\Users');}
 
     public function inCategory(){return $this->belongsToMany('App\Models\Category');}
 

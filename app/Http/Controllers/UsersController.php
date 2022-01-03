@@ -15,7 +15,7 @@ class UsersController extends Controller
     public function index()
     {
         if (!Auth::check()) return redirect('/login');
-        $this->authorize('list', User::class);
+        $this->authorize('list', Users::class);
         $users = Auth::user()->users()->orderBy('id')->get();
         return view('pages.users', ['users' => $users]);
     }
@@ -27,13 +27,7 @@ class UsersController extends Controller
      */
     public function create(Request $request)
     {   
-        error_log("AQUI");
-        //error_log($request->input('username'));
-        $user = new Users();
-        $user->username = $request->input('username');
-        
-        //$this->authorize('create', $user);
-        $user->id = 13;
+        $user = new Users();     
         $user->username = $request->input('username');
         $user->email = $request->input('email');
         $user->birthdate = $request->input('birthdate');
@@ -55,7 +49,7 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
+        $user = Users::find($id);
         $this->authorize('show', $user);
         return view('pages.user', ['user' => $user]);
     }
@@ -70,7 +64,7 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id, $birthDate, $banned, $accType, $img)
     {
-        $user = User::find($id);
+        $user = Users::find($id);
         
         $this->authorize('update', $user);
         $user->username = $request->input('username');
@@ -94,7 +88,7 @@ class UsersController extends Controller
      */
     public function delete($id)
     {
-        $user = User::find($id);
+        $user = Users::find($id);
 
         $this->authorize('delete', $user);
         $user->delete();

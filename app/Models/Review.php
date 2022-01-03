@@ -9,9 +9,9 @@ class Review extends Model
 {
     use HasFactory;
 
-    public function writer(){return $this->belongsTo('App\Models\User');}
+    public function writer(){return $this->belongsTo('App\Models\Users');}
 
-    public function aboutUser(){return $this->belongsTo('App\Models\User');}
+    public function aboutUser(){return $this->belongsTo('App\Models\Users');}
 
     public function aboutOrder(){return $this->belongsTo('App\Models\Order');}
 }

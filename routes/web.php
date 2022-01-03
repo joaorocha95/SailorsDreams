@@ -11,17 +11,6 @@
 |
 */
 
-use App\Http\Controller\AddressController;
-use App\Http\Controller\CategoryController;
-use App\Http\Controller\MessageController;
-use App\Http\Controller\OrderController;
-use App\Http\Controller\ProductController;
-use App\Http\Controller\ReviewController;
-use App\Http\Controller\TicketController;
-use App\Http\Controller\UserController;
-use App\Http\Controller\WishlistController;
-
-
 // Home
 Route::get('/', 'Auth\LoginController@home');
 
@@ -30,11 +19,6 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-//Route::post('register', 'Auth\RegisterController@Register');
-/*
-Route::post('register', function(){
-    
-});*/
 Route::post('register', 'UsersController@create');
 
 //Users - M01
@@ -44,8 +28,8 @@ Route::patch('/users/edit', 'UserController@update');
 //Produtos e Categorias - M02
 Route::get('/products', 'ProductController@index');
 Route::get('/products/{id}', 'ProductController@show');
-Route::post('/products/add', 'ProductController@create')->name('/');
-Route::delete('/products/{id}/delete', 'ProductController@delete')->name('/');
+Route::post('/products/add', 'ProductController@create');
+Route::delete('/products/{id}/delete', 'ProductController@delete');
 Route::patch('/products/{id}/edit', 'ProductController@update');
 Route::get('/categories/{category}', 'CategoryController@show');
 Route::get('/categories', 'CategoryController@index');
@@ -79,10 +63,10 @@ Route::post('/tickets/new', 'TicketController@createTicket');
 //Administração de utilizador e paginas estáticas - M06
 Route::get('/faqs', function(){
     return view('pages.faqs');
-})->name('faqs');
+});
 
 Route::get('/about', function(){
-    return view('');
+    return view('about');
 });
 
 
