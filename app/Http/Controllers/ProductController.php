@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Auth;
 
 class ProductController extends Controller
 {
@@ -12,12 +13,14 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        if (!Auth::check()) return redirect('/login');
+    public function index(Request $request){  
+        error_log($request->all());
+        /*if (!Auth::check()) return redirect('/products');
         $this->authorize('list', Product::class);
-        $products = Auth::user()->products()->orderBy('id')->get();
-        return view('pages.products', ['products' => $products]);
+        $products = Auth::products()->orderBy('id')->get();
+        return view('pages.products', ['products' => $products]);*/
+        $products=Product::all();
+        //error_log($products);
     }
 
     /**
