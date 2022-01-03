@@ -9,7 +9,7 @@ class Wishlist extends Model
 {
     use HasFactory;
 
-    public function wishBy(){return $this->belongsTo('App\Models\Users');}
+    public function wishBy(){return $this->belongsTo('App\Models\User');}
 
     public function wishProduct(){return $this->belongsToMany('App\Models\Product');}
 }

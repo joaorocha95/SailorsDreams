@@ -22,8 +22,8 @@ Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('re
 Route::post('register', 'Auth\RegisterController@register');
 
 //Users - M01
-Route::get('/users/{id}', 'UserController@show');
-Route::patch('/users/edit', 'UserController@update');
+Route::get('/user/{id}', 'UserController@show');
+Route::patch('/user/edit', 'UserController@update');
 
 //Produtos e Categorias - M02
 Route::get('/products', 'ProductController@index');

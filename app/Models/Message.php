@@ -12,7 +12,7 @@ class Message extends Model
 
     public function ticketAssociated(){return $this->belongsTo('App\Models\Ticket');}
 
-    public function writenBy(){return $this->belongsTo('App\Models\Users');}
+    public function writenBy(){return $this->belongsTo('App\Models\User');}
 
     public function refersTo(){return $this->belongsTo('App\Models\Order');}
 }

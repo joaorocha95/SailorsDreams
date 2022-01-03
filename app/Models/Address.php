@@ -10,5 +10,5 @@ class Address extends Model{
     /**
      * Varios utilizadores podem ter a mesma morada
      */
-    public function ownedBy(){return $this->belongsToMany('App\Models\Users');}
+    public function ownedBy(){return $this->belongsToMany('App\Models\User');}
 }

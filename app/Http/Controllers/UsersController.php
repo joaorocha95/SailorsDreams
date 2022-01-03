@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Users;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class UsersController extends Controller {
+class UserController extends Controller {
 
     /**
      * Returns a specific User based on its E-mail
@@ -14,8 +14,7 @@ class UsersController extends Controller {
      * @return User
      */
     public function getUser(){
-        $users = self::all();
-        error_log("Uma possivel lista de users: ".$users);
+        
     }
 
     /**
@@ -26,7 +25,7 @@ class UsersController extends Controller {
     public function index()
     {
         if (!Auth::check()) return redirect('/login');
-        $this->authorize('list', Users::class);
+        $this->authorize('list', User::class);
         $users = Auth::user()->users()->orderBy('id')->get();
         return view('pages.users', ['users' => $users]);
     }
@@ -38,7 +37,7 @@ class UsersController extends Controller {
      */
     public function create(Request $request)
     {   
-        $user = new Users();     
+        $user = new User();     
         $user->username = $request->input('username');
         $user->email = $request->input('email');
         $user->birthdate = $request->input('birthdate');
@@ -65,7 +64,7 @@ class UsersController extends Controller {
      */
     public function show($id)
     {
-        $user = Users::find($id);
+        $user = User::find($id);
         $this->authorize('show', $user);
         return view('pages.user', ['user' => $user]);
     }
@@ -80,7 +79,7 @@ class UsersController extends Controller {
      */
     public function update(Request $request, $id, $birthDate, $banned, $accType, $img)
     {
-        $user = Users::find($id);
+        $user = User::find($id);
         
         $this->authorize('update', $user);
         $user->username = $request->input('username');
@@ -104,7 +103,7 @@ class UsersController extends Controller {
      */
     public function delete($id)
     {
-        $user = Users::find($id);
+        $user = User::find($id);
 
         $this->authorize('delete', $user);
         $user->delete();

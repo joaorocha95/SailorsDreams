@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    public function madeBy(){return $this->belongsTo('App\Models\Users');}
+    public function madeBy(){return $this->belongsTo('App\Models\User');}
 
     public function messageAssociated(){return $this->hasMany('App\Models\Message');}
 

@@ -9,7 +9,7 @@ class Ticket extends Model
 {
     use HasFactory;
 
-    public function createdBy(){return $this->belongsTo('App\Models\Users');}
+    public function createdBy(){return $this->belongsTo('App\Models\User');}
 
     public function ticket(){return $this->hasMany('App\Models\Message');}
 
