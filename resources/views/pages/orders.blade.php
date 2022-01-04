@@ -4,14 +4,14 @@
 
 @section('content')
 <style>
-  .biggerProduct {
+  .biggerOrder {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 5px;
   }
 
-  .Product {
+  .Order {
     border-radius: 10px;
     background-color: #4ACBC9;
     width: 100px;
@@ -24,18 +24,18 @@
     margin: 5px;
   }
 
-  .Product:hover {
+  .Order:hover {
     background-color: #8AFCFA;
     width: 105px;
     height: 105px;
   }
 </style>
 
-<section id="products">
-  <div class="biggerProduct">
-    @foreach($products as $product)
-    <a href="{{ route('products.id', ['id' => $product->id]) }}">
-      <div class="Product">{{ $product->productname }}</div>
+<section id="orders">
+  <div class="biggerOrder">
+    @foreach($orders as $order)
+    <a href="{{ route('orders.id', ['id' => $order->id]) }}">
+      <div class="Order">{{ $order->id }}</div>
     </a>
     @endforeach
   </div>

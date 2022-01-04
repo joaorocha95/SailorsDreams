@@ -30,7 +30,11 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return view('products.product', ['product' => $id]);
+        $product = Product::find($id);
+        error_log("-----------------------------------------" . $product);
+        if ($product == null)
+            abort(404);
+        return view('products.product', ["product" => $product]);
     }
 
     /**

@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class UsersController extends Controller
 {
 
     /**
@@ -62,8 +62,10 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        $this->authorize('show', $user);
-        return view('pages.user', ['user' => $user]);
+        error_log("-----------------------------------------" . $user);
+        if ($user == null)
+            abort(404);
+        return view('pages.userprofile', ["userprofile" => $user]);
     }
 
 

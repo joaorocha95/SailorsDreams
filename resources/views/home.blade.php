@@ -19,6 +19,6 @@
     }
 </style>
 
-<h2 class="test">Frequentely Asked Questions</h2>
+<h2 class="test">Home</h2>
 
 @endsection

@@ -14,7 +14,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
 // Home
-Route::get('/', 'Auth\LoginController@home');
+//Route::get('/', 'Auth\LoginController@home');
+Route::get('/', function () {
+    return view('home');
+});
+Route::get('/home', function () {
+    return view('home');
+});
+
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -24,14 +31,13 @@ Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('re
 Route::post('register', 'Auth\RegisterController@register');
 
 //Users - M01
-Route::get('/user/{id}', 'UserController@show');
-Route::patch('/user/edit', 'UserController@update');
+Route::get('/user/{id}', 'UsersController@show')->name('user.id');
+Route::patch('/user/edit', 'UsersController@update');
 
 //Produtos e Categorias - M02
 Route::get('products', 'ProductController@index')->name('products');
 
-
-Route::get('products/{id}', 'ProductController@show')->name('products.id');
+Route::get('/products/{id}', 'ProductController@show')->name('products.id');
 
 
 Route::post('/products/add', 'ProductController@create');
@@ -52,8 +58,8 @@ Route::delete('/reviews/user/{id}/{review_id}/delete', 'ReviewController@delete'
 
 
 //Pedidos - M04
-Route::get('/orders', 'OrderController@index');
-Route::get('/orders/{id}', 'OrderController@show');
+Route::get('/orders', 'OrderController@index')->name('order');
+Route::get('/orders/{id}', 'OrderController@show')->name('orders.id');
 Route::patch('/orders/{id}/cancel', 'OrderController@update');
 Route::patch('/orders/{id}/edit', 'OrderController@update');
 
@@ -74,6 +80,7 @@ Route::get('/faq', function () {
 Route::get('/about', function () {
     return view('about');
 });
+
 
 
 //Área de Gestão - M07

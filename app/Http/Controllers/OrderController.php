@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
+
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -14,9 +17,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        if (!Auth::check()) return redirect('/login');
-        $this->authorize('list', Order::class);
-        $orders = Auth::user()->orders()->orderBy('id')->get();
+        $orders = Order::all();
+
         return view('pages.orders', ['orders' => $orders]);
     }
 
@@ -51,8 +53,15 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::find($id);
-        $this->authorize('show', $order);
-        return view('pages.order', ['order' => $order]);
+        $product = Product::find($order->product);
+        $client = User::find($order->client);
+
+        error_log("---------------ORDER---------------" . $order);
+        error_log("---------------CLIENR---------------" . $client);
+        error_log("---------------PRODUCT---------------" . $product);
+        if ($order == null)
+            abort(404);
+        return view('orders.order', ["order" => $order, "product" => $product, "client" => $client]);
     }
 
     /**

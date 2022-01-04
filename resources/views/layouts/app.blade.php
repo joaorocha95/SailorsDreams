@@ -35,9 +35,18 @@
 <body class="antialiased">
   <main class="relative flex items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
     <header>
-      <h1><a href="{{ url('/login') }}">Sailor's Dream</a></h1>
+      <h1><a href="{{ url('/home') }}">Sailor's Dream</a></h1>
+      <form action="users.php" method="GET">
+        <input id="search" type="text" placeholder="Type here">
+        <input id="submit" type="submit" value="Search">
+      </form>
+
       @if (Auth::check())
+
+      <a class="button" href="{{ route('user.id', ['id' => ($id = (auth()->user()->id ) ) ] ) }}"> User Profile </a>
       <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
+      @else
+      <a class="button" href="{{ url('/login') }}"> Login </a>
       @endif
     </header>
     <section id="content">

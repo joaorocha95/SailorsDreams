@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/Order';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -54,9 +54,10 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function register(){
+    public function register()
+    {
         echo "coisa1";
-        return void; 
+        return void;
     }
 
     /**
@@ -65,7 +66,8 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    public function create(array $data){
+    public function create(array $data)
+    {
         \Log::info($data);
         return User::create([
             'username' => $data['username'],
