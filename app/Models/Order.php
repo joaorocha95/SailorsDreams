@@ -31,4 +31,9 @@ class Order extends Model
     {
         return $this->hasMany('App\Models\Review');
     }
+
+    public function client()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -14,7 +14,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
 // Home
-//Route::get('/', 'Auth\LoginController@home');
 Route::get('/', function () {
     return view('home');
 });
@@ -36,10 +35,7 @@ Route::patch('/user/edit', 'UsersController@update');
 
 //Produtos e Categorias - M02
 Route::get('products', 'ProductController@index')->name('products');
-
 Route::get('/products/{id}', 'ProductController@show')->name('products.id');
-
-
 Route::post('/products/add', 'ProductController@create');
 Route::delete('/products/{id}/delete', 'ProductController@delete');
 Route::patch('/products/{id}/edit', 'ProductController@update');
@@ -58,8 +54,9 @@ Route::delete('/reviews/user/{id}/{review_id}/delete', 'ReviewController@delete'
 
 
 //Pedidos - M04
-Route::get('/orders', 'OrderController@index')->name('order');
+Route::get('/orders', 'OrderController@index')->name('orders');
 Route::get('/orders/{id}', 'OrderController@show')->name('orders.id');
+Route::post('/order/new', 'OrderController@create')->name('order.create');
 Route::patch('/orders/{id}/cancel', 'OrderController@update');
 Route::patch('/orders/{id}/edit', 'OrderController@update');
 
@@ -73,9 +70,15 @@ Route::post('/tickets/new', 'TicketController@createTicket');
 
 
 //Administração de utilizador e paginas estáticas - M06
-Route::get('/faq', function () {
+
+Route::get('/help', function () {
+    return view('help');
+})->name('help');
+
+Route::get('help/faq', function () {
     return view('faq');
-});
+})->name('faq');
+
 
 Route::get('/about', function () {
     return view('about');

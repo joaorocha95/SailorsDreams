@@ -31,13 +31,16 @@
   }
 </style>
 
+
 <section id="orders">
   <div class="biggerOrder">
+    @if (Auth::check())
     @foreach($orders as $order)
     <a href="{{ route('orders.id', ['id' => $order->id]) }}">
-      <div class="Order">{{ $order->id }}</div>
+      <div class="Order">{{ $order->id}}</div>
     </a>
     @endforeach
+    @endif
   </div>
 </section>
 

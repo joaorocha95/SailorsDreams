@@ -75,4 +75,24 @@
     </div>
 </div>
 
+@if($product->price != NULL && $product->active== 'true')
+<form method="post" action="{{ route('order.create', ['id' => $product->id, 'order_type' => 'Purchase'])}}">
+    @csrf
+    <div class="input-group">
+        <button class="btn btn-info" type="submit">
+            Buy
+        </button>
+    </div>
+</form>
+@endif
+@if($product->priceperday != NULL && $product->active== 'true')
+<form method="post" action="{{ route('order.create', ['id' => $product->id, 'order_type' => 'Loan'])}}">
+    @csrf
+    <div class="input-group">
+        <button class="btn btn-info" type="submit">
+            Loan
+        </button>
+    </div>
+</form>
+@endif
 @endsection

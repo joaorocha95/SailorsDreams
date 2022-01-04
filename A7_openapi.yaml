@@ -15,70 +15,12 @@ externalDocs:
 
 tags:
   - name: "M01: Perfil e Autenticação"
-    #-/login (pagina para dar-mos login) GET*
-    #-/login (pedido para dar login com dados do utilizador) POST*
-    #-/logout POST*
-    #-/register (pagina para registar) GET*
-    #-/register (pedido para registar com dados do utilizador) POST*
-    #-/user
-    #-/{id} GET*
-    #-/edit PATCH
   - name: "M02: Produtos e Categorias"
-    #-/products GET
-    #-/{id} GET
-    #-/add POST
-    #-/delete DELETE
-    #-/edit PATCH
-    #-/categories/{category} GET
-    #-/categories GET
   - name: "M03: Reviews e Wishlist"
-    #/wishlist GET
-    #-/add/ POST
-    #-/delete DELETE
-    #/review GET
-    #-/user GET
-    #-/{id} GET
-    #-/edit PATCH
-    #-/delete DELETE
-    #-/product GET
-    #-/{id} GET
-    #-/edit PATCH
-    #-/delete DELETE
   - name: "M04: Pedidos"
-    #-/orders GET
-    #-/{id} GET
-    #-/cancel PATCH
-    #-/updateStatus PATCH
   - name: "M05: Area de Mensagens"
-    #-/messages GET
-    #-/{id} GET
-    #-/send POST
-    #-/tickets GET
-    #-/{id} GET
-    #-/new POST
   - name: "M06: Administração de utilizador e paginas estáticas"
-    #/faqs GET
-    #-/edit PATCH
-    #/about GET
   - name: "M07: Área de Gestão"
-    #-/admin
-    #-/categories
-    #-/{category} GET
-    #-/add POST
-    #-/delete DELETE
-    #-/edit PATCH
-    #-/products
-    #-/{id}
-    #-/add POST
-    #-/delete DELETE
-    #-/edit PATCH
-    #-/accounts
-    #-/{id} GET
-    #-/ban PATCH
-    #-/applications
-    #-/{id} GET
-    #-/accept POST
-    #-/reject POST
 
 paths:
   #--------------------------------------------#
@@ -108,9 +50,9 @@ paths:
             schema:
               type: object
               properties:
-                email: # <!--- form field name
+                email:
                   type: string
-                password: # <!--- form field name
+                password:
                   type: string
               required:
                 - email
@@ -267,14 +209,6 @@ paths:
   #--------------------------------------------#
   #--------------------M02---------------------#
   #--------------------------------------------#
-  #'M02: Produtos e Categorias'
-  #-/products GET
-  #-/{id} GET
-  #-/add POST
-  #-/delete DELETE
-  #-/edit PATCH
-  #-/categories/{category} GET
-  #-/categories GET
 
   /products:
     get:
@@ -648,134 +582,6 @@ paths:
         "404":
           description: "Erro. Review não existe"
 
-  /reviews/product/{id}/add:
-    post:
-      operationId: R308
-      summary: "R308: Adicionar review"
-      description: "Editar a review. Acesso: CLT"
-
-      tags:
-        - "M03: Reviews e Wishlist"
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                rating:
-                  type: integer
-                comment:
-                  type: string
-              required:
-                - rating
-
-      responses:
-        "200":
-          description: "Ok. Review Alterada"
-        "204":
-          description: "Sem Review para alterar"
-        "404":
-          description: "Erro. Produto não existe"
-
-  /reviews/product/{id}/{review_id}/edit:
-    patch:
-      operationId: R309
-      summary: "R309: Editar review"
-      description: "Editar a review. Acesso: CLT, ADM"
-
-      tags:
-        - "M03: Reviews e Wishlist"
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-        - in: path
-          name: review_id
-          schema:
-            type: integer
-          required: true
-
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                rating:
-                  type: integer
-                comment:
-                  type: string
-              required:
-                - rating
-
-      responses:
-        "200":
-          description: "Ok. Review Alterada"
-        "204":
-          description: "Sem Review para alterar"
-        "404":
-          description: "Erro. Produto não existe"
-
-  /reviews/product/{id}/{review_id}/delete:
-    delete:
-      operationId: R310
-      summary: "R310: Apagar review"
-      description: "Apagar review. Acesso: CLT, ADM"
-
-      tags:
-        - "M03: Reviews e Wishlist"
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-        - in: path
-          name: review_id
-          schema:
-            type: integer
-          required: true
-
-      responses:
-        "200":
-          description: "Review apagado com sucesso."
-        "404":
-          description: "Erro. Review não existe"
-
-  /reviews/product/{id}:
-    get:
-      operationId: R311
-      summary: "R311: Review de um produto"
-      description: "Ver review de um produto. Acesso: GST"
-
-      tags:
-        - "M03: Reviews e Wishlist"
-
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: integer
-          required: true
-
-      responses:
-        "200":
-          description: "Ok. Mostrar todas as Reviews de um dado produto"
-
   #--------------------------------------------#
   #--------------------M04---------------------#
   #--------------------------------------------#
@@ -1038,6 +844,27 @@ paths:
                 302Error:
                   description: "Falha na criação. Redireciona para a pagina de tickets."
                   value: "/tickets"
+
+  /tickets/{id}/edit:
+    post:
+      operationId: R507
+      summary: "R505: Editar Ticket"
+      description: "Editar Ticket. Acesso: SUP"
+      tags:
+        - "M05: Area de Mensagens"
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
+      responses:
+        "200":
+          description: "Ok. Editado com sucesso"
+        "404":
+          description: "Erro. O ticket não existe."
 
   #--------------------------------------------#
   #--------------------M06---------------------#
@@ -1414,17 +1241,3 @@ paths:
       responses:
         "200":
           description: "Ok. Candidatura Rejeitada"
-########################################################
-########################################################
-########################################################
-########################################################
-########################################################
-########################################################
-########################################################
-########################################################
-########################################################
-########################################################
-########################################################
-########################################################
-########################################################
-########################################################

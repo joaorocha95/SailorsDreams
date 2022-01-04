@@ -32,7 +32,9 @@
 </style>
 
 <section id="teste">
-    teste
+
+    <a class="button" href="{{ route('orders') }}"> Orders </a>
+
 </section>
 
 @endsection

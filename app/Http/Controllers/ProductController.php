@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Auth;
 
 class ProductController extends Controller
@@ -13,12 +14,14 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        error_log($request);
+        $products = DB::table('product')->where('productname', 'iLIKE', '%' . $request->term . '%')
+            ->get();
+        error_log("Produtos encontrados: " . $products);
 
-        $products = Product::all();
-
-        return view('pages.products', ['products' => $products]);
+        return view('pages.products', compact('products'));
     }
 
 
@@ -31,11 +34,12 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
-        error_log("-----------------------------------------" . $product);
+        //error_log("-----------------------------------------" . $product);
         if ($product == null)
             abort(404);
         return view('products.product', ["product" => $product]);
     }
+
 
     /**
      * Show the form for creating a new resource.
