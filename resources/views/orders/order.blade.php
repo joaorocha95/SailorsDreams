@@ -20,7 +20,6 @@
 </style>
 <h2 class="id">{{ $order->id }}</h2>
 <div class="details">
-    <div class="client">{{ $client->username }}</div>
     <div class="product">{{ $product->productname }}</div>
     <div class="order_status">{{ $order->order_status }}</div>
     <div class="order_type">{{ $order->order_type }}</div>
