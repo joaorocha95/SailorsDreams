@@ -13,14 +13,24 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request){  
-        error_log($request->all());
-        /*if (!Auth::check()) return redirect('/products');
-        $this->authorize('list', Product::class);
-        $products = Auth::products()->orderBy('id')->get();
-        return view('pages.products', ['products' => $products]);*/
-        $products=Product::all();
-        //error_log($products);
+    public function index()
+    {
+
+        $products = Product::all();
+
+        return view('pages.products', ['products' => $products]);
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        return view('products.product', ['product' => $id]);
     }
 
     /**
@@ -44,18 +54,6 @@ class ProductController extends Controller
         return $product;
     }
 
-     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $product = Product::find($id);
-        $this->authorize('show', $product);
-        return view('pages.product', ['product' => $product]);
-    }
 
 
     /**
@@ -96,6 +94,4 @@ class ProductController extends Controller
 
         return $product;
     }
-   
 }
-

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -14,9 +15,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        if (!Auth::check()) return redirect('/login');
-        $this->authorize('list', Category::class);
-        $categories = Auth::user()->categories()->orderBy('id')->get();
+
+
+        $categories = DB::table('category')
+            ->select('name')
+            ->distinct()
+            ->get();
+
+        //error_log(print_r($categories));
         return view('pages.categories', ['categories' => $categories]);
     }
 
@@ -73,14 +79,13 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update( $name)
+    public function update($name)
     {
         $category = Category::find($name);
 
         $this->authorize('update', $category);
 
         $category->name = $request->input('name');
-        $category->save();  
+        $category->save();
     }
-
 }

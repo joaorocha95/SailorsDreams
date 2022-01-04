@@ -18,9 +18,9 @@
 
   <style>
     body {
-      font-family: 'Nunito', sans-serif;
-      background-color: #343434;
       color: #B9B9B9;
+      background-color: #343434;
+      font-family: 'Nunito', sans-serif;
     }
   </style>
 
@@ -35,7 +35,7 @@
 <body class="antialiased">
   <main class="relative flex items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
     <header>
-      <h1><a href="{{ url('/cards') }}">Sailor's Dream</a></h1>
+      <h1><a href="{{ url('/login') }}">Sailor's Dream</a></h1>
       @if (Auth::check())
       <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
       @endif

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<title>FAQ</title>
+<title>About</title>
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -19,6 +19,6 @@
     }
 </style>
 
-<h2 class="test">Frequantely Asked Questions</h2>
+<h2 class="test">{{ products }}</h2>
 
 @endsection

@@ -1,31 +1,24 @@
-<!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@section('content')
+<title>About</title>
 
-    <title>About</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- Styles -->
+<style>
+    .test {
+        font-family: 'Nunito', sans-serif;
+        background-color: #343434;
+        color: #B9B9B9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+</style>
 
-    <!-- Styles -->
-    <style>
-        html {
-            font-family: 'Nunito', sans-serif;
-            background-color: #343434;
-            color: #B9B9B9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-        }
-    </style>
-</head>
+<h2 class="test">About</h2>
 
-<body class="container mt-5 pt-5">
-    <h2 class="display-3">About</h2>
-</body>
-
-</html>
+@endsection

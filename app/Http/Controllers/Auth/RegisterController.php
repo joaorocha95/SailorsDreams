@@ -47,7 +47,6 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        //error_log($request);
         return Validator::make([], []);
         /*//Validator make(array $data, array $rules, array $messages = [], array $customAttributes = [])
         return Validator::make($request, [
@@ -66,8 +65,7 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     protected function create(array $data)
-    {   
-        error_log($data['birthdate']);
+    {
         return User::create([
             'username' => $data['username'],
             'email' => $data['email'],

@@ -9,12 +9,26 @@ class Order extends Model
 {
     use HasFactory;
 
-    public function madeBy(){return $this->belongsTo('App\Models\User');}
+    public $table = 'order';
+    public $timestamps  = false;
 
-    public function messageAssociated(){return $this->hasMany('App\Models\Message');}
+    public function madeBy()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 
-    public function productAssociated(){return $this->belongsTo('App\Models\Product');}
-   
-    public function reviewsIn(){return $this->hasMany('App\Models\Review');}
+    public function messageAssociated()
+    {
+        return $this->hasMany('App\Models\Message');
+    }
 
+    public function productAssociated()
+    {
+        return $this->belongsTo('App\Models\Product');
+    }
+
+    public function reviewsIn()
+    {
+        return $this->hasMany('App\Models\Review');
+    }
 }

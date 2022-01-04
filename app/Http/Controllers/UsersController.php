@@ -6,15 +6,16 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller {
+class UserController extends Controller
+{
 
     /**
      * Returns a specific User based on its E-mail
      * 
      * @return User
      */
-    public function getUser(){
-        
+    public function getUser()
+    {
     }
 
     /**
@@ -36,20 +37,16 @@ class UserController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {   
-        $user = new User();     
+    {
+        $user = new User();
         $user->username = $request->input('username');
         $user->email = $request->input('email');
         $user->birthdate = $request->input('birthdate');
-        
+
         $password = $request->input('password');
-        /*error_log($password);
-        $password = Hash::make($password);
-        error_log($password);*/
         $user->password = $password;
         $user->phone = $request->input('phone');
-        error_log($user);
-        
+
         $user->save();
 
         return $user;
@@ -80,7 +77,7 @@ class UserController extends Controller {
     public function update(Request $request, $id, $birthDate, $banned, $accType, $img)
     {
         $user = User::find($id);
-        
+
         $this->authorize('update', $user);
         $user->username = $request->input('username');
         $user->email = $request->input('email');
@@ -100,7 +97,7 @@ class UserController extends Controller {
      *
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
-    */
+     */
     public function delete($id)
     {
         $user = User::find($id);
@@ -110,5 +107,4 @@ class UserController extends Controller {
 
         return $user;
     }
-
 }

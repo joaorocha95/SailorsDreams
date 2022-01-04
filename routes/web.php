@@ -10,7 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 use Illuminate\Support\Facades\Route;
+use App\Models\Product;
 // Home
 Route::get('/', 'Auth\LoginController@home');
 
@@ -26,9 +28,10 @@ Route::get('/user/{id}', 'UserController@show');
 Route::patch('/user/edit', 'UserController@update');
 
 //Produtos e Categorias - M02
-Route::get('/products', 'ProductController@index');
+Route::get('products', 'ProductController@index')->name('products');
 
-Route::get('/products/{id}', 'ProductController@show');
+
+Route::get('products/{id}', 'ProductController@show')->name('products.id');
 
 
 Route::post('/products/add', 'ProductController@create');
@@ -64,11 +67,11 @@ Route::post('/tickets/new', 'TicketController@createTicket');
 
 
 //Administração de utilizador e paginas estáticas - M06
-Route::get('/faq', function(){
+Route::get('/faq', function () {
     return view('faq');
 });
 
-Route::get('/about', function(){
+Route::get('/about', function () {
     return view('about');
 });
 
