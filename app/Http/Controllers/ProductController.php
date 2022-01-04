@@ -17,7 +17,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
 
-        $products = DB::table('product')->where('productname', 'iLIKE', '=' . $id)
+        $products = DB::table('product')->where('productname', 'iLIKE', '%' . $request->term . '%')
             ->get();
         error_log("Produtos encontrados: " . $products);
 

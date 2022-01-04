@@ -283,7 +283,7 @@ INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img
 INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img,phone) VALUES ('Whimpappered52','kaydenstark1952@gmail.com','1956-11-30','sheiJuot3phai',FALSE, 'Client', '', 212441165);
 INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img,phone) VALUES ('Difeentle','difeentle@sailorsdream.com','1966-06-17','PZJ77DKO2VZ',FALSE, 'Support', '', 212655776);
 INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img,phone) VALUES ('Painged','paigestew1971@gmail.com','1969-09-19','SahWai0Ie',FALSE, 'Seller', '', 212344626);
-INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img,phone) VALUES ('Eneive','mcdonaldgrey@gmail.com','1995-05-16','eeNgeiHi5',FALSE, 'Client', '', 212349594);
+INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img,phone) VALUES ('user','user@user.com','1995-05-16','$2y$10$uv4cv/FWDB3BXO4tmKCaWuzQIv20DeVp72d9M/AXHfnZqcxgxCMKy',FALSE, 'Client', '', 212349594);
 
 -----------------------------------
 --  	Product Inserts
@@ -301,7 +301,9 @@ INSERT INTO lbaw2182.Product (seller,productname,description,active,price,priceP
 INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 1, 3, 'Transaction_Completed', 'Purchase',NULL,NULL, 200.00);
 INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 1, 10, 'Transaction_Completed', 'Loan', '2021-11-20', '2021-11-23', 75.00);
 INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 6, 7, 'Transaction_Failed', 'Purchase', NULL, NULL, 1175.00);
-INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 6, 7, 'In_Negotiation', 'Purchase', NULL, NULL, 1175.00);
+INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 2, 10, 'In_Negotiation', 'Purchase', NULL, NULL, 1175.00);
+INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 3, 10, 'In_Negotiation', 'Loan', NULL, NULL, 300.00);
+INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 4, 10, 'In_Negotiation', 'Loan', NULL, NULL, 125.00);
 
 
 -----------------------------------

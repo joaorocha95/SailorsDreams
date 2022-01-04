@@ -8,7 +8,7 @@
 
 <!-- Styles -->
 <style>
-    .id {
+    .temp1 {
         font-family: 'Nunito', sans-serif;
         background-color: #343434;
         color: #B9B9B9;
@@ -18,14 +18,21 @@
         height: 100%;
     }
 </style>
-<h2 class="id">{{ $order->id }}</h2>
-<div class="details">
-    <div class="product">{{ $product->productname }}</div>
-    <div class="order_status">{{ $order->order_status }}</div>
-    <div class="order_type">{{ $order->order_type }}</div>
-    <div class="loan_start">{{ $order->loan_start }}</div>
-    <div class="loan_end">{{ $order->loan_end }}</div>
-    <div class="total_price">{{ $order->total_price }}</div>
+
+<h2 class="temp1">Order ID: {{ $order->id }}</h2>
+<div class="temp2">
+    <div Product: class="temp2"> Product: {{ $product->productname }}
+    </div>
+    <div class="temp2"> Order Status: {{ $order->order_status }}
+    </div>
+    <div class="temp2"> Order Type: {{ $order->order_type }}
+    </div>
+    <div class="temp2"> Loan Start: {{ $order->loan_start }}
+    </div>
+    <div class="temp2"> Loan End: {{ $order->loan_end }}
+    </div>
+    <div class="temp2"> Total Price: {{ $order->total_price }}
+    </div>
 </div>
 
 @endsection
