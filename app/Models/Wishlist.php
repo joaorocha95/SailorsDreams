@@ -9,7 +9,16 @@ class Wishlist extends Model
 {
     use HasFactory;
 
-    public function wishBy(){return $this->belongsTo('App\Models\User');}
+    public $table = 'wishlist';
+    public $timestamps  = false;
 
-    public function wishProduct(){return $this->belongsToMany('App\Models\Product');}
+    public function wishBy()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function wishProduct()
+    {
+        return $this->belongsToMany('App\Models\Product');
+    }
 }

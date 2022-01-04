@@ -21,6 +21,7 @@ class CardPolicy
     public function list(User $user)
     {
       // Any user can list its own cards
+      echo "Função list do ficheiro CardPolicy" . Auth::check();
       return Auth::check();
     }
 

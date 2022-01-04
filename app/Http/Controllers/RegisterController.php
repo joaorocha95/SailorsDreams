@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -27,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -47,15 +47,17 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make([], []);
-        /*//Validator make(array $data, array $rules, array $messages = [], array $customAttributes = [])
-        return Validator::make($request, [
-            'username' => 'required|string|max:255',
+        return Validator::make($data, [
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'birthdate' => '',
-            'phone' => ''
-        ]);*/
+        ]);
+    }
+
+    public function register()
+    {
+        echo "coisa1";
+        return void;
     }
 
     /**
@@ -64,14 +66,15 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    public function create(array $data)
     {
+        \Log::info($data);
         return User::create([
             'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
             'birthdate' => $data['birthdate'],
             'phone' => $data['phone'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
         ]);
     }
 }

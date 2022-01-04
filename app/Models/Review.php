@@ -9,11 +9,21 @@ class Review extends Model
 {
     use HasFactory;
 
-    public function writer(){return $this->belongsTo('App\Models\User');}
+    public $table = 'review';
+    public $timestamps  = false;
 
-    public function aboutUser(){return $this->belongsTo('App\Models\User');}
+    public function writer()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 
-    public function aboutOrder(){return $this->belongsTo('App\Models\Order');}
+    public function aboutUser()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function aboutOrder()
+    {
+        return $this->belongsTo('App\Models\Order');
+    }
 }
-
-
