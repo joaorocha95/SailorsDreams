@@ -69,7 +69,7 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
-        error_log("Request para criar uma nova order------------ " . $request->input('id'));
+        //error_log("Request para criar uma nova order------------ " . $request->input('id'));
 
         if (!(Auth::check()))
             return redirect('/login');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -51,10 +52,23 @@ class CategoryController extends Controller
      */
     public function show($name)
     {
-        $category = Category::find($name);
-        $this->authorize('show', $category);
-        return view('pages.category', ['category' => $category]);
+        if ($name == null)
+            abort(404);
+
+        $items = DB::table('category')->where('name', '=', $name)
+            ->get();
+
+        $products = DB::table('product')->where('id', '=', -1)
+            ->get();
+
+        foreach ($items as $item) {
+            $products->push(Product::find($item->product_id));
+        }
+
+        return view('pages.products', compact('products'));
     }
+
+
 
     /**
      * Remove the specified resource from storage.

@@ -17,30 +17,100 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    html {
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       color: #B9B9B9;
-      background-color: #343434;
       font-family: 'Nunito', sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
     h1 {
-      /*
-      background-color: yellow;
-      padding: 10px;
-      */
+      width: fit-content;
     }
 
-    .header {
-      /*
-      background-color: red;
-      */
+    header {
+      margin-top: 0;
+      padding: 0;
     }
 
     .buttons {
-      /*
-      background-color: green;
-      margin-left: 15px;
-      */
+      text-align: center;
+    }
+
+    .searchContainer {
+      position: absolute;
+      width: 500px;
+      height: 60px;
+      display: table-cell;
+      vertical-align: middle;
+      left: 50%;
+      top: 44px;
+      -webkit-transform: translateX(-50%) translateY(-50%);
+      -moz-transform: translateX(-50%) translateY(-50%);
+      transform: translateX(-50%) translateY(-50%);
+    }
+
+    #term {
+      margin: auto;
+      display: block;
+      width: 500px;
+      border-color: #56565e;
+    }
+
+
+    .searchItem {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      background-color: white;
+      height: 38px;
+      /*height: 20px;
+      /*requires explicit height*/
+    }
+
+
+    .searchForm {
+      display: flex;
+      background-color: white;
+    }
+
+    .searchField {
+      position: absolute;
+      background-color: white;
+      width: 100%;
+      padding: 10px 0px 10px 0px;
+      border: none;
+      border-radius: 100px;
+      outline: none;
+    }
+
+    #footer {
+      position: fixed;
+      background-color: #83dfe4;
+      bottom: 0;
+      width: 100%;
+      min-height: 100px;
+      /* Footer height */
+    }
+
+    .buttonMenu {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      height: 38px;
+      width: 100%;
+      background-color: rbg(0, 0, 0);
+    }
+
+    .button {
+      margin-right: 2%;
     }
   </style>
 
@@ -56,39 +126,43 @@
   <main class="relative flex items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
     <header>
       <h1><a href="{{ url('/home') }}">Sailor's Dream</a></h1>
-
-      <div class="header">
-        <form action="{{ route('products') }}" method="GET" role="search">
-          <div class="input-group">
-            <input type="text" class="form-control mr-2" style="border-color: #56565e;" name="term" placeholder="Search Products" id="term">
-            <button class="btn btn-info" type="submit" title="Search Products">
-              <span class="fas fa-search"> Search </span>
-            </button>
-
-            <div class="buttons">
-              <a class="button" href="{{ url('/categories') }}"> Categories </a>
-              <a class="button" href="{{ url('/products') }}"> Products </a>
-
-              @if (Auth::check())
-              <a class="button" href="{{ route('user.id', ['id' => ($id = (auth()->user()->id ) ) ] ) }}"> User Profile </a>
-              <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
-              @else
-              <a class="button" href="{{ url('/login') }}"> Login </a>
-              @endif
-
-              <a class="button" href="{{ route('help') }}"> Help</a>
-              <a class="button" href="{{ url('/about') }}"> About Us</a>
-            </div>
-
+      <!--Search Bar-->
+      <div class="searchContainer">
+        <form action="{{ route('products') }}" method="GET" role="search" class="searchForm">
+          <div class="searchItem">
+            <input type="text" name="term" placeholder="Search Products" id="term" class="searchField">
           </div>
         </form>
-
       </div>
+      @if (Auth::check())
+      <a class="button" href="{{ route('user.id', ['id' => ($id = (auth()->user()->id ) ) ] ) }}"> User Profile </a>
+      <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
+      @else
+      <a class="button" href="{{ url('/login') }}"> Login </a>
+      @endif
+
+
 
     </header>
-    <section id="content">
-      @yield('content')
+
+    <div class="buttonMenu">
+      <div class="header">
+        <div class="input-group">
+          <div class="buttons">
+            <a class="button" href="{{ url('/categories') }}"> Categories </a>
+            <a class="button" href="{{ url('/products') }}"> Products </a>
+            <a class="button" href="{{ route('help') }}"> Help</a>
+            <a class="button" href="{{ url('/about') }}"> About Us</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    @yield('content')
     </section>
+
   </main>
 </body>
 

@@ -62,7 +62,7 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        error_log("-----------------------------------------" . $user);
+        //error_log("-----------------------------------------" . $user);
         if ($user == null)
             abort(404);
         return view('pages.userprofile', ["userprofile" => $user]);

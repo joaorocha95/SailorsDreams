@@ -35,6 +35,11 @@
 
     <a class="button" href="{{ route('orders') }}"> Orders </a>
 
+    <a class="button" href="{{ route('newProduct') }}">Add Products </a>
+
+    <a class="button" href="{{route('productManager') }}">Manage Products </a>
+
+
 </section>
 
 @endsection

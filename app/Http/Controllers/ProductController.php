@@ -19,11 +19,33 @@ class ProductController extends Controller
 
         $products = DB::table('product')->where('productname', 'iLIKE', '%' . $request->term . '%')
             ->get();
-        error_log("Produtos encontrados: " . $products);
+        //error_log("Produtos encontrados: " . $products);
 
         return view('pages.products', compact('products'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(Request $request)
+    {
+        $product = new Product();
+        $id = auth()->user()->id;
+        if ($id == null)
+            abort(404);
+        $this->authorize('create', $product);
+        $product->seller = $id;
+        $product->productname = $request->input('productname');
+        $product->description = $request->input('description');
+        $product->active = $request->input('active');
+        $product->price = $request->input('price');
+        $product->pricePerDay = $request->input('pricePerDay');
+
+        $product->save();
+        return $product;
+    }
 
     /**
      * Display the specified resource.
@@ -40,29 +62,10 @@ class ProductController extends Controller
         return view('products.product', ["product" => $product]);
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request, $seller, $active)
+    public function showNewForm()
     {
-        $product = new Product();
-
-        $this->authorize('create', $product);
-        $product->seller = $seller;
-        $product->productname = $request->input('productname');
-        $product->description = $request->input('description');
-        $product->active = $active;
-        $product->price = $request->input('price');
-        $product->pricePerDay = $request->input('pricePerDay');
-
-        $product->save();
-        return $product;
+        return view('products.new');
     }
-
-
 
     /**
      * Update the specified resource in storage.
@@ -71,15 +74,44 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id, $seller, $active)
+    public function myProducts()
+    {
+        $id = auth()->user()->id;
+        if ($id == null)
+            abort(404);
+        $product = DB::table('product')->where('seller', '=', $id)
+            ->get();
+        error_log("-----------------------------------------" . $product);
+
+        return view('pages.productManager', ['productManager' => $product]);
+    }
+
+    public function showUpdateForm($id)
     {
         $product = Product::find($id);
+        //error_log("-----------------------------------------" . $product);
+        if ($product == null)
+            abort(404);
+        return view('products.edit', ["product" => $product]);
+    }
 
-        $this->authorize('update', $product);
-        $product->seller = $seller;
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function updatepage($id, Request $request)
+    {
+        $product = Product::find($id);
+        //error_log("-----------------------------------------" . $product);
+        if ($product == null)
+            abort(404);
+        $this->authorize('create', $product);
         $product->productname = $request->input('productname');
         $product->description = $request->input('description');
-        $product->active = $active;
+        $product->active = $request->input('active');
         $product->price = $request->input('price');
         $product->pricePerDay = $request->input('pricePerDay');
 

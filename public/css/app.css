@@ -5,20 +5,21 @@
 
 body {
     color: #4dadca;
+    background-color: white;
 }
 main > header {
     display: grid;
     grid-template-columns: 1fr auto auto;
     align-items: center;
-    background-color: #83dfe4;
+    background-color: #d0deeb;
     padding: 1em;
-    margin: 1em;
 }
+
 main > header h1 {
     margin: 0;
 }
 main > header a.button {
-    margin: 1em;
+    margin: 5px;
     justify-self: center;
 }
 main > header span {
@@ -141,12 +142,13 @@ main > header span {
  * Some styles might be missing
  **/
 button {
-    background-color: #56565e;
-    border-color: #56565e;
+    background-color: #9ba8ad;
+    border-color: #585863;
 }
 a.button {
-    background-color: #56565e;
-    border-color: #56565e;
+    border-radius: 0;
+    background-color: #9ba8ad;
+    border-color: #585863;
 }
 a.button.button-outline {
     color: #56565e;
@@ -155,6 +157,7 @@ a.button.button-outline {
 a {
     color: #56565e;
 }
+
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {

@@ -35,10 +35,10 @@
 <section id="categories">
     <div class="biggerCategory">
         @foreach($categories as $category)
-        <div></div>
-        <p class="category">{{ $category->name }}
-        <p>
-            @endforeach
+        <a href="{{ route('category.name', ['name' => $category->name]) }}">
+            <div class="category">{{ $category -> name}}</div>
+        </a>
+        @endforeach
 
     </div>
 

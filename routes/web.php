@@ -36,10 +36,13 @@ Route::patch('/user/edit', 'UsersController@update');
 //Produtos e Categorias - M02
 Route::get('products', 'ProductController@index')->name('products');
 Route::get('/products/{id}', 'ProductController@show')->name('products.id');
-Route::post('/products/add', 'ProductController@create');
+Route::get('/product/new', 'ProductController@showNewForm')->name('newProduct');
+Route::post('/product/new', 'ProductController@create');
 Route::delete('/products/{id}/delete', 'ProductController@delete');
-Route::patch('/products/{id}/edit', 'ProductController@update');
-Route::get('/categories/{category}', 'CategoryController@show');
+Route::get('/product/edit', 'ProductController@myProducts')->name('productManager');
+Route::get('/product/edit/{id}', 'ProductController@showUpdateForm')->name('updatepage');
+Route::patch('/product/edit/{id}', 'ProductController@updatepage');
+Route::get('/categories/{name}', 'CategoryController@show')->name('category.name');
 Route::get('/categories', 'CategoryController@index');
 
 

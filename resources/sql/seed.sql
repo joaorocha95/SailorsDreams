@@ -283,7 +283,9 @@ INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img
 INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img,phone) VALUES ('Whimpappered52','kaydenstark1952@gmail.com','1956-11-30','sheiJuot3phai',FALSE, 'Client', '', 212441165);
 INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img,phone) VALUES ('Difeentle','difeentle@sailorsdream.com','1966-06-17','PZJ77DKO2VZ',FALSE, 'Support', '', 212655776);
 INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img,phone) VALUES ('Painged','paigestew1971@gmail.com','1969-09-19','SahWai0Ie',FALSE, 'Seller', '', 212344626);
-INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img,phone) VALUES ('user','user@user.com','1995-05-16','$2y$10$uv4cv/FWDB3BXO4tmKCaWuzQIv20DeVp72d9M/AXHfnZqcxgxCMKy',FALSE, 'Client', '', 212349594);
+INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img,phone) VALUES ('user','user@user.com','1995-05-16','$2y$10$uv4cv/FWDB3BXO4tmKCaWuzQIv20DeVp72d9M/AXHfnZqcxgxCMKy',FALSE, 'Client', '', 212659594);
+INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img,phone) VALUES ('admin','admin@admin.com','1995-05-16','$2y$10$uv4cv/FWDB3BXO4tmKCaWuzQIv20DeVp72d9M/AXHfnZqcxgxCMKy',FALSE, 'Admin', '', 212347294);
+INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img,phone) VALUES ('seller','seller@seller.com','1995-05-16','$2y$10$uv4cv/FWDB3BXO4tmKCaWuzQIv20DeVp72d9M/AXHfnZqcxgxCMKy',FALSE, 'Seller', '', 212371594);
 
 -----------------------------------
 --  	Product Inserts
@@ -293,7 +295,9 @@ INSERT INTO lbaw2182.Product (seller,productname,description,active,price,priceP
 INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 9, 'Iate', 'Brand new', TRUE,NULL, 75.00);
 INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 9, 'Ketch', 'Used', TRUE,NULL, 65.00);
 INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 9, 'Iate', 'New', FALSE,NULL, 95.00);
-INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 9, 'Man O War', 'Old', TRUE,NULL, 1175.00);
+INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 9, 'Man O War', 'Old', TRUE,200.00, NULL);
+INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 12, 'Barco Leve', 'Brand new', TRUE,200.00, NULL);
+INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 12, 'Iate Luxo', 'Brand new', TRUE,200.00, NULL);
 
 -----------------------------------
 --  	Order Inserts
@@ -330,6 +334,8 @@ INSERT INTO lbaw2182.Category (product_id, name) VALUES (3, 'Luxurious vehicle')
 INSERT INTO lbaw2182.Category (product_id, name) VALUES (4, 'Luxurious vehicle');
 INSERT INTO lbaw2182.Category (product_id, name) VALUES (5, 'Luxurious vehicle');
 INSERT INTO lbaw2182.Category (product_id, name) VALUES (6, 'Classics');
+INSERT INTO lbaw2182.Category (product_id, name) VALUES (7, 'Luxurious vehicle');
+INSERT INTO lbaw2182.Category (product_id, name) VALUES (8, 'Luxurious vehicle');
 
 -----------------------------------
 --  	Ticket Inserts
