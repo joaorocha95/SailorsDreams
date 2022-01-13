@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Auth;
 
 class MessageController extends Controller
 {
@@ -25,18 +29,28 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $id, $associated_order, $associated_ticket)
+    public function sendMessage(Request $request)
     {
+        if (!(Auth::check()))
+            return redirect('/login');
+        error_log($request);
+
         $message = new Message();
 
-        $this->authorize('create', $message);
-        $message->id = $id;
-        $message->associated_order = $associated_order;
-        $message->associated_ticket = $associated_ticket;
+        $message->message_type = $request->input('message_type');
+        $message->associated_order = $request->input('associated_order');
+        $message->associated_ticket = $request->input('associated_ticket');
         $message->message = $request->input('message');
+        $message->sender = auth()->user()->id;
+
         $message->save();
 
-        return $message;
+        error_log($request);
+        $order = Order::find($message->associated_order);
+        $product = Product::find($order->product);
+        $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $message->associated_order . '%')
+            ->get();
+        return view('orders.order', ["order" => $order, "product" => $product, "messages" => $messages]);
     }
 
     /**
@@ -47,8 +61,5 @@ class MessageController extends Controller
      */
     public function show($id)
     {
-        $message = Message::find($id);
-        $this->authorize('show', $message);
-        return view('pages.message', ['message' => $message]);
     }
 }

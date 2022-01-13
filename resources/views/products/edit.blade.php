@@ -29,11 +29,11 @@
   </span>
   @endif
 
-  <label for="pricePerDay">Price per day:</label>
-  <input id="pricePerDay" type="real" name="pricePerDay" value="{{ old('pricePerDay') }}" autofocus>
-  @if ($errors->has('pricePerDay'))
+  <label for="priceperday">Price per day:</label>
+  <input id="priceperday" type="real" name="priceperday" value="{{ old('priceperday') }}" autofocus>
+  @if ($errors->has('priceperday'))
   <span class="error">
-    {{ $errors->first('pricePerDay') }}
+    {{ $errors->first('priceperday') }}
   </span>
   @endif
 
@@ -44,8 +44,8 @@
   <input type="file" name="fileToUpload" id="fileToUpload">
 
   <button type="submit">
-    Cancel
+    Submit
   </button>
-  <a class="button button-outline" href="{{ route('productManager') }}">Submit</a>
+  <a class="button button-outline" href="{{ route('productManager') }}">Cancel</a>
 </form>
 @endsection

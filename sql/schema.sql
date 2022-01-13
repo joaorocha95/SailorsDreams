@@ -37,8 +37,8 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Product (
    description TEXT NOT NULL,
    active BOOLEAN DEFAULT FALSE,
    price REAL,
-   pricePerDay REAL
-   CONSTRAINT price_check CHECK (price > 0)
+   pricePerDay REAL,
+   CONSTRAINT price_check CHECK (price > 0),
    CONSTRAINT pricePerDay_check CHECK (price > 0)
 );
 
@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Order (
    order_type lbaw2182.order_type NOT NULL,
    loan_start Date,
    loan_end Date,
-   total_price REAL NOT NULL
-   CONSTRAINT noOverlap CHECK (loan_end > loan_start OR loan_start = NULL)
+   total_price REAL NOT NULL,
+   CONSTRAINT noOverlap CHECK (loan_end > loan_start OR loan_start = NULL),
    CONSTRAINT price_check CHECK (total_price > 0)
 
 );
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Review (
    from_user INTEGER REFERENCES lbaw2182.Users (id) ON UPDATE CASCADE,
    rating INTEGER NOT NULL,
    comment TEXT,
-   review_date DATE DEFAULT now() NOT NULL
+   review_date DATE DEFAULT now() NOT NULL,
    CONSTRAINT ratingbuyer_ck CHECK (((rating > 0) OR (rating <= 5)))
 );
 
@@ -91,6 +91,7 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Ticket (
 
 CREATE TABLE IF NOT EXISTS lbaw2182.Message (
    id SERIAL PRIMARY KEY,
+   sender INTEGER REFERENCES lbaw2182.Users (id) ON UPDATE CASCADE ON DELETE CASCADE,
    message_type lbaw2182.message_type NOT NULL, 
    associated_order INTEGER REFERENCES lbaw2182.Order (id) ON UPDATE CASCADE ON DELETE CASCADE,
    associated_ticket INTEGER REFERENCES lbaw2182.Ticket (id) ON UPDATE CASCADE ON DELETE CASCADE,

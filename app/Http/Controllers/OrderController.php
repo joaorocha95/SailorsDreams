@@ -92,9 +92,7 @@ class OrderController extends Controller
                 $request->input('loan_end')
             );
 
-
-
-        return $order;
+        return view('orders.order', ["order" => $order, "product" => $product]);
     }
 
     /**
@@ -106,10 +104,12 @@ class OrderController extends Controller
     {
         $order = Order::find($id);
         $product = Product::find($order->product);
+        $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $id . '%')
+            ->get();
 
         if ($order == null)
             abort(404);
-        return view('orders.order', ["order" => $order, "product" => $product]);
+        return view('orders.order', ["order" => $order, "product" => $product, "messages" => $messages]);
     }
 
     /**

@@ -38,14 +38,14 @@
   @endif
 
   <label for="active">Product active:</label>
-  <input type="checkbox" name="checkbox_name" value="checkox_value">
+  <input type="checkbox" name="active" value="checkbox_value">
 
   <label for="photo">Select image to upload:</label>
   <input type="file" name="fileToUpload" id="fileToUpload">
 
   <button type="submit">
-    Cancel
+    Submit
   </button>
-  <a class="button button-outline" href="{{ route('newProduct') }}">Submit</a>
+  <a class="button button-outline" href="{{ route('newProduct') }}">Cancel</a>
 </form>
 @endsection

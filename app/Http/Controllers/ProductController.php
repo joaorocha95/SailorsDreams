@@ -35,16 +35,16 @@ class ProductController extends Controller
         $id = auth()->user()->id;
         if ($id == null)
             abort(404);
-        $this->authorize('create', $product);
+
         $product->seller = $id;
         $product->productname = $request->input('productname');
         $product->description = $request->input('description');
-        $product->active = $request->input('active');
+        $product->active = true;
         $product->price = $request->input('price');
-        $product->pricePerDay = $request->input('pricePerDay');
+        $product->priceperday = $request->input('priceperday');
 
         $product->save();
-        return $product;
+        return redirect('products');
     }
 
     /**
@@ -102,21 +102,24 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function updatepage($id, Request $request)
+    public function updatepage(Request $request)
     {
-        $product = Product::find($id);
-        //error_log("-----------------------------------------" . $product);
-        if ($product == null)
-            abort(404);
-        $this->authorize('create', $product);
+        error_log($request->input('id'));
+        $product = Product::find($request->input('id'));
+
+        //if ($product == null)
+        //    abort(404);
+
         $product->productname = $request->input('productname');
         $product->description = $request->input('description');
-        $product->active = $request->input('active');
+        $product->active = true;
         $product->price = $request->input('price');
-        $product->pricePerDay = $request->input('pricePerDay');
+        $product->priceperday = $request->input('priceperday');
+
+        error_log($product);
 
         $product->save();
-        return $product;
+        return redirect('products');
     }
 
     /**
