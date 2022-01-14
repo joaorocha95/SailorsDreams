@@ -22,7 +22,7 @@
 
     #messsage_box {
         width: 400px;
-        height: fit-content;
+        height: 500px;
         max-height: 400px;
         border-style: solid;
         border-color: black;
@@ -30,7 +30,7 @@
     }
 
     .message {
-        height: fit-content;
+        height: 10px;
         color: black;
         margin-left: 5px;
     }
@@ -74,7 +74,7 @@
     @foreach($messages as $message)
     @if (auth()->user()->id == $product->seller )
     <div class="message">{Seller: {{$message->message}}</div>
-    @if (auth()->user()->id == $message->sender )
+    @elseif (auth()->user()->id == $message->sender )
     <div class="selfMessage">Me: {{$message->message}}</div>
     @else
     <div class="message">{{$message->sender}}: {{$message->message}}</div>
@@ -97,7 +97,7 @@
     <button type="submit">
         Submit
     </button>
-    <a class="button button-outline" href="{{ route('orders.id', ['id' => $order->id]) }}">Orders</a>
+    <a class="button button-outline" href="{{ route('orders') }}">Orders</a>
 </form>
 
 @endsection

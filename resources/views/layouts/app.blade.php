@@ -12,106 +12,14 @@
   <title>{{ config('app.name', 'Laravel') }}</title>
 
   <!-- Styles -->
-  <link href="{{ asset('css/milligram.min.css') }}" rel="stylesheet">
+  <!--<link href="{{ asset('css/milligram.min.css') }}" rel="stylesheet">
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">-->
+  <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    html {
-      margin: 0;
-      padding: 0;
-    }
 
-    body {
-      color: #B9B9B9;
-      font-family: 'Nunito', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    h1 {
-      width: fit-content;
-    }
-
-    header {
-      margin-top: 0;
-      padding: 0;
-    }
-
-    .buttons {
-      text-align: center;
-    }
-
-    .searchContainer {
-      position: absolute;
-      width: 500px;
-      height: 60px;
-      display: table-cell;
-      vertical-align: middle;
-      left: 50%;
-      top: 44px;
-      -webkit-transform: translateX(-50%) translateY(-50%);
-      -moz-transform: translateX(-50%) translateY(-50%);
-      transform: translateX(-50%) translateY(-50%);
-    }
-
-    #term {
-      margin: auto;
-      display: block;
-      width: 500px;
-      border-color: #56565e;
-    }
-
-
-    .searchItem {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      margin: auto;
-      background-color: white;
-      height: 38px;
-      /*height: 20px;
-      /*requires explicit height*/
-    }
-
-
-    .searchForm {
-      display: flex;
-      background-color: white;
-    }
-
-    .searchField {
-      position: absolute;
-      background-color: white;
-      width: 100%;
-      padding: 10px 0px 10px 0px;
-      border: none;
-      border-radius: 100px;
-      outline: none;
-    }
-
-    #footer {
-      position: fixed;
-      background-color: #83dfe4;
-      bottom: 0;
-      width: 100%;
-      min-height: 100px;
-      /* Footer height */
-    }
-
-    .buttonMenu {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      height: 38px;
-      width: 100%;
-      background-color: rbg(0, 0, 0);
-    }
-
-    .button {
-      margin-right: 2%;
-    }
   </style>
 
   <script type="text/javascript">
@@ -123,47 +31,85 @@
 </head>
 
 <body class="antialiased">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{{ url('/home')}}">Sialor's Dream</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <div class="buttons">
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/categories') }}"> Categories </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('/products') }}"> Products </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('help') }}"> Help</a>
+          </li>
+          <li>
+            <a class="nav-link" href="{{ url('/about') }}"> About Us</a>
+          </li>
+        </ul>
+        <form action="{{ route('products') }}" method="GET" role="search" class="d-flex">
+          <input class="form-control me-sm-2" type="text" placeholder="Search Products" name="term" id="term">
+          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        @if (Auth::check())
+        <a class="btn btn-outline-light" style="margin-left: 5px;" href="{{ route('user.id', ['id' => ($id = (auth()->user()->id ) ) ] ) }}"> User Profile </a>
+        <a class="btn btn-outline-light" style="margin-left: 5px;" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
+        @else
+        <a class="btn btn-outline-light" style="margin-left: 5px;" href="{{ url('/login') }}"> Login </a>
+        @endif
+      </div>
+    </div>
+  </nav>
+
+
+
+  <!--OLD-->
   <main class="relative flex items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
+    <!--
     <header>
-      <h1><a href="{{ url('/home') }}">Sailor's Dream</a></h1>
-      <!--Search Bar-->
+        Search Bar
       <div class="searchContainer">
-        <form action="{{ route('products') }}" method="GET" role="search" class="searchForm">
+        <form action="{{ route('products') }}" method="GET" role="search" class="d-flex">
           <div class="searchItem">
             <input type="text" name="term" placeholder="Search Products" id="term" class="searchField">
           </div>
         </form>
       </div>
-      @if (Auth::check())
-      <a class="button" href="{{ route('user.id', ['id' => ($id = (auth()->user()->id ) ) ] ) }}"> User Profile </a>
-      <a class="button" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
-      @else
-      <a class="button" href="{{ url('/login') }}"> Login </a>
-      @endif
-
-
-
+      
+      
+      
+      
     </header>
-
-    <div class="buttonMenu">
-      <div class="header">
-        <div class="input-group">
-          <div class="buttons">
-            <a class="button" href="{{ url('/categories') }}"> Categories </a>
-            <a class="button" href="{{ url('/products') }}"> Products </a>
-            <a class="button" href="{{ route('help') }}"> Help</a>
-            <a class="button" href="{{ url('/about') }}"> About Us</a>
+      <div class="buttonMenu">
+        <div class="header">
+          <div class="input-group">
+            <div class="buttons">
+              <a class="button" href="{{ url('/categories') }}"> Categories </a>
+              <a class="button" href="{{ url('/products') }}"> Products </a>
+              <a class="button" href="{{ route('help') }}"> Help</a>
+              <a class="button" href="{{ url('/about') }}"> About Us</a>
+            </div>
           </div>
+          
         </div>
-
       </div>
-    </div>
-
+    -->
 
     @yield('content')
     </section>
 
   </main>
+
 </body>
 
 </html>

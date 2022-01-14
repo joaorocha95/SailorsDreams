@@ -2,11 +2,12 @@
 
 @section('content')
 
-<form method="PATCH" action="{{ route('updatepage', ['id' => $product->id]) }}">
+<form method="POST" action="{{ route('updatepage', ['id' => $product->id]) }}">
   {{ csrf_field() }}
+  @method('PATCH')
 
   <label for="productname">Product Name:</label>
-  <input id="productname" type="text" name="productname" value="{{ old('productname') }}" autofocus>
+  <input id="productname" type="text" name="productname" value="{{ old('productname') }}" placeholder="{{$product->productname}}" autofocus>
   @if ($errors->has('productname'))
   <span class="error">
     {{ $errors->first('productname') }}
@@ -14,7 +15,7 @@
   @endif
 
   <label for="description">Description:</label>
-  <input id="description" type="description" name="description" value="{{ old('description') }}">
+  <input id="description" type="text" name="description" value="{{ old('description') }}" placeholder="{{$product->description}}">
   @if ($errors->has('description'))
   <span class="error">
     {{ $errors->first('description') }}
@@ -22,7 +23,7 @@
   @endif
 
   <label for="price">Price:</label>
-  <input id="price" type="real" name="price" value="{{ old('price') }}" autofocus>
+  <input id="price" type="real" name="price" value="{{ old('price') }}" placeholder="{{$product->price}}" autofocus>
   @if ($errors->has('price'))
   <span class="error">
     {{ $errors->first('price') }}
@@ -30,7 +31,7 @@
   @endif
 
   <label for="priceperday">Price per day:</label>
-  <input id="priceperday" type="real" name="priceperday" value="{{ old('priceperday') }}" autofocus>
+  <input id="priceperday" type="real" name="priceperday" value="{{ old('priceperday') }}" placeholder="{{$product->priceperday}}" autofocus>
   @if ($errors->has('priceperday'))
   <span class="error">
     {{ $errors->first('priceperday') }}
@@ -38,10 +39,10 @@
   @endif
 
   <label for="active">Product active:</label>
-  <input type="checkbox" name="checkbox_name" value="checkox_value">
+  <input type="checkbox" name="active" value="yes" placeholder="{{$product->active}}">
 
-  <label for="photo">Select image to upload:</label>
-  <input type="file" name="fileToUpload" id="fileToUpload">
+  <label for="img">Select image to upload:</label>
+  <input type="file" name="img" id="img" placeholder="{{$product->img}}">
 
   <button type="submit">
     Submit

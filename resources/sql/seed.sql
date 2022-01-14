@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Users (
 CREATE TABLE IF NOT EXISTS lbaw2182.Product (
    id SERIAL PRIMARY KEY,
    seller INTEGER REFERENCES lbaw2182.users (id) ON DELETE CASCADE,
+   img TEXT,
    productname TEXT NOT NULL,
    description TEXT NOT NULL,
    active BOOLEAN DEFAULT FALSE,
@@ -91,6 +92,7 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Ticket (
 
 CREATE TABLE IF NOT EXISTS lbaw2182.Message (
    id SERIAL PRIMARY KEY,
+   sender INTEGER REFERENCES lbaw2182.Users (id) ON UPDATE CASCADE ON DELETE CASCADE,
    message_type lbaw2182.message_type NOT NULL, 
    associated_order INTEGER REFERENCES lbaw2182.Order (id) ON UPDATE CASCADE ON DELETE CASCADE,
    associated_ticket INTEGER REFERENCES lbaw2182.Ticket (id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -346,8 +348,8 @@ INSERT INTO lbaw2182.Ticket( userid, support, title) VALUES ( 6, 8, 'Cant see an
 -----------------------------------
 --  	Message Inserts
 -----------------------------------
-INSERT INTO lbaw2182.Message( message_type, associated_order, associated_ticket, message) VALUES ( 'Ticket', NULL, 2, 'Hey, can you fix the product pages please?');
-INSERT INTO lbaw2182.Message( message_type, associated_order, associated_ticket, message) VALUES ( 'Order', 2, NULL, 'Oi, onde estaciono o iate?');
+INSERT INTO lbaw2182.Message(sender, message_type, associated_order, associated_ticket, message) VALUES (6, 'Ticket', NULL, 2, 'Hey, can you fix the product pages please?');
+INSERT INTO lbaw2182.Message(sender, message_type, associated_order, associated_ticket, message) VALUES (10, 'Order', 2, NULL, 'Oi, onde estaciono o iate?');
 
 -----------------------------------
 --  	Wishlist Inserts

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
@@ -32,6 +34,7 @@ class ProductController extends Controller
     public function create(Request $request)
     {
         $product = new Product();
+        $category = new Category();
         $id = auth()->user()->id;
         if ($id == null)
             abort(404);
@@ -39,11 +42,26 @@ class ProductController extends Controller
         $product->seller = $id;
         $product->productname = $request->input('productname');
         $product->description = $request->input('description');
-        $product->active = true;
+
+        if (isset($_POST['active']))
+            $product->active = true;
+        else
+            $product->active = false;
+
+        $product->img = $request->input('img');
         $product->price = $request->input('price');
         $product->priceperday = $request->input('priceperday');
 
+        $category->name = $request->input('name');
+        $category->product_id = $product->id;
+
         $product->save();
+        error_log('BOOOOOOOOOOOOOOOOAS');
+        error_log($product->id);
+        error_log($category->product_id);
+
+
+        $category->save();
         return redirect('products');
     }
 
@@ -56,7 +74,6 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
-        //error_log("-----------------------------------------" . $product);
         if ($product == null)
             abort(404);
         return view('products.product', ["product" => $product]);
@@ -64,7 +81,11 @@ class ProductController extends Controller
 
     public function showNewForm()
     {
-        return view('products.new');
+        $categories = DB::table('category')
+            ->select('name')
+            ->distinct()
+            ->get();
+        return view('products.new', ["category" => $categories]);
     }
 
     /**
@@ -81,7 +102,6 @@ class ProductController extends Controller
             abort(404);
         $product = DB::table('product')->where('seller', '=', $id)
             ->get();
-        error_log("-----------------------------------------" . $product);
 
         return view('pages.productManager', ['productManager' => $product]);
     }
@@ -89,10 +109,13 @@ class ProductController extends Controller
     public function showUpdateForm($id)
     {
         $product = Product::find($id);
-        //error_log("-----------------------------------------" . $product);
+        $categories = DB::table('category')
+            ->select('name')
+            ->distinct()
+            ->get();
         if ($product == null)
             abort(404);
-        return view('products.edit', ["product" => $product]);
+        return view('products.edit', ["product" => $product], ["category" => $categories]);
     }
 
     /**
@@ -102,19 +125,31 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function updatepage(Request $request)
+    public function updatepage(Request $request, $id)
     {
-        error_log($request->input('id'));
-        $product = Product::find($request->input('id'));
+        $product = Product::find($id);
+        if ($product == null)
+            abort(404);
 
-        //if ($product == null)
-        //    abort(404);
+        if ($request->input('productname') != null)
+            $product->productname = $request->input('productname');
 
-        $product->productname = $request->input('productname');
-        $product->description = $request->input('description');
-        $product->active = true;
-        $product->price = $request->input('price');
-        $product->priceperday = $request->input('priceperday');
+        if ($request->input('description') != null)
+            $product->description = $request->input('description');
+
+        if (isset($_POST['active']))
+            $product->active = true;
+        else
+            $product->active = false;
+
+        if ($request->input('img') != null)
+            $product->img = $request->input('img');
+
+        if ($request->input('price') != null)
+            $product->price = $request->input('price');
+
+        if ($request->input('priceperday') != null)
+            $product->priceperday = $request->input('priceperday');
 
         error_log($product);
 

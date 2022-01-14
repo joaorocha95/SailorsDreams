@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Message;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -69,8 +70,6 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
-        //error_log("Request para criar uma nova order------------ " . $request->input('id'));
-
         if (!(Auth::check()))
             return redirect('/login');
 
@@ -92,7 +91,10 @@ class OrderController extends Controller
                 $request->input('loan_end')
             );
 
-        return view('orders.order', ["order" => $order, "product" => $product]);
+        $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $order->id . '%')
+            ->get();
+
+        return view('orders.order', ["order" => $order, "product" => $product, "messages" => $messages]);
     }
 
     /**

@@ -36,7 +36,7 @@
     <div class="biggerCategory">
         @foreach($categories as $category)
         <a href="{{ route('category.name', ['name' => $category->name]) }}">
-            <div class="category">{{ $category -> name}}</div>
+            <div class="btn btn-outline-dark" style="margin-left: 5px;">{{ $category -> name}}</div>
         </a>
         @endforeach
 

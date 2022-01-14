@@ -17,13 +17,11 @@ class CategoryController extends Controller
     public function index()
     {
 
-
         $categories = DB::table('category')
             ->select('name')
             ->distinct()
             ->get();
 
-        //error_log(print_r($categories));
         return view('pages.categories', ['categories' => $categories]);
     }
 
@@ -36,9 +34,8 @@ class CategoryController extends Controller
     {
         $category = new Category();
 
-        $this->authorize('create', $category);
-
         $category->name = $request->input('name');
+        $category->product_id = $request->input('product_id');
         $category->save();
 
         return $category;
