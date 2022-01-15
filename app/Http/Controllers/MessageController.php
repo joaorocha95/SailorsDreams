@@ -18,10 +18,33 @@ class MessageController extends Controller
      */
     public function index()
     {
-        if (!Auth::check()) return redirect('/login');
-        $this->authorize('list', Message::class);
-        $messages = Auth::user()->messages()->orderBy('id')->get();
-        return view('pages.messages', ['messages' => $messages]);
+        $id = auth()->user()->id;
+        if ($id == null)
+            abort(404);
+        $orders = DB::table('order')->where('client', '=', $id)
+            ->get();
+
+        $messages = DB::table('message')->where('associated_order', '=', -1)
+            ->get();
+
+        foreach ($orders as $order) {
+            $messages->push(Message::find($order->id));
+        }
+
+        return view('pages.message', ['orders' => $orders], ['messages' => $messages]);
+    }
+
+
+    public function messagePage($id)
+    {
+        $order = Order::find($id);
+        $product = Product::find($order->product);
+        $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $id . '%')
+            ->get();
+
+        if ($order == null)
+            abort(404);
+        return view('messages.message', ["order" => $order, "product" => $product, "messages" => $messages]);
     }
 
     /**
@@ -50,7 +73,7 @@ class MessageController extends Controller
         $product = Product::find($order->product);
         $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $message->associated_order . '%')
             ->get();
-        return view('orders.order', ["order" => $order, "product" => $product, "messages" => $messages]);
+        return view('messages.message ', ["order" => $order, "product" => $product, "messages" => $messages]);
     }
 
     /**

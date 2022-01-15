@@ -64,7 +64,8 @@ Route::patch('/orders/{id}/cancel', 'OrderController@update');
 Route::patch('/orders/{id}/edit', 'OrderController@update');
 
 //Area de Mensagens - M05
-Route::get('/messages', 'MessageController@index')->name('myMessages');
+Route::get('/message', 'MessageController@index')->name('myMessages');
+Route::get('/message/{id}', 'MessageController@messagePage')->name('messagePage.id');
 Route::get('/messages/{id}', 'MessageController@show')->name('getMessage');
 Route::post('/message/send', 'MessageController@sendMessage')->name('sendMessage');
 Route::get('/tickets', 'TicketController@index');

@@ -9,6 +9,8 @@
 <section class="">
     <a class="btn btn-outline-primary" href="{{ route('orders') }}"> Orders </a>
 
+    <a class="btn btn-outline-primary" href="{{ route('myMessages') }}"> Messages </a>
+
     @if ($user -> acctype == 'Seller')
     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
         <button type="button" class="btn btn-primary">Products</button>

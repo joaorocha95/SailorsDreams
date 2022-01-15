@@ -67,5 +67,37 @@
     <div class="temp2"> Total Price: {{ $order->total_price }}
     </div>
 </div>
+
+
+<div id="messsage_box">
+    @if (Auth::check())
+    @foreach($messages as $message)
+    @if (auth()->user()->id == $product->seller )
+    <div class="message">{Seller: {{$message->message}}</div>
+    @elseif (auth()->user()->id == $message->sender )
+    <div class="selfMessage">Me: {{$message->message}}</div>
+    @else
+    <div class="message">{{$message->sender}}: {{$message->message}}</div>
+    @endif
+    @endforeach
+    @endif
+
 </div>
+
+<form method="POST" action="{{ route('sendMessage', ['message_type' => 'Order', 'associated_order' => $order->id]) }}">
+    {{ csrf_field() }}
+
+    <label for="message">Write your message:</label>
+    <input id="message" type="text" name="message" value="{{ old('message') }}" required autofocus>
+    @if ($errors->has('message'))
+    <span class="error">
+        {{ $errors->first('message') }}
+    </span>
+    @endif
+    <button type="submit">
+        Submit
+    </button>
+    <a class="button button-outline" href="{{ route('myMessages') }}">Orders</a>
+</form>
+
 @endsection

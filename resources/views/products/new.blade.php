@@ -13,6 +13,7 @@
   }
 </style>
 
+
 <fieldset>
   <form method="POST" action="{{ route('newProduct') }}">
     {{ csrf_field() }}
@@ -28,11 +29,10 @@
     </span>
     @endif
 
-
     <div class="form-group">
       <label for="name" class="form-label mt-4">Category</label>
-      <select class="form-select smaller" id="name" value="{{ old('name') }}" required autofocus>
-        @foreach($category as $categoryItem)
+      <select class="form-select smaller" id="name" type="name" name="name" value="{{ old('name') }}" required autofocus>
+        @foreach($categories as $categoryItem)
         <option>{{$categoryItem->name}}</option>
         @if ($errors->has('name'))
         <span class="error">

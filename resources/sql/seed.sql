@@ -77,9 +77,10 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Addresses(
 );
 
 CREATE TABLE IF NOT EXISTS lbaw2182.Category (
+   id SERIAL PRIMARY KEY,
    product_id INTEGER REFERENCES lbaw2182.Product (id) ON DELETE CASCADE,
    name TEXT NOT NULL,
-   UNIQUE (product_id, name)
+   CONSTRAINT CAT_UK UNIQUE (product_id, name)
 );
 
 CREATE TABLE IF NOT EXISTS lbaw2182.Ticket (

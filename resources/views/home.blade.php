@@ -13,21 +13,11 @@
         text-align: center;
     }
 
-    .test {
-        font-family: 'Nunito', sans-serif;
-        background-color: #343434;
-        color: #B9B9B9;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-    }
-
     .produtoDestaque {
         position: relative;
         display: inline-block;
         background-color: white;
-        height: 600px;
+        height: 700px;
         width: 1300px;
     }
 

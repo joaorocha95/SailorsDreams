@@ -34,7 +34,6 @@ class ProductController extends Controller
     public function create(Request $request)
     {
         $product = new Product();
-        $category = new Category();
         $id = auth()->user()->id;
         if ($id == null)
             abort(404);
@@ -42,27 +41,21 @@ class ProductController extends Controller
         $product->seller = $id;
         $product->productname = $request->input('productname');
         $product->description = $request->input('description');
-
         if (isset($_POST['active']))
             $product->active = true;
         else
             $product->active = false;
-
         $product->img = $request->input('img');
         $product->price = $request->input('price');
         $product->priceperday = $request->input('priceperday');
-
-        $category->name = $request->input('name');
-        $category->product_id = $product->id;
-
         $product->save();
-        error_log('BOOOOOOOOOOOOOOOOAS');
-        error_log($product->id);
-        error_log($category->product_id);
 
-
+        $category = new Category();
+        $category->product_id = $product->id;
+        $category->name = $request->input('name');
         $category->save();
-        return redirect('products');
+
+        return view('products.product', ["product" => $product]);
     }
 
     /**
@@ -85,7 +78,7 @@ class ProductController extends Controller
             ->select('name')
             ->distinct()
             ->get();
-        return view('products.new', ["category" => $categories]);
+        return view('products.new', ["categories" => $categories]);
     }
 
     /**
