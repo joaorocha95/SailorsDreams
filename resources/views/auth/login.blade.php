@@ -1,35 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<!--
-<form method="POST" action="{{ route('login') }}">
-    <legend>Login</legend>
-    <div class="form-group">
-        <label for="email" class="form-label mt-4">Email address</label>
-        <input type="email" value="{{ old('email') }}" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        @if ($errors->has('email'))
-        <span class="error">
-            {{ $errors->first('email') }}
-        </span>
-        @endif
-    </div>
-    <div class="form-group">
-        <label for="password" class="form-label mt-4">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password">
-        @if ($errors->has('password'))
-        <span class="error">
-            {{ $errors->first('password') }}
-        </span>
-        @endif
-    </div>
-    <label>
-        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-    </label>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
--->
 <style>
     section {
         width: 100%;
@@ -62,6 +33,18 @@
     :-ms-input-placeholder {
         text-align: center;
     }
+
+    label {
+        float: left;
+    }
+
+    .duoBtn {
+        width: fit-content;
+        height: fit-content;
+        margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 </style>
 
 <ol class="breadcrumb">
@@ -93,14 +76,16 @@
         </span>
         @endif
 
+
         <label>
             <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
         </label>
-        <p></p>
-        <button type="submit" class="btn btn-primary">
-            Login
-        </button>
-        <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+        <div class="duoBtn">
+            <button type="submit" class="btn btn-primary">
+                Login
+            </button>
+            <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+        </div>
     </form>
 </section>
 @endsection

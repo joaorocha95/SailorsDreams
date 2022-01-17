@@ -62,7 +62,11 @@
           <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
         </form>
         @if (Auth::check())
+        @if (Auth::user()->acctype == 'Admin')
+        <a class="btn btn-outline-light" style="margin-left: 5px;" href="{{ route('user.id', ['id' => ($id = (auth()->user()->id ) ) ] ) }}"> Admin Tools </a>
+        @else
         <a class="btn btn-outline-light" style="margin-left: 5px;" href="{{ route('user.id', ['id' => ($id = (auth()->user()->id ) ) ] ) }}"> User Profile </a>
+        @endif
         <a class="btn btn-outline-light" style="margin-left: 5px;" href="{{ url('/logout') }}"> Logout </a> <span>{{ Auth::user()->name }}</span>
         @else
         <a class="btn btn-outline-light" style="margin-left: 5px;" href="{{ url('/login') }}"> Login </a>
@@ -72,41 +76,8 @@
   </nav>
 
 
-
-  <!--OLD-->
-  <main class="relative flex items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
-    <!--
-    <header>
-        Search Bar
-      <div class="searchContainer">
-        <form action="{{ route('products') }}" method="GET" role="search" class="d-flex">
-          <div class="searchItem">
-            <input type="text" name="term" placeholder="Search Products" id="term" class="searchField">
-          </div>
-        </form>
-      </div>
-      
-      
-      
-      
-    </header>
-      <div class="buttonMenu">
-        <div class="header">
-          <div class="input-group">
-            <div class="buttons">
-              <a class="button" href="{{ url('/categories') }}"> Categories </a>
-              <a class="button" href="{{ url('/products') }}"> Products </a>
-              <a class="button" href="{{ route('help') }}"> Help</a>
-              <a class="button" href="{{ url('/about') }}"> About Us</a>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    -->
-
-    @yield('content')
-    </section>
+  @yield('content')
+  </section>
 
   </main>
 

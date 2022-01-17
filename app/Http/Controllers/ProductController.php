@@ -18,12 +18,26 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-
         $products = DB::table('product')->where('productname', 'iLIKE', '%' . $request->term . '%')
             ->get();
         //error_log("Produtos encontrados: " . $products);
 
+
         return view('pages.products', compact('products'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function adminIndex(Request $request)
+    {
+        $products = DB::table('product')->where('productname', 'iLIKE', '%' . $request->term . '%')
+            ->get();
+        //error_log("Produtos encontrados: " . $products);
+
+        return view('admin.products', compact('products'));
     }
 
     /**
@@ -70,6 +84,20 @@ class ProductController extends Controller
         if ($product == null)
             abort(404);
         return view('products.product', ["product" => $product]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function adminShow($id)
+    {
+        $product = Product::find($id);
+        if ($product == null)
+            abort(404);
+        return view('admin.productDetails', ["product" => $product]);
     }
 
     public function showNewForm()
@@ -120,6 +148,9 @@ class ProductController extends Controller
      */
     public function updatepage(Request $request, $id)
     {
+        $id_aux = auth()->user()->id;
+        $user = User::find($id_aux);
+
         $product = Product::find($id);
         if ($product == null)
             abort(404);
@@ -147,7 +178,11 @@ class ProductController extends Controller
         error_log($product);
 
         $product->save();
-        return redirect('products');
+
+        if ($user->acctype == 'Admin')
+            return redirect('admin/products');
+        else
+            return redirect('products');
     }
 
     /**
@@ -156,13 +191,12 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function delete(Request $request, $id)
+    public function delete($id)
     {
         $product = Product::find($id);
 
-        $this->authorize('delete', $product);
         $product->delete();
 
-        return $product;
+        return redirect('admin/products');
     }
 }

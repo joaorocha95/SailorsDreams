@@ -9,42 +9,59 @@
 <!-- Styles -->
 <style>
     h2 {
-        margin: 10px;
+        color: white;
+        font-size: 50px;
     }
 
+    .productPicture {
+        position: absolute;
+        top: 100px;
+        left: 0;
+        z-index: -1;
 
-    .details {
-        display: grid;
-        height: fit-content;
-        align-content: start;
-        grid-template-columns: 300px auto;
-        grid-template-rows: 300px 100px;
-        grid-gap: 10px;
-        background-color: #2196F3;
-        padding: 10px;
+        width: 50%;
+        min-height: calc(100vh - 100px);
+        max-height: 100vh;
+
+        background-color: white;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
     }
 
-    .grid-container>div {
-        background-color: rgba(255, 255, 255, 0.8);
-        text-align: center;
-        padding: 20px 0;
-        font-size: 30px;
+    .productPicture>img {
+        width: 100%;
+        height: calc(100vh - 100px);
     }
 
-    .photo {
-        background-color: blue;
+    .productInfo {
+        position: absolute;
+        padding-left: 50px;
+        padding-top: 100px;
+        top: 100px;
+        right: 0;
+        z-index: -1;
+
+        background-color: #1a1a1a;
+        color: white;
+
+        width: 50%;
+        min-height: calc(100vh - 100px);
     }
 
-    .descricao {
-        background-color: red;
+    .orderForms {
+        padding-top: 30px;
+        padding-bottom: 30px;
     }
 
-    .item3 {
-        background-color: green;
+    .productInfo .nav-link {
+        color: white;
     }
 
-    .item4 {
-        background-color: yellow;
+    .nav-item .active {
+        color: black;
     }
 </style>
 <!-- 
@@ -58,41 +75,61 @@
     "priceperday":"75"
 }
 -->
-<h2>{{ $product->productname }}</h2>
-<div class="details">
-    <div class="photo">
-        Imagem do Produto
-    </div>
-    <div class="descricao">
-        Descrição: {{ $product->description }}
-    </div>
-    <div class="item3">
-        Price: {{ $product->price }}<br>
-        Price per Day: {{ $product->priceperday }}
-    </div>
-    <div class="item4">
-        Seller: {{ $product->seller }}
-    </div>
+
+<title>{{ $product->productname }}</title>
+
+<div class="productPicture">
+    <img alt="Imagem do Produto" src="https://scontent.fopo2-1.fna.fbcdn.net/v/t1.18169-1/p200x200/18664317_1456148631095681_8921032841732140123_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=7206a8&_nc_ohc=M-v9k0XVwMQAX9GgxV6&_nc_ht=scontent.fopo2-1.fna&oh=00_AT8e6Ny0GlD3oMevMNkLI0Bd7ZKEIxwPr66uwmQxFnnGEw&oe=62031120">
 </div>
 
-@if($product->price != NULL && $product->active== 'true')
-<form method="post" action="{{ route('order.create', ['id' => $product->id, 'order_type' => 'Purchase'])}}">
-    @csrf
-    <div class="input-group">
-        <button class="btn btn-info" type="submit">
-            Buy
-        </button>
+<div class="productInfo">
+    <h2> {{ $product->productname }} </h2>
+    <p style="margin-top: -15px;">
+        @if($product->active)
+        Produto Ativo
+        @else
+        Produto Atualmente Inativo
+        @endif
+    </p>
+
+    <div class="orderForms">
+        @if($product->price != NULL && $product->active== 'true')
+        <form method="post" action="{{ route('order.create', ['id' => $product->id, 'order_type' => 'Purchase'])}}">
+            @csrf
+            <div class=" input-group">
+                <button class="btn btn-outline-light" type="submit">
+                    Buy
+                </button>
+            </div>
+        </form>
+        @endif
+        @if($product->priceperday != NULL && $product->active== 'true')
+        <form method="post" action="{{ route('order.create', ['id' => $product->id, 'order_type' => 'Loan'])}}">
+            @csrf
+            <div class="input-group">
+                <button class="btn btn-outline-light" type="submit">
+                    Loan
+                </button>
+            </div>
+        </form>
+        @endif
     </div>
-</form>
-@endif
-@if($product->priceperday != NULL && $product->active== 'true')
-<form method="post" action="{{ route('order.create', ['id' => $product->id, 'order_type' => 'Loan'])}}">
-    @csrf
-    <div class="input-group">
-        <button class="btn btn-info" type="submit">
-            Loan
-        </button>
+
+    <ul class="nav nav-tabs" style="margin-right: 50px;">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#Description">Description</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#profile">Profile</a>
+        </li>
+    </ul>
+    <div id="myTabContent" class="tab-content" style="margin-right: 50px;">
+        <div class="tab-pane fade active show" id="Description">
+            <p>{{$product->description}}</p>
+        </div>
+        <div class="tab-pane fade" id="profile">
+            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+        </div>
     </div>
-</form>
-@endif
-@endsection
+
+    @endsection

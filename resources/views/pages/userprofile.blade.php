@@ -7,6 +7,13 @@
 </style>
 
 <section class="">
+
+    @if ($user -> acctype == 'Admin')
+    <a class="btn btn-outline-primary" href="{{ route('admin.products') }}"> Product Manager </a>
+
+    <a class="btn btn-outline-primary" href="{{ route('accounts') }}"> Account Manager </a>
+    @else
+
     <a class="btn btn-outline-primary" href="{{ route('orders') }}"> Orders </a>
 
     <a class="btn btn-outline-primary" href="{{ route('myMessages') }}"> Messages </a>
@@ -22,6 +29,7 @@
             </div>
         </div>
     </div>
+    @endif
     @endif
 
 </section>

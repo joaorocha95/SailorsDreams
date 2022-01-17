@@ -57,26 +57,3 @@ $response = tap($kernel->handle(
 ))->send();
 
 $kernel->terminate($request, $response);
-
-
-class MyEvent implements 
-{
-    use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $message;
-
-    public function __construct($message)
-    {
-        $this->message = $message;
-    }
-
-    public function broadcastOn()
-    {
-        return ['my-channel'];
-    }
-
-    public function broadcastAs()
-    {
-        return 'my-event';
-    }
-}

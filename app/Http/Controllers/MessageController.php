@@ -18,7 +18,7 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $id = auth()->user()->id;
+        $id = Auth::user()->id;
         if ($id == null)
             abort(404);
         $orders = DB::table('order')->where('client', '=', $id)
@@ -54,10 +54,6 @@ class MessageController extends Controller
      */
     public function sendMessage(Request $request)
     {
-        if (!(Auth::check()))
-            return redirect('/login');
-        error_log($request);
-
         $message = new Message();
 
         $message->message_type = $request->input('message_type');
@@ -73,7 +69,7 @@ class MessageController extends Controller
         $product = Product::find($order->product);
         $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $message->associated_order . '%')
             ->get();
-        return view('messages.message ', ["order" => $order, "product" => $product, "messages" => $messages]);
+        return back()->with(["order" => $order, "product" => $product, "messages" => $messages]);
     }
 
     /**

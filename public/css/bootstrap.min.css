@@ -3816,7 +3816,7 @@ fieldset:disabled .btn {
 .nav-link {
     display: block;
     padding: 0.5rem 1rem;
-    color: #1a1a1a;
+    color: rgb(22, 22, 22);
     text-decoration: none;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
         border-color 0.15s ease-in-out;
@@ -3836,7 +3836,7 @@ fieldset:disabled .btn {
     cursor: default;
 }
 .nav-tabs {
-    border-bottom: 1px solid #eceeef;
+    border-bottom: 1px solid #ffffff;
 }
 .nav-tabs .nav-link {
     margin-bottom: -1px;

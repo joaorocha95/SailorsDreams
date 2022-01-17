@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
@@ -25,10 +26,11 @@ class UsersController extends Controller
      */
     public function index()
     {
-        if (!Auth::check()) return redirect('/login');
-        $this->authorize('list', User::class);
-        $users = Auth::user()->users()->orderBy('id')->get();
-        return view('pages.users', ['users' => $users]);
+
+        $users = DB::table('users')
+            ->get();
+
+        return view('admin.users', ['users' => $users]);
     }
 
     /**
@@ -68,6 +70,21 @@ class UsersController extends Controller
         return view('pages.userprofile', ["user" => $user]);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function adminShow($id)
+    {
+        $user = User::find($id);
+        if ($user == null)
+            abort(404);
+
+        return view('admin.userDetails', ["user" => $user]);
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -92,6 +109,40 @@ class UsersController extends Controller
         $user->save();
 
         return $user;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function ban($id)
+    {
+        $user = User::find($id);
+
+        $user->banned = true;
+        $user->save();
+
+        return $user;
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function unban($id)
+    {
+        $user = User::find($id);
+
+        $user->banned = false;
+        $user->save();
+
+        return view('admin.userDetails', ["user" => $user]);
     }
 
     /**

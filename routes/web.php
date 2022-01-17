@@ -13,6 +13,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
+use App\Events\MessageSent;
+use Illuminate\Support\Facades\DB;
+use App\Models\Message;
+use App\Models\Order;
+
 // Home
 Route::get('/', function () {
     return view('home');
@@ -66,8 +71,9 @@ Route::patch('/orders/{id}/edit', 'OrderController@update');
 //Area de Mensagens - M05
 Route::get('/message', 'MessageController@index')->name('myMessages');
 Route::get('/message/{id}', 'MessageController@messagePage')->name('messagePage.id');
-Route::get('/messages/{id}', 'MessageController@show')->name('getMessage');
-Route::post('/message/send', 'MessageController@sendMessage')->name('sendMessage');
+Route::post('/message/{id}', 'MessageController@sendMessage');
+//Route::get('/messages/{id}', 'MessageController@show')->name('getMessage');
+//Route::post('/message/{id}', 'MessageController@sendMessage');
 Route::get('/tickets', 'TicketController@index');
 Route::get('/tickets/{id}', 'TicketController@show');
 Route::post('/tickets/new', 'TicketController@createTicket');
@@ -91,18 +97,42 @@ Route::get('/about', function () {
 
 
 //Área de Gestão - M07
-Route::get('/admin');
+Route::get('/admin/products', 'ProductController@adminIndex')->name('admin.products');
+Route::get('/admin/products/{id}', 'ProductController@adminShow')->name('admin.products.id');
+Route::delete('/admin/products/{id}/delete', 'ProductController@delete')->name('admin.products.delete');
+Route::patch('/admin/products/{id}/edit', 'ProductController@showUpdateForm')->name('admin.products.edit');
 Route::get('/admin/categories', 'CategoryController@index');
 Route::get('/admin/categories/{category}', 'CategoryController@show');
 Route::post('/admin/categories/add', 'CategoryController@create');
 Route::delete('/admin/categories/{category}/delete', 'CategoryController@delete');
 Route::patch('/admin/categories/{category}/edit', 'CategoryController@update');
-Route::get('/admin/accounts', 'UserController@index');
-Route::get('/admin/accounts/{id}', 'UserController@show');
-Route::patch('/admin/accounts/{id}/ban', 'UserController@update');
-Route::patch('/admin/accounts/{id}/unban', 'UserController@update');
+Route::get('/admin/accounts', 'UsersController@index')->name('accounts');
+Route::get('/admin/accounts/{id}', 'UsersController@adminShow')->name('accounts.id');
+Route::patch('/admin/accounts/{id}/ban', 'UsersController@ban')->name('accounts.ban');
+Route::patch('/admin/accounts/{id}/unban', 'UsersController@unban')->name('accounts.unban');
 Route::get('/applications');
 Route::post('/applications/submit');
 Route::get('/applications/{id}');
 Route::get('/applications/{id}/accept');
 Route::get('/applications/{id}/reject');
+
+
+
+Route::get('/test/{id}', function ($id) {
+
+    error_log($id);
+    $order = Order::find($id);
+    $product = Product::find($order->product);
+    $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $id . '%')
+        ->get();
+
+    if ($order == null)
+        abort(404);
+    return view('messages.test', ["order" => $order, "product" => $product, "messages" => $messages]);
+})->name('sender');
+
+Route::post('/test', function () {
+    $text = request()->text;
+
+    event(new MessageSent($text));
+})->name('send');
