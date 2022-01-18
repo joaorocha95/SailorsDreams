@@ -12,11 +12,17 @@
     <a class="btn btn-outline-primary" href="{{ route('admin.products') }}"> Product Manager </a>
 
     <a class="btn btn-outline-primary" href="{{ route('accounts') }}"> Account Manager </a>
+
+    <a class="btn btn-outline-primary" href="{{ route('showApplications') }}"> Application Manager </a>
+
+    <a class="btn btn-outline-primary" href="{{ route('showCategories') }}"> Categories Manager </a>
     @else
 
     <a class="btn btn-outline-primary" href="{{ route('orders') }}"> Orders </a>
 
     <a class="btn btn-outline-primary" href="{{ route('myMessages') }}"> Messages </a>
+
+    <a class="btn btn-outline-primary" href="{{ route('newApplication') }}"> Apply to Seller </a>
 
     @if ($user -> acctype == 'Seller')
     <div class="btn-group" role="group" aria-label="Button group with nested dropdown">

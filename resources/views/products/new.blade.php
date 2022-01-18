@@ -15,7 +15,7 @@
 
 
 <fieldset>
-  <form method="POST" action="{{ route('newProduct') }}">
+  <form method="POST" action="{{ route('newProduct') }}" enctype="multipart/form-data">
     {{ csrf_field() }}
     <Legend>New Product</Legend>
     <div class="form-group row">
@@ -33,7 +33,7 @@
       <label for="name" class="form-label mt-4">Category</label>
       <select class="form-select smaller" id="name" type="name" name="name" value="{{ old('name') }}" required autofocus>
         @foreach($categories as $categoryItem)
-        <option>{{$categoryItem->name}}</option>
+        <option value="{{$categoryItem->id}}">{{$categoryItem->name}}</option>
         @if ($errors->has('name'))
         <span class="error">
           {{ $errors->first('name') }}

@@ -33,14 +33,19 @@
 </style>
 
 <section id="categories">
+
+    <a class="btn btn-outline-primary" href="{{ route('addCategory') }}"> Add Category </a>
+
     <div class="biggerCategory">
         @foreach($categories as $category)
-        <a href="{{ route('category.name', ['name' => $category->id]) }}">
+        <a href="{{ route('showCategory', ['category' => $category->id]) }}">
             <div class="btn btn-outline-dark" style="margin-left: 5px;">{{ $category -> name}}</div>
         </a>
         @endforeach
 
     </div>
+
+
 
 </section>
 

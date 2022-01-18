@@ -5,26 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class CategoryNames extends Model
 {
     use HasFactory;
 
-    public $table = 'category';
+    public $table = 'categorynames';
     public $timestamps  = false;
-
-    /**
-     * Uma categoria pode ter vários produtos
-     */
-    public function categories()
-    {
-        return $this->belongsToMany('App\Models\Product');
-    }
 
     /**
      * Uma categoria pode ter vários produtos
      */
     public function categorynames()
     {
-        return $this->belongsToMany('App\Models\CategoryNames');
+        return $this->belongsToMany('App\Models\Category');
     }
 }

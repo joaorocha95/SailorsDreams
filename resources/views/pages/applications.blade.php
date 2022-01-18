@@ -4,14 +4,14 @@
 
 @section('content')
 <style>
-    .biggerCategory {
+    .biggerApplication {
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 5px;
     }
 
-    .category {
+    .applications {
         border-radius: 10px;
         background-color: #4ACBC9;
         width: 100px;
@@ -32,11 +32,11 @@
     }
 </style>
 
-<section id="categories">
-    <div class="biggerCategory">
-        @foreach($categories as $category)
-        <a href="{{ route('category.name', ['name' => $category->id]) }}">
-            <div class="btn btn-outline-dark" style="margin-left: 5px;">{{ $category -> name}}</div>
+<section id="applications">
+    <div class="biggerApplication">
+        @foreach($applications as $application)
+        <a href="{{ route('showApplication.id', ['id' => $application->id]) }}">
+            <div class="btn btn-outline-dark" style="margin-left: 5px;">{{ $application -> id}}</div>
         </a>
         @endforeach
 

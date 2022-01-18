@@ -14,6 +14,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Product;
 use App\Events\MessageSent;
+use App\Http\Controllers\Application;
 use Illuminate\Support\Facades\DB;
 use App\Models\Message;
 use App\Models\Order;
@@ -37,6 +38,14 @@ Route::post('register', 'Auth\RegisterController@register');
 //Users - M01
 Route::get('/user/{id}', 'UsersController@show')->name('user.id');
 Route::patch('/user/edit', 'UsersController@update');
+
+Route::get('/applications', 'ApplicationController@index')->name('showApplications');
+Route::get('/applications/submit', 'ApplicationController@create')->name('newApplication');
+Route::post('/applications/submit', 'ApplicationController@submitApplication');
+Route::get('/applications/{id}', 'ApplicationController@show')->name('showApplication.id');
+Route::patch('/applications/{id}/accept', 'ApplicationController@acceptApplication')->name('acceptApplication');
+Route::patch('/applications/{id}/reject', 'ApplicationController@rejectApplication')->name('rejectApplication');
+
 
 //Produtos e Categorias - M02
 Route::get('products', 'ProductController@index')->name('products');
@@ -101,21 +110,17 @@ Route::get('/admin/products', 'ProductController@adminIndex')->name('admin.produ
 Route::get('/admin/products/{id}', 'ProductController@adminShow')->name('admin.products.id');
 Route::delete('/admin/products/{id}/delete', 'ProductController@delete')->name('admin.products.delete');
 Route::patch('/admin/products/{id}/edit', 'ProductController@showUpdateForm')->name('admin.products.edit');
-Route::get('/admin/categories', 'CategoryController@index');
-Route::get('/admin/categories/{category}', 'CategoryController@show');
-Route::post('/admin/categories/add', 'CategoryController@create');
-Route::delete('/admin/categories/{category}/delete', 'CategoryController@delete');
-Route::patch('/admin/categories/{category}/edit', 'CategoryController@update');
+Route::get('/admin/categories', 'CategoryController@adminIndex')->name('showCategories');
+Route::get('/admin/categories/{category}', 'CategoryController@adminShow')->name('showCategory');
+Route::get('/admin/category/add', 'CategoryController@showNewForm')->name('addCategory');
+Route::post('/admin/category/add', 'CategoryController@create');
+Route::delete('/admin/categories/{category}/delete', 'CategoryController@delete')->name('deleteCategory');
+Route::get('/admin/category/{category}/edit', 'CategoryController@showUpdateForm')->name('updateCategory');
+Route::patch('/admin/category/{category}/edit', 'CategoryController@update');
 Route::get('/admin/accounts', 'UsersController@index')->name('accounts');
 Route::get('/admin/accounts/{id}', 'UsersController@adminShow')->name('accounts.id');
 Route::patch('/admin/accounts/{id}/ban', 'UsersController@ban')->name('accounts.ban');
 Route::patch('/admin/accounts/{id}/unban', 'UsersController@unban')->name('accounts.unban');
-Route::get('/applications');
-Route::post('/applications/submit');
-Route::get('/applications/{id}');
-Route::get('/applications/{id}/accept');
-Route::get('/applications/{id}/reject');
-
 
 
 Route::get('/test/{id}', function ($id) {

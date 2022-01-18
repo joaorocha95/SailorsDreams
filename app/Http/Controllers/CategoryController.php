@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\CategoryNames;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,12 +18,35 @@ class CategoryController extends Controller
     public function index()
     {
 
-        $categories = DB::table('category')
-            ->select('name')
-            ->distinct()
+        $categories = DB::table('categorynames')
             ->get();
 
         return view('pages.categories', ['categories' => $categories]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function adminIndex()
+    {
+        $categories = DB::table('categorynames')
+            ->get();
+
+        return view('admin.categories', ['categories' => $categories]);
+    }
+
+    public function showNewForm()
+    {
+        return view('admin.categoryNew');
+    }
+
+    public function showUpdateForm($id)
+    {
+        $category = CategoryNames::find($id);
+
+        return view('admin.categoryEdit', ['category' => $category]);
     }
 
     /**
@@ -32,13 +56,12 @@ class CategoryController extends Controller
      */
     public function create(Request $request)
     {
-        $category = new Category();
+        $category = new CategoryNames();
 
         $category->name = $request->input('name');
-        $category->product_id = $request->input('product_id');
         $category->save();
 
-        return $category;
+        return redirect('admin/categories');
     }
 
     /**
@@ -47,12 +70,12 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($name)
+    public function show($id)
     {
-        if ($name == null)
+        if ($id == null)
             abort(404);
 
-        $items = DB::table('category')->where('name', '=', $name)
+        $items = DB::table('category')->where('name', '=', $id)
             ->get();
 
         $products = DB::table('product')->where('id', '=', -1)
@@ -65,6 +88,22 @@ class CategoryController extends Controller
         return view('pages.products', compact('products'));
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Category  $category
+     * @return \Illuminate\Http\Response
+     */
+    public function adminShow($id)
+    {
+        if ($id == null)
+            abort(404);
+
+        $category = CategoryNames::find($id);
+
+        return view('admin.categoryDetails', ['category' => $category]);
+    }
+
 
 
     /**
@@ -73,14 +112,12 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function delete($name)
+    public function delete($id)
     {
-        $category = Category::find($name);
-
-        $this->authorize('delete', $category);
+        $category = CategoryNames::find($id);
         $category->delete();
 
-        return $category;
+        return redirect('admin/categories');
     }
 
     /**
@@ -90,13 +127,14 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update($name)
+    public function update(Request $request, $id)
     {
-        $category = Category::find($name);
+        $category = CategoryNames::find($id);
 
-        $this->authorize('update', $category);
-
-        $category->name = $request->input('name');
+        if ($request->input('name') != null)
+            $category->name = $request->input('name');
         $category->save();
+
+        return redirect('admin/categories');
     }
 }

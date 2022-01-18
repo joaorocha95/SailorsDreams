@@ -44,7 +44,7 @@
         Price per day: {{ $product->priceperday }}
     </div>
 
-    <form method="POST" action="{{ route('updatepage', ['id' => $product->id])}}">
+    <form method="POST" action="{{ route('admin.products.edit', ['id' => $product->id])}}">
         @method('PATCH')
         @csrf
         <div class="input-group">

@@ -12,6 +12,7 @@ CREATE TYPE lbaw2182.accType AS ENUM ('User', 'Client', 'Seller', 'Admin', 'Supp
 CREATE TYPE lbaw2182.order_status AS ENUM ('In_Negotiation', 'Transaction_Completed', 'Transaction_Failed');
 CREATE TYPE lbaw2182.message_type AS ENUM ('Ticket', 'Order');
 CREATE TYPE lbaw2182.order_type AS ENUM ('Loan', 'Purchase');
+CREATE TYPE lbaw2182.application_state AS ENUM ('Evaluating', 'Rejected', 'Accepted');
 
 -----------------------------------------
 -- Tables
@@ -76,10 +77,16 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Addresses(
    zipcode TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS lbaw2182.CategoryNames (
+   id SERIAL PRIMARY KEY,
+   name TEXT NOT NULL,
+   CONSTRAINT CAT_NAMES_UK UNIQUE (id, name)
+);
+
 CREATE TABLE IF NOT EXISTS lbaw2182.Category (
    id SERIAL PRIMARY KEY,
    product_id INTEGER REFERENCES lbaw2182.Product (id) ON DELETE CASCADE,
-   name TEXT NOT NULL,
+   name INTEGER REFERENCES lbaw2182.CategoryNames (id) ON DELETE CASCADE,
    CONSTRAINT CAT_UK UNIQUE (product_id, name)
 );
 
@@ -105,6 +112,14 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Wishlist (
    userid INTEGER NOT NULL REFERENCES lbaw2182.users (id) ON UPDATE CASCADE,
    product INTEGER NOT NULL REFERENCES lbaw2182.Product (id) ON UPDATE CASCADE,
    PRIMARY KEY (userid, product)
+);
+
+CREATE TABLE IF NOT EXISTS lbaw2182.Application (
+   id SERIAL PRIMARY KEY,
+   application_state lbaw2182.application_state NOT NULL DEFAULT 'Evaluating',
+   userid INTEGER NOT NULL REFERENCES lbaw2182.users (id) ON UPDATE CASCADE,
+   title TEXT NOT NULL,
+   description TEXT NOT NULL
 );
 
 --TRIGGER01
@@ -329,16 +344,23 @@ INSERT INTO lbaw2182.Addresses (userid,addr,city,country,zipcode) VALUES (9,'415
 INSERT INTO lbaw2182.Addresses (userid,addr,city,country,zipcode) VALUES (6,'3452 Oakmound Drive', 'Chicago, IL', 'United States of America', '60626');
 
 -----------------------------------
+--   	CategoryNames Inserts
+-----------------------------------
+INSERT INTO lbaw2182.CategoryNames ( name) VALUES ('Water vehicle');
+INSERT INTO lbaw2182.CategoryNames ( name) VALUES ('Luxurious vehicle');
+INSERT INTO lbaw2182.CategoryNames ( name) VALUES ('Classics');
+
+-----------------------------------
 --   	Category Inserts
 -----------------------------------
-INSERT INTO lbaw2182.Category (product_id, name) VALUES (1, 'Water vehicle');
-INSERT INTO lbaw2182.Category (product_id, name) VALUES (2, 'Water vehicle');
-INSERT INTO lbaw2182.Category (product_id, name) VALUES (3, 'Luxurious vehicle');
-INSERT INTO lbaw2182.Category (product_id, name) VALUES (4, 'Luxurious vehicle');
-INSERT INTO lbaw2182.Category (product_id, name) VALUES (5, 'Luxurious vehicle');
-INSERT INTO lbaw2182.Category (product_id, name) VALUES (6, 'Classics');
-INSERT INTO lbaw2182.Category (product_id, name) VALUES (7, 'Luxurious vehicle');
-INSERT INTO lbaw2182.Category (product_id, name) VALUES (8, 'Luxurious vehicle');
+INSERT INTO lbaw2182.Category (product_id, name) VALUES (1, 1);
+INSERT INTO lbaw2182.Category (product_id, name) VALUES (2, 1);
+INSERT INTO lbaw2182.Category (product_id, name) VALUES (3, 2);
+INSERT INTO lbaw2182.Category (product_id, name) VALUES (4, 2);
+INSERT INTO lbaw2182.Category (product_id, name) VALUES (5, 2);
+INSERT INTO lbaw2182.Category (product_id, name) VALUES (6, 3);
+INSERT INTO lbaw2182.Category (product_id, name) VALUES (7, 2);
+INSERT INTO lbaw2182.Category (product_id, name) VALUES (8, 2);
 
 -----------------------------------
 --  	Ticket Inserts
@@ -362,6 +384,13 @@ INSERT INTO lbaw2182.Wishlist(userid, product) VALUES (4, 2);
 INSERT INTO lbaw2182.Wishlist(userid, product) VALUES (4, 3);
 INSERT INTO lbaw2182.Wishlist(userid, product) VALUES (4, 4);
 INSERT INTO lbaw2182.Wishlist(userid, product) VALUES (4, 6);
+
+
+-----------------------------------
+--  	Application Inserts
+-----------------------------------
+INSERT INTO lbaw2182.Application(application_state ,userid, title, description) VALUES ('Rejected', 10, 'Hey', 'I want to apply to be a seller!');
+INSERT INTO lbaw2182.Application(application_state ,userid, title, description) VALUES ('Evaluating', 10, 'Heyv2', 'its me again, I want to apply to be a seller!');
 
 -----------------------------------------
 -- end

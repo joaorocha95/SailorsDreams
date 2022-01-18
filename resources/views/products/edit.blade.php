@@ -2,51 +2,93 @@
 
 @section('content')
 
-<form method="POST" action="{{ route('updatepage', ['id' => $product->id]) }}">
-  {{ csrf_field() }}
-  @method('PATCH')
 
-  <label for="productname">Product Name:</label>
-  <input id="productname" type="text" name="productname" value="{{ old('productname') }}" placeholder="{{$product->productname}}" autofocus>
-  @if ($errors->has('productname'))
-  <span class="error">
-    {{ $errors->first('productname') }}
-  </span>
-  @endif
+<style>
+  .smaller {
+    width: 300px;
+    margin-left: 20px;
+  }
 
-  <label for="description">Description:</label>
-  <input id="description" type="text" name="description" value="{{ old('description') }}" placeholder="{{$product->description}}">
-  @if ($errors->has('description'))
-  <span class="error">
-    {{ $errors->first('description') }}
-  </span>
-  @endif
+  .newProduct {
+    align-items: center;
+  }
+</style>
 
-  <label for="price">Price:</label>
-  <input id="price" type="real" name="price" value="{{ old('price') }}" placeholder="{{$product->price}}" autofocus>
-  @if ($errors->has('price'))
-  <span class="error">
-    {{ $errors->first('price') }}
-  </span>
-  @endif
 
-  <label for="priceperday">Price per day:</label>
-  <input id="priceperday" type="real" name="priceperday" value="{{ old('priceperday') }}" placeholder="{{$product->priceperday}}" autofocus>
-  @if ($errors->has('priceperday'))
-  <span class="error">
-    {{ $errors->first('priceperday') }}
-  </span>
-  @endif
+<fieldset>
+  <form method="POST" action="{{ route('updatepage', ['id' => $product->id]) }}">
+    {{ csrf_field() }}
+    @method('PATCH')
+    <Legend>Edit Product</Legend>
+    <div class="form-group row">
+      <label for="productname" class="col-sm-2 col-form-label">Product Name:</label>
+      <div class="col-sm-10"></div>
+      <input class="form-control-plaintext smaller" id="productname" type="text" name="productname" value="{{ old('productname') }}" placeholder="{{$product->productname}}" autofocus>
+    </div>
+    @if ($errors->has('productname'))
+    <span class="error">
+      {{ $errors->first('productname') }}
+    </span>
+    @endif
 
-  <label for="active">Product active:</label>
-  <input type="checkbox" name="active" value="yes" placeholder="{{$product->active}}">
+    <div class="form-group">
+      <label for="name" class="form-label mt-4">Category</label>
+      <select class="form-select smaller" id="name" type="name" name="name" value="{{ old('name') }}" placeholder="{{$product->name}}" autofocus>
+        @foreach($categories as $categoryItem)
+        <option value="{{$categoryItem->id}}">{{$categoryItem->name}}</option>
+        @if ($errors->has('name'))
+        <span class="error">
+          {{ $errors->first('name') }}
+        </span>
+        @endif
+        @endforeach
+      </select>
+    </div>
 
-  <label for="img">Select image to upload:</label>
-  <input type="file" name="img" id="img" placeholder="{{$product->img}}">
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <input id="description" type="description" name="description" value="{{ old('description') }}" placeholder="{{$product->description}}" autofocus>
+      @if ($errors->has('description'))
+      <span class="error">
+        {{ $errors->first('description') }}
+      </span>
+      @endif
+    </div>
 
-  <button type="submit">
-    Submit
-  </button>
-  <a class="button button-outline" href="{{ route('productManager') }}">Cancel</a>
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input id="price" type="real" name="price" value="{{ old('price') }}" placeholder="{{$product->price}}" autofocus>
+      @if ($errors->has('price'))
+      <span class="error">
+        {{ $errors->first('price') }}
+      </span>
+      @endif
+    </div>
+
+    <div class="form-group">
+      <label for="pricePerDay">Price per day:</label>
+      <input id="pricePerDay" type="real" name="pricePerDay" value="{{ old('pricePerDay') }}" placeholder="{{$product->price}}" autofocus>
+      @if ($errors->has('pricePerDay'))
+      <span class="error">
+        {{ $errors->first('pricePerDay') }}
+      </span>
+      @endif
+    </div>
+
+    <div class="form-check">
+      <label for="active" class="form-check-label">Product active</label>
+      <input type="checkbox" class="form-check-input" name="active" checked="yes">
+    </div>
+
+    <div class="form-group">
+      <label for="img" class="form-label mt-4">Select image to upload:</label>
+      <input class="form-control" type="file" name="img" id="img">
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      Submit
+    </button>
+    <a class="btn btn-outline-primary" href="{{ route('newProduct') }}">Cancel</a>
+</fieldset>
 </form>
 @endsection

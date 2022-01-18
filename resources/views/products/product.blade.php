@@ -79,9 +79,9 @@
 <title>{{ $product->productname }}</title>
 
 <div class="productPicture">
-    <img alt="Imagem do Produto" src="https://scontent.fopo2-1.fna.fbcdn.net/v/t1.18169-1/p200x200/18664317_1456148631095681_8921032841732140123_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=7206a8&_nc_ohc=M-v9k0XVwMQAX9GgxV6&_nc_ht=scontent.fopo2-1.fna&oh=00_AT8e6Ny0GlD3oMevMNkLI0Bd7ZKEIxwPr66uwmQxFnnGEw&oe=62031120">
-</div>
 
+    <img alt="Imagem do Produto" src="{{$product->img}}">
+</div>
 <div class="productInfo">
     <h2> {{ $product->productname }} </h2>
     <p style="margin-top: -15px;">
@@ -94,7 +94,7 @@
 
     <div class="orderForms">
         @if($product->price != NULL && $product->active== 'true')
-        <form method="post" action="{{ route('order.create', ['id' => $product->id, 'order_type' => 'Purchase'])}}">
+        <form method="post" action="{{ route('order.create', ['id' => $product->id, 'order_type' => 'Purchase'])}}" enctype="multipart/form-data">
             @csrf
             <div class=" input-group">
                 <button class="btn btn-outline-light" type="submit">
@@ -131,5 +131,5 @@
             <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
         </div>
     </div>
-
-    @endsection
+</div>
+@endsection

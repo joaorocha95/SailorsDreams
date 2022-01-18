@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use Illuminate\Support\Facades\Storage;
+use App\Models\File;
 
 class ProductController extends Controller
 {
@@ -59,7 +61,13 @@ class ProductController extends Controller
             $product->active = true;
         else
             $product->active = false;
-        $product->img = $request->input('img');
+
+
+        $path = $request->file('img')->store('public/images');
+        $product->img = $path;
+
+
+
         $product->price = $request->input('price');
         $product->priceperday = $request->input('priceperday');
         $product->save();
@@ -71,6 +79,7 @@ class ProductController extends Controller
 
         return view('products.product', ["product" => $product]);
     }
+
 
     /**
      * Display the specified resource.
@@ -102,9 +111,7 @@ class ProductController extends Controller
 
     public function showNewForm()
     {
-        $categories = DB::table('category')
-            ->select('name')
-            ->distinct()
+        $categories = DB::table('categorynames')
             ->get();
         return view('products.new', ["categories" => $categories]);
     }
@@ -130,13 +137,12 @@ class ProductController extends Controller
     public function showUpdateForm($id)
     {
         $product = Product::find($id);
-        $categories = DB::table('category')
-            ->select('name')
-            ->distinct()
+        $categories = DB::table('categorynames')
             ->get();
         if ($product == null)
             abort(404);
-        return view('products.edit', ["product" => $product], ["category" => $categories]);
+
+        return view('products.edit', ["product" => $product], ["categories" => $categories]);
     }
 
     /**
@@ -175,9 +181,16 @@ class ProductController extends Controller
         if ($request->input('priceperday') != null)
             $product->priceperday = $request->input('priceperday');
 
-        error_log($product);
-
         $product->save();
+
+        if ($request->input('name') != null) {
+            DB::table('category')->where('product_id', '=', $id)->delete();
+
+            $category = new Category();
+            $category->product_id = $id;
+            $category->name = $request->input('name');
+            $category->save();
+        }
 
         if ($user->acctype == 'Admin')
             return redirect('admin/products');
