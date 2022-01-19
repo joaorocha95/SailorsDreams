@@ -64,10 +64,11 @@ Route::get('/categories', 'CategoryController@index');
 Route::get('/wishlist', 'WishlistController@index');
 Route::post('/wishlist/add', 'WishlistController@addProduct');
 Route::delete('/wishlist/delete', 'WishlistController@removeProduct');
-Route::get('/reviews/user/{id}', 'ReviewController@index');
-Route::post('/reviews/user/{id}/add', 'ReviewController@create');
-Route::patch('/reviews/user/{id}/{review_id}/edit', 'ReviewController@update');
-Route::delete('/reviews/user/{id}/{review_id}/delete', 'ReviewController@delete');
+Route::get('/reviews/orders/{id}', 'ReviewController@index');
+Route::get('/orders/{id}/reviews/add', 'ReviewController@newReviewForm')->name('newReview.id');
+Route::post('/orders/{id}/reviews/add', 'ReviewController@newReview');
+Route::patch('/orders/{id}/reviews/{review_id}/edit', 'ReviewController@update');
+Route::delete('/orders/{id}/reviews/{review_id}/delete', 'ReviewController@delete');
 
 
 //Pedidos - M04

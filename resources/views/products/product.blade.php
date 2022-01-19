@@ -4,9 +4,8 @@
 <title>About</title>
 
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
 <!-- Styles -->
+<link href="{{ asset('css/reviews.css') }}" rel="stylesheet">
 <style>
     h2 {
         color: white;
@@ -60,8 +59,14 @@
         color: white;
     }
 
-    .nav-item .active {
-        color: black;
+    .reviewItem {
+        width: 100%;
+        height: fit-content;
+        margin-right: 50px;
+        border-style: solid;
+        border-color: white;
+        margin-bottom: 10px;
+        padding: 5px;
     }
 </style>
 <!-- 
@@ -77,6 +82,7 @@
 -->
 
 <title>{{ $product->productname }}</title>
+
 
 <div class="productPicture">
 
@@ -117,19 +123,81 @@
 
     <ul class="nav nav-tabs" style="margin-right: 50px;">
         <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" href="#Description">Description</a>
+            <a class="nav-link" data-bs-toggle="tab" id="#Description">Description</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#profile">Profile</a>
+            <a class="nav-link" data-bs-toggle="tab" id="#Profile">Seller</a>
+        </li>
+        <li>
+            <a class="nav-link active" data-bs-toggle="tab" id="#Reviews">Seller Reviews</a>
         </li>
     </ul>
     <div id="myTabContent" class="tab-content" style="margin-right: 50px;">
-        <div class="tab-pane fade active show" id="Description">
+        <div class="tab-pane fade" id="Description">
             <p>{{$product->description}}</p>
         </div>
-        <div class="tab-pane fade" id="profile">
-            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit.</p>
+        <div class="tab-pane fade" id="Profile">
+            <p><a style="color: white;" href="{{route('user.id' , ['id' => $seller->id])}}">Seller's Webpage</a></p>
+            <p>Seller's E-mail: {{$seller->email}}</p>
+            <p>Seller's Phone Number: {{$seller->phone}}</p>
+        </div>
+        <!--
+        {
+        id":2,"orderid":1,
+        "to_user":6,
+        "from_user":3,
+        "rating":5,
+        "comment":null,
+        "review_date":"2022-01-18"
+        }
+        -->
+        <div class="tab-pane fade active show" id="Reviews">
+            @if($reviews != [])
+            <div class="container">
+                <ul class="hash-list cols-3 cols-1-xs pad-30-all align-center text-sm">
+                    @foreach($reviews as $review)
+                    <li>
+                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="wpx-100 img-round mgb-20" title="" alt="" data-edit="false" data-editor="field" data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]">
+                        <p class="fs-110 font-cond-l" contenteditable="false">"{{$review->comment}}"</p>
+                        <h5 class="font-cond mgb-5 fg-text-d fs-130" contenteditable="false">{{$review->from_user}}</h5>
+                        <small class="font-cond case-u lts-sm fs-80 fg-text-l" contenteditable="false">{{$review->rating}}/5</small>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+            @else
+            <p>No reviews</p>
+            @endif
         </div>
     </div>
 </div>
+
+<script>
+    navLinks = ["Description", "Profile", "Reviews"]
+
+    document.getElementById("#Description").addEventListener("click", function() {
+        hideAllOtherThan("Description")
+    });
+    document.getElementById("#Profile").addEventListener("click", function() {
+        hideAllOtherThan("Profile")
+    });
+    document.getElementById("#Reviews").addEventListener("click", function() {
+        hideAllOtherThan("Reviews")
+    });
+
+    function hideAllOtherThan(toShow) {
+        document.getElementById("#" + toShow).classList.add("active");
+        document.getElementById(toShow).classList.add("show");
+        document.getElementById(toShow).classList.add("active");
+
+        for (let navLink of navLinks) {
+            if (navLink != toShow) {
+                document.getElementById("#" + navLink).classList.remove("active");
+                document.getElementById(navLink).classList.remove("show");
+                document.getElementById(navLink).classList.remove("active");
+            }
+        }
+    }
+</script>
+
 @endsection

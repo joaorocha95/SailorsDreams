@@ -20,14 +20,25 @@
         height: 100%;
     }
 
+
+
     #messsage_box {
         width: 400px;
         height: 500px;
         max-height: 400px;
         border-style: solid;
         border-color: black;
-        overflow: scroll;
+        overflow-y: auto;
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
     }
+
+    #message_box::-webkit-scrollbar {
+        display: none;
+    }
+
+
 
     .message {
         height: 10px;
@@ -51,6 +62,13 @@
         background-color: cyan;
     }
 </style>
+
+<script>
+    var element = document.getElementById('message_box');
+
+    element.scrollTop = element.scrollHeight;
+</script>
+
 
 <h2 class="temp1">Order ID: {{ $order->id }}</h2>
 <div class="temp2">
@@ -81,8 +99,8 @@
     @endif
     @endforeach
     @endif
-
 </div>
+
 
 
 <form method="POST" action="{{ route('messagePage.id', ['id' => $order->id, 'message_type' => 'Order', 'associated_order' => $order->id]) }}">

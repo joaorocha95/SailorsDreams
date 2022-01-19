@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Review;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
+use App\Models\Product;
+use App\Models\User;
+use App\Models\Order;
 
 class ReviewController extends Controller
 {
@@ -19,26 +22,33 @@ class ReviewController extends Controller
         return view('pages.review.user', ['review' => $reviews]);
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $id, $to, $from)
+    public function newReviewForm($id)
     {
-        $review = new Review();
 
-        $this->authorize('create', $review);
-        $review->id = $id;
-        $review->to = $to;
-        $review->from = $from;
+        $order = Order::find($id);
+        return view('pages.newReview', ["order" => $order]);
+    }
+
+    public function newReview(Request $request, $id)
+    {
+        $order = Order::find($id);
+        $product = Product::find($order->product);
+        error_log("----------------------------------" .  $order);
+        $review = new Review();
+        $review->orderid = $order->id;
+        $review->to_user = $product->seller;
+        $review->from_user = $order->client;
         $review->rating = $request->input('rating');
         $review->comment = $request->input('comment');
-        $review->date = date("Y/m/d");
+
         $review->save();
 
-        return $review;
+        return view('products.product', ["product" => $product]);
     }
 
 
@@ -56,7 +66,7 @@ class ReviewController extends Controller
         $review->rating = $request->input('rating');
         $review->comment = $request->input('comment');
         $review->save();
-        return $review;           
+        return $review;
     }
 
     /**

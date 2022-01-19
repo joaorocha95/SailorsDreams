@@ -1,0 +1,65 @@
+.align-center {
+    text-align: center;
+}
+.hash-list {
+    display: block;
+    padding: 0;
+    margin: 0 auto;
+}
+
+@media (min-width: 1068px) {
+    .hash-list.cols-3 > li:nth-last-child(-n + 3) {
+        border-bottom: none;
+    }
+}
+@media (min-width: 1068px) {
+    .hash-list.cols-3 > li {
+        width: 33.3333%;
+    }
+}
+.hash-list > li {
+    display: block;
+    float: left;
+    border-right: 1px solid rgba(255, 255, 255, 0.7);
+    border-left: 1px solid rgba(255, 255, 255, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.7);
+}
+.pad-30,
+.pad-30-all > * {
+    padding: 30px;
+}
+
+.mgb-20,
+.mgb-20-all > * {
+    margin-bottom: 20px;
+}
+.wpx-100,
+.wpx-100-after:after {
+    width: 100px;
+}
+.img-round,
+.img-rel-round {
+    border-radius: 50%;
+}
+.padb-30,
+.padb-30-all > * {
+    padding-bottom: 30px;
+}
+
+.mgb-40,
+.mgb-40-all > * {
+    margin-bottom: 40px;
+}
+[class*="line-b"] {
+    position: relative;
+    padding-bottom: 20px;
+    border-color: #e6af2a;
+}
+.fg-text-d,
+.fg-hov-text-d:hover,
+.fg-active-text-d.active {
+    color: white;
+}
+.font-cond-b {
+    font-weight: 700 !important;
+}

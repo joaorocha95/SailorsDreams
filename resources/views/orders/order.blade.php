@@ -67,5 +67,7 @@
     <div class="temp2"> Total Price: {{ $order->total_price }}
     </div>
 </div>
+
+<a class="btn btn-outline-primary" href="{{ route('newReview.id', ['id' => $order->id]) }}"> Review Order</a>
 </div>
 @endsection

@@ -7,9 +7,11 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Policies\ProductPolicy;
 use Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\File;
+use App\Models\Review;
 
 class ProductController extends Controller
 {
@@ -62,11 +64,8 @@ class ProductController extends Controller
         else
             $product->active = false;
 
-
         $path = $request->file('img')->store('public/images');
         $product->img = $path;
-
-
 
         $product->price = $request->input('price');
         $product->priceperday = $request->input('priceperday');
@@ -77,7 +76,14 @@ class ProductController extends Controller
         $category->name = $request->input('name');
         $category->save();
 
-        return view('products.product', ["product" => $product]);
+        $seller = User::find($product->seller);
+
+        $reviews = DB::table('review')->where('to_user', '=', $seller->id)
+            ->limit(3)
+            ->get();
+        error_log($reviews);
+
+        return view('products.product', ["product" => $product, "seller" => $seller, "reviews" => $reviews]);
     }
 
 
@@ -92,7 +98,13 @@ class ProductController extends Controller
         $product = Product::find($id);
         if ($product == null)
             abort(404);
-        return view('products.product', ["product" => $product]);
+
+        $seller = User::find($product->seller);
+        $reviews = DB::table('review')->where('to_user', '=', $seller->id)
+            ->limit(3)
+            ->get();
+        error_log($reviews);
+        return view('products.product', ["product" => $product, "seller" => $seller, "reviews" => $reviews]);
     }
 
     /**

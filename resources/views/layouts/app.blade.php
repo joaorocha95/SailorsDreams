@@ -19,7 +19,56 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    html {
+      height: 100%;
+    }
 
+    footer {
+      background-color: black;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 200px;
+      color: white;
+      display: none;
+    }
+
+
+    body {
+      position: relative;
+      margin: 0;
+      padding-bottom: 200px;
+      min-height: 100%;
+      z-index: -999;
+    }
+
+    .column {
+      float: left;
+      width: 25%;
+      padding: 10px;
+      height: 200px;
+      color: white;
+      text-align: center;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+      .column {
+        width: 100%;
+      }
+    }
+
+    h3 {
+      color: white;
+    }
   </style>
 
   <script type="text/javascript">
@@ -77,10 +126,29 @@
 
 
   @yield('content')
-  </section>
+
 
   </main>
-
+  </section>
+  <footer class="page-footer">
+    <div class="column">
+      <h3>Categories</h2>
+    </div>
+    <div class="column">
+      <h3>User Profile</h2>
+        <p>Edit Profile</p>
+        <p>Order History</p>
+        <p>Wishlist</p>
+    </div>
+    <div class="column">
+      <h3>About Us</h2>
+    </div>
+    <div class="column">
+      <h3>Helpdesk</h2>
+        <p>Send Ticket</p>
+        <p>FAQ</p>
+    </div>
+  </footer>
 </body>
 
 </html>
