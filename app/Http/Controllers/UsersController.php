@@ -6,6 +6,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
+use App\Policies\UsersPolicy;
+
 
 class UsersController extends Controller
 {
@@ -26,11 +30,16 @@ class UsersController extends Controller
      */
     public function index()
     {
+        $pol = new UsersPolicy();
 
-        $users = DB::table('users')
-            ->get();
+        if ($pol->adminCheck()) {
+            $users = DB::table('users')
+                ->get();
 
-        return view('admin.users', ['users' => $users]);
+            return view('admin.users', ['users' => $users]);
+        }
+
+        abort(404);
     }
 
     /**
@@ -44,6 +53,10 @@ class UsersController extends Controller
         $user->username = $request->input('username');
         $user->email = $request->input('email');
         $user->birthdate = $request->input('birthdate');
+
+
+
+
 
         $password = $request->input('password');
         $user->password = $password;
@@ -63,11 +76,32 @@ class UsersController extends Controller
      */
     public function show($id)
     {
+        $pol = new UsersPolicy();
         $user = User::find($id);
-        if ($user == null)
-            abort(404);
 
-        return view('pages.userprofile', ["user" => $user]);
+        if ($pol->logCheck($id))
+            return view('pages.userprofile', ["user" => $user]);
+
+        if ($pol->outerCheck($id))
+            return view('pages.outerprofile', ["user" => $user]);
+        abort(404);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function outerShow($id)
+    {
+        $pol = new UsersPolicy();
+        $user = User::find($id);
+
+        if ($pol->outerCheck())
+            return view('pages.outerprofile', ["user" => $user]);
+
+        abort(404);
     }
 
     /**
@@ -78,37 +112,69 @@ class UsersController extends Controller
      */
     public function adminShow($id)
     {
-        $user = User::find($id);
-        if ($user == null)
-            abort(404);
+        $pol = new UsersPolicy();
 
-        return view('admin.userDetails', ["user" => $user]);
+        if ($pol->adminCheck()) {
+            $user = User::find($id);
+            if ($user == null)
+                abort(404);
+
+            return view('admin.userDetails', ["user" => $user]);
+        }
+
+        abort(404);
+    }
+
+    public function update($id)
+    {
+        $pol = new UsersPolicy();
+
+        if ($pol->logCheck($id)) {
+            $user = User::find($id);
+            return view('pages.editUserProfile', ["user" => $user]);
+        }
+
+        abort(404);
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id, $birthDate, $banned, $accType, $img)
+    public function updateProfile(Request $request, $id)
     {
-        $user = User::find($id);
+        $pol = new UsersPolicy();
 
-        $this->authorize('update', $user);
-        $user->username = $request->input('username');
-        $user->email = $request->input('email');
-        $user->birthDate = $birthDate;
-        $user->password = $request->input('password');
-        $user->banned = $banned;
-        $user->accType = $accType;
-        $user->img = $img;
-        $user->phone = $request->input('phone');
-        $user->save();
+        $id_aux = auth()->user()->id;
+        $user = User::find($id_aux);
 
-        return $user;
+        if ($pol->logCheck($id_aux)) {
+
+            if ($user == null)
+                abort(404);
+
+            if ($request->input('phone') != null)
+                $user->phone = $request->input('phone');
+
+            if ($request->file('pic') != null) {
+                $file = $request->file('pic');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $file->move('uploads/avatarImages', $filename);
+                error_log("EntroUUUUU2!");
+                $user->img = $filename;
+            }
+
+            if ($request->input('password') != null)
+                $user->password = bcrypt($request->input('password'));
+
+            $user->save();
+
+
+            if ($user->acctype == 'Admin')
+                return redirect()->route('user.id', ["id" => $user->id]);
+            else
+                return redirect()->route('user.id', ["id" => $user->id]);
+        }
+
+        abort(404);
     }
 
     /**
@@ -120,12 +186,18 @@ class UsersController extends Controller
      */
     public function ban($id)
     {
-        $user = User::find($id);
+        $pol = new UsersPolicy();
 
-        $user->banned = true;
-        $user->save();
+        if ($pol->adminCheck($id)) {
+            $user = User::find($id);
 
-        return $user;
+            $user->banned = true;
+            $user->save();
+
+            return $user;
+        }
+
+        abort(404);
     }
 
     /**
@@ -137,12 +209,18 @@ class UsersController extends Controller
      */
     public function unban($id)
     {
-        $user = User::find($id);
+        $pol = new UsersPolicy();
 
-        $user->banned = false;
-        $user->save();
+        if ($pol->adminCheck($id)) {
+            $user = User::find($id);
 
-        return view('admin.userDetails', ["user" => $user]);
+            $user->banned = false;
+            $user->save();
+
+            return view('admin.userDetails', ["user" => $user]);
+        }
+
+        abort(404);
     }
 
     /**
@@ -153,11 +231,17 @@ class UsersController extends Controller
      */
     public function delete($id)
     {
-        $user = User::find($id);
+        $pol = new UsersPolicy();
 
-        $this->authorize('delete', $user);
-        $user->delete();
+        if ($pol->adminCheck($id)) {
+            $user = User::find($id);
 
-        return $user;
+            $this->authorize('delete', $user);
+            $user->delete();
+
+            return $user;
+        }
+
+        abort(404);
     }
 }

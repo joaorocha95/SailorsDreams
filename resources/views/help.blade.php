@@ -19,6 +19,11 @@
     }
 </style>
 
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+    <li class="breadcrumb-item active">Help</a></li>
+</ol>
+
 <h2 class="test">Help</h2>
 
 <a class="button" href="{{ route('faq') }}"> faq </a>

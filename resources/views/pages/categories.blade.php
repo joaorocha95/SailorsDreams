@@ -32,6 +32,11 @@
     }
 </style>
 
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+    <li class="breadcrumb-item active">Categories</li>
+</ol>
+
 <section id="categories">
     <div class="biggerCategory">
         @foreach($categories as $category)

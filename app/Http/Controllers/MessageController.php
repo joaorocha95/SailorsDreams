@@ -7,7 +7,8 @@ use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use App\Policies\MessagePolicy;
 
 class MessageController extends Controller
 {
@@ -38,13 +39,20 @@ class MessageController extends Controller
     public function messagePage($id)
     {
         $order = Order::find($id);
-        $product = Product::find($order->product);
-        $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $id . '%')
-            ->get();
+        $pol = new MessagePolicy();
+        if ($pol->messagePage($order)) {
 
-        if ($order == null)
-            abort(404);
-        return view('messages.message', ["order" => $order, "product" => $product, "messages" => $messages]);
+
+            $product = Product::find($order->product);
+            $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $id . '%')
+                ->get();
+
+            if ($order == null)
+                abort(404);
+            return view('messages.message', ["order" => $order, "product" => $product, "messages" => $messages]);
+        }
+
+        abort(404);
     }
 
     /**

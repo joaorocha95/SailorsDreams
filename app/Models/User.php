@@ -6,14 +6,15 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Http\Controllers\UsersController;
 
-class User extends Authenticatable{
-  
+class User extends Authenticatable
+{
+
   use Notifiable;
   // Don't add create and update timestamps in database.
   public $table = 'users';
   public $timestamps  = false;
-    
-  public $fillable = ['username', 'email', 'password', 'birthdate', 'phone'];
+
+  public $fillable = ['username', 'email', 'password', 'img', 'birthdate', 'phone'];
 
   /**
    * The attributes that should be hidden for arrays.
@@ -21,26 +22,50 @@ class User extends Authenticatable{
    * @var array
    */
   protected $hidden = [
-      'password', 'remember_token',
+    'password', 'remember_token',
   ];
 
-  public function writesReview(){return $this->hasMany('App\Models\Review');}
+  public function writesReview()
+  {
+    return $this->hasMany('App\Models\Review');
+  }
 
-  public function receiveReview(){return $this->hasMany('App\Models\Review');}
+  public function receiveReview()
+  {
+    return $this->hasMany('App\Models\Review');
+  }
 
-  public function livesIn(){return $this->belongsToMany('App\Models\Address');}
+  public function livesIn()
+  {
+    return $this->belongsToMany('App\Models\Address');
+  }
 
-  public function tickets(){return $this->hasMany('App\Models\Ticket');}
+  public function tickets()
+  {
+    return $this->hasMany('App\Models\Ticket');
+  }
 
-  public function writesMessage(){return $this->hasMany('App\Models\Message');}
+  public function writesMessage()
+  {
+    return $this->hasMany('App\Models\Message');
+  }
 
-  public function ownsProduct(){return $this->hasMany('App\Models\Product');}
+  public function ownsProduct()
+  {
+    return $this->hasMany('App\Models\Product');
+  }
 
-  public function makesOrder(){return $this->hasMany('App\Models\Order');}
+  public function makesOrder()
+  {
+    return $this->hasMany('App\Models\Order');
+  }
 
-  public function wishes(){return $this->hasOne('App\Models\Wishlist');}
-  
-/*
+  public function wishes()
+  {
+    return $this->hasOne('App\Models\Wishlist');
+  }
+
+  /*
   //////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////
   ///////////////////////TEMPLATES//////////////////////////////////////////

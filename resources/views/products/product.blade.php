@@ -10,6 +10,11 @@
     h2 {
         color: white;
         font-size: 50px;
+
+    }
+
+    footer {
+        bottom: -200px;
     }
 
     .productPicture {
@@ -20,7 +25,7 @@
 
         width: 50%;
         min-height: calc(100vh - 100px);
-        max-height: 100vh;
+        max-height: calc(100vh);
 
         background-color: white;
 
@@ -68,6 +73,10 @@
         margin-bottom: 10px;
         padding: 5px;
     }
+
+    .breadcrumb-item>a {
+        color: white;
+    }
 </style>
 <!-- 
 {
@@ -84,64 +93,86 @@
 <title>{{ $product->productname }}</title>
 
 
-<div class="productPicture">
 
-    <img alt="Imagem do Produto" src="{{$product->img}}">
-</div>
-<div class="productInfo">
-    <h2> {{ $product->productname }} </h2>
-    <p style="margin-top: -15px;">
-        @if($product->active)
-        Produto Ativo
-        @else
-        Produto Atualmente Inativo
-        @endif
-    </p>
-
-    <div class="orderForms">
-        @if($product->price != NULL && $product->active== 'true')
-        <form method="post" action="{{ route('order.create', ['id' => $product->id, 'order_type' => 'Purchase'])}}" enctype="multipart/form-data">
-            @csrf
-            <div class=" input-group">
-                <button class="btn btn-outline-light" type="submit">
-                    Buy
-                </button>
-            </div>
-        </form>
-        @endif
-        @if($product->priceperday != NULL && $product->active== 'true')
-        <form method="post" action="{{ route('order.create', ['id' => $product->id, 'order_type' => 'Loan'])}}">
-            @csrf
-            <div class="input-group">
-                <button class="btn btn-outline-light" type="submit">
-                    Loan
-                </button>
-            </div>
-        </form>
-        @endif
+<section>
+    <div class="productPicture">
+        <img alt="Imagem do Produto" src="{{ asset('uploads/productImages/'. $product->img) }}" enctype="multipart/form-data">
     </div>
 
-    <ul class="nav nav-tabs" style="margin-right: 50px;">
-        <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" id="#Description">Description</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" id="#Profile">Seller</a>
-        </li>
-        <li>
-            <a class="nav-link active" data-bs-toggle="tab" id="#Reviews">Seller Reviews</a>
-        </li>
-    </ul>
-    <div id="myTabContent" class="tab-content" style="margin-right: 50px;">
-        <div class="tab-pane fade" id="Description">
-            <p>{{$product->description}}</p>
+    <div class="productInfo">
+        <ol class="breadcrumb" style="position: absolute; top: 0px; right: 40px; width: fit-content; padding-left: 5px; padding-right: 5px;">
+            <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/products') }}">Products</a></li>
+            <li class="breadcrumb-item active">Product</li>
+        </ol>
+        <h2> {{ $product->productname }} </h2>
+        <h3 style="color: white;">
+            @if($product->price != 0 && $product->pricePerDay != 0)
+            Price: {{$product->price}}€ | Price: {{$product->pricePerDay}}€
+            @else
+            @if($product->price != 0)
+            Price: {{$product->price}}€
+            @endif
+            @if($product->pricePerDay != 0)
+            Price: {{$product->pricePerDay}}€
+            @endif
+            @endif
+        </h3>
+        <p style="margin-top: -5px;">
+            @if($product->active)
+            <span style="color:lightgreen;">
+                Product Available
+            </span>
+            @else
+            <span style="color:red;">
+                Product Currently Unavailable
+            </span>
+            @endif
+        </p>
+
+        <div class="orderForms">
+            @if($product->price != NULL && $product->active== 'true')
+            <form method="post" action="{{ route('order.create', ['id' => $product->id, 'order_type' => 'Purchase'])}}" enctype="multipart/form-data">
+                @csrf
+                <div class=" input-group">
+                    <button class="btn btn-outline-light" type="submit">
+                        Buy
+                    </button>
+                </div>
+            </form>
+            @endif
+            @if($product->priceperday != NULL && $product->active== 'true')
+            <form method="post" action="{{ route('order.create', ['id' => $product->id, 'order_type' => 'Loan'])}}">
+                @csrf
+                <div class="input-group">
+                    <button class="btn btn-outline-light" type="submit">
+                        Loan
+                    </button>
+                </div>
+            </form>
+            @endif
         </div>
-        <div class="tab-pane fade" id="Profile">
-            <p><a style="color: white;" href="{{route('user.id' , ['id' => $seller->id])}}">Seller's Webpage</a></p>
-            <p>Seller's E-mail: {{$seller->email}}</p>
-            <p>Seller's Phone Number: {{$seller->phone}}</p>
-        </div>
-        <!--
+        <ul class="nav nav-tabs" style="margin-right: 50px;">
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" id="#Description">Description</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" id="#Profile">Seller</a>
+            </li>
+            <li>
+                <a class="nav-link active" data-bs-toggle="tab" id="#Reviews">Seller Reviews</a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content" style="margin-right: 50px;">
+            <div class="tab-pane fade" id="Description">
+                <p>{{$product->description}}</p>
+            </div>
+            <div class="tab-pane fade" id="Profile">
+                <p><a style="color: white;" href="{{route('user.id' , ['id' => $seller->id])}}">Seller's Webpage</a></p>
+                <p>Seller's E-mail: {{$seller->email}}</p>
+                <p>Seller's Phone Number: {{$seller->phone}}</p>
+            </div>
+            <!--
         {
         id":2,"orderid":1,
         "to_user":6,
@@ -151,27 +182,30 @@
         "review_date":"2022-01-18"
         }
         -->
-        <div class="tab-pane fade active show" id="Reviews">
-            @if($reviews != [])
-            <div class="container">
-                <ul class="hash-list cols-3 cols-1-xs pad-30-all align-center text-sm">
-                    @foreach($reviews as $review)
-                    <li>
-                        <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="wpx-100 img-round mgb-20" title="" alt="" data-edit="false" data-editor="field" data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]">
-                        <p class="fs-110 font-cond-l" contenteditable="false">"{{$review->comment}}"</p>
-                        <h5 class="font-cond mgb-5 fg-text-d fs-130" contenteditable="false">{{$review->from_user}}</h5>
-                        <small class="font-cond case-u lts-sm fs-80 fg-text-l" contenteditable="false">{{$review->rating}}/5</small>
-                    </li>
-                    @endforeach
-                </ul>
+            <div class="tab-pane fade active show" id="Reviews">
+                <a class="btn btn-outline-primary" href="{{ route('moreReviews', ['id' => $product->seller]) }}"> More Reviews </a>
+                @if($reviews != [])
+                <div class="container">
+                    <ul class="hash-list cols-3 cols-1-xs pad-30-all align-center text-sm">
+                        @foreach($reviews as $review)
+                        <li>
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="wpx-100 img-round mgb-20" title="" alt="" data-edit="false" data-editor="field" data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]">
+                            <p class="fs-110 font-cond-l" contenteditable="false">"{{$review->comment}}"</p>
+                            <h5 class="font-cond mgb-5 fg-text-d fs-130" contenteditable="false">{{$review->from_user}}</h5>
+                            <small class="font-cond case-u lts-sm fs-80 fg-text-l" contenteditable="false">{{$review->rating}}/5</small>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                @else
+                <p>No reviews</p>
+                @endif
+
             </div>
-            @else
-            <p>No reviews</p>
-            @endif
         </div>
     </div>
-</div>
-
+</section>
 <script>
     navLinks = ["Description", "Profile", "Reviews"]
 

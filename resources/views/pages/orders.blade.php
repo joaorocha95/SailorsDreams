@@ -31,6 +31,11 @@
   }
 </style>
 
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+  <li class="breadcrumb-item"><a href="{{ route('user.id', ['id' => ($id = (auth()->user()->id ) ) ] ) }}">User Profile</a></li>
+  <li class="breadcrumb-item active">Orders</li>
+</ol>
 
 <section id="orders">
   <div class="biggerOrder">

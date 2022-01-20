@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <style>
   .smaller {
     width: 300px;
@@ -14,9 +13,15 @@
   }
 </style>
 
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+  <li class="breadcrumb-item"><a href="{{ route('user.id', ['id' => ($id = (auth()->user()->id ) ) ] ) }}">User Profile</a></li>
+  <li class="breadcrumb-item"><a href="{{ route('productManager') }}">Product Manager</a></li>
+  <li class="breadcrumb-item active">Edit Product</li>
+</ol>
 
 <fieldset>
-  <form method="POST" action="{{ route('updatepage', ['id' => $product->id]) }}">
+  <form method="POST" action="{{ route('updatepage', ['id' => $product->id]) }}" enctype="multipart/form-data">
     {{ csrf_field() }}
     @method('PATCH')
     <Legend>Edit Product</Legend>
@@ -81,14 +86,14 @@
     </div>
 
     <div class="form-group">
-      <label for="img" class="form-label mt-4">Select image to upload:</label>
-      <input class="form-control" type="file" name="img" id="img">
+      <label for="pic" class="form-label mt-4">Select image to upload:</label>
+      <input class="form-control" type="file" name="pic" id="pic">
     </div>
 
     <button type="submit" class="btn btn-primary">
       Submit
     </button>
-    <a class="btn btn-outline-primary" href="{{ route('newProduct') }}">Cancel</a>
+    <a class="btn btn-outline-primary" href="{{ route('updatepage', ['id' => $product->id]) }}">Cancel</a>
+  </form>
 </fieldset>
-</form>
 @endsection

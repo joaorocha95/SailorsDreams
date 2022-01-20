@@ -22,7 +22,7 @@ use App\Models\Order;
 // Home
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 Route::get('/home', function () {
     return view('home');
 });
@@ -37,7 +37,8 @@ Route::post('register', 'Auth\RegisterController@register');
 
 //Users - M01
 Route::get('/user/{id}', 'UsersController@show')->name('user.id');
-Route::patch('/user/edit', 'UsersController@update');
+Route::get('/user/{id}/edit', 'UsersController@update')->name('editProfile');
+Route::patch('/user/{id}/edit', 'UsersController@updateProfile');
 
 Route::get('/applications', 'ApplicationController@index')->name('showApplications');
 Route::get('/applications/submit', 'ApplicationController@create')->name('newApplication');
@@ -64,7 +65,7 @@ Route::get('/categories', 'CategoryController@index');
 Route::get('/wishlist', 'WishlistController@index');
 Route::post('/wishlist/add', 'WishlistController@addProduct');
 Route::delete('/wishlist/delete', 'WishlistController@removeProduct');
-Route::get('/reviews/orders/{id}', 'ReviewController@index');
+Route::get('/reviews/orders/{id}', 'ReviewController@index')->name('moreReviews');
 Route::get('/orders/{id}/reviews/add', 'ReviewController@newReviewForm')->name('newReview.id');
 Route::post('/orders/{id}/reviews/add', 'ReviewController@newReview');
 Route::patch('/orders/{id}/reviews/{review_id}/edit', 'ReviewController@update');
@@ -77,6 +78,8 @@ Route::get('/orders/{id}', 'OrderController@show')->name('orders.id');
 Route::post('/order/new', 'OrderController@create')->name('order.create');
 Route::patch('/orders/{id}/cancel', 'OrderController@update');
 Route::patch('/orders/{id}/edit', 'OrderController@update');
+Route::patch('/orders/{id}/end', 'OrderController@endOrder')->name('endOrder');
+Route::patch('/orders/{id}/cancel', 'OrderController@cancelOrder')->name('cancelOrder');
 
 //Area de Mensagens - M05
 Route::get('/message', 'MessageController@index')->name('myMessages');
@@ -122,23 +125,3 @@ Route::get('/admin/accounts', 'UsersController@index')->name('accounts');
 Route::get('/admin/accounts/{id}', 'UsersController@adminShow')->name('accounts.id');
 Route::patch('/admin/accounts/{id}/ban', 'UsersController@ban')->name('accounts.ban');
 Route::patch('/admin/accounts/{id}/unban', 'UsersController@unban')->name('accounts.unban');
-
-
-Route::get('/test/{id}', function ($id) {
-
-    error_log($id);
-    $order = Order::find($id);
-    $product = Product::find($order->product);
-    $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $id . '%')
-        ->get();
-
-    if ($order == null)
-        abort(404);
-    return view('messages.test', ["order" => $order, "product" => $product, "messages" => $messages]);
-})->name('sender');
-
-Route::post('/test', function () {
-    $text = request()->text;
-
-    event(new MessageSent($text));
-})->name('send');

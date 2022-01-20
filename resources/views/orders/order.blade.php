@@ -52,6 +52,13 @@
     }
 </style>
 
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('user.id', ['id' => ($id = (auth()->user()->id ) ) ] ) }}">User Profile</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('orders') }}">Orders</a></li>
+    <li class="breadcrumb-item active">Order Status</li>
+</ol>
+
 <h2 class="temp1">Order ID: {{ $order->id }}</h2>
 <div class="temp2">
     <div Product: class="temp2"> Product: {{ $product->productname }}
@@ -68,6 +75,33 @@
     </div>
 </div>
 
+@if (Auth::check())
+
+@if (Auth::user()->acctype == 'Client')
 <a class="btn btn-outline-primary" href="{{ route('newReview.id', ['id' => $order->id]) }}"> Review Order</a>
+@endif
+
+@if (Auth::user()->acctype == 'Seller')
+
+@if($order->order_status == 'In_Negotiation')
+
+<form method="POST" action="{{ route('endOrder', [$order->id]) }}">
+    {{ csrf_field() }}
+    @method('PATCH')
+    <button type="submit">
+        Complete Order
+    </button>
+</form>
+
+<form method="POST" action="{{ route('cancelOrder', [$order->id]) }}">
+    {{ csrf_field() }}
+    @method('PATCH')
+    <button type="submit">
+        Cancel Order
+    </button>
+</form>
+@endif
+@endif
+@endif
 </div>
 @endsection

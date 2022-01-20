@@ -17,6 +17,7 @@
 <fieldset>
   <form method="POST" action="{{ route('newProduct') }}" enctype="multipart/form-data">
     {{ csrf_field() }}
+
     <Legend>New Product</Legend>
     <div class="form-group row">
       <label for="productname" class="col-sm-2 col-form-label">Product Name:</label>

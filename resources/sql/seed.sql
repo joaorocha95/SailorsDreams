@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS lbaw2182.Order (
    id SERIAL PRIMARY KEY,
    product INTEGER REFERENCES lbaw2182.Product (id) ON DELETE CASCADE,
    client INTEGER REFERENCES lbaw2182.users (id) ON UPDATE CASCADE,
+   seller INTEGER REFERENCES lbaw2182.users (id) ON UPDATE CASCADE,
    order_status lbaw2182.order_status NOT NULL DEFAULT 'In_Negotiation',
    order_type lbaw2182.order_type NOT NULL,
    loan_start Date,
@@ -320,13 +321,15 @@ INSERT INTO lbaw2182.Product (seller,productname,description,active,price,priceP
 -----------------------------------
 --  	Order Inserts
 -----------------------------------
-INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 1, 3, 'Transaction_Completed', 'Purchase',NULL,NULL, 200.00);
-INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 1, 10, 'Transaction_Completed', 'Loan', '2021-11-20', '2021-11-23', 75.00);
-INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 6, 7, 'Transaction_Failed', 'Purchase', NULL, NULL, 1175.00);
-INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 2, 10, 'In_Negotiation', 'Purchase', NULL, NULL, 1175.00);
-INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 3, 10, 'In_Negotiation', 'Loan', NULL, NULL, 300.00);
-INSERT INTO lbaw2182.Order (product,client,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 4, 10, 'In_Negotiation', 'Loan', NULL, NULL, 125.00);
-
+INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 1, 3, 6, 'Transaction_Completed', 'Purchase',NULL,NULL, 200.00);
+INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 1, 10, 6, 'Transaction_Completed', 'Loan', '2021-11-20', '2021-11-23', 75.00);
+INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 6, 7, 9, 'Transaction_Failed', 'Purchase', NULL, NULL, 1175.00);
+INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 2, 10, 6, 'In_Negotiation', 'Purchase', NULL, NULL, 1175.00);
+INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 3, 10, 9, 'In_Negotiation', 'Loan', NULL, NULL, 300.00);
+INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 4, 10, 9, 'In_Negotiation', 'Loan', NULL, NULL, 125.00);
+INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 7, 7, 12, 'In_Negotiation', 'Purchase', NULL, NULL, 200.00);
+INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 8, 3, 12, 'Transaction_Completed', 'Purchase', NULL, NULL, 200.00);
+INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 2, 10, 12, 'In_Negotiation', 'Purchase', NULL, NULL, 200.00);
 
 -----------------------------------
 --  	Review Inserts

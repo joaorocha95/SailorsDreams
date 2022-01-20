@@ -7,6 +7,9 @@ use App\Models\CategoryNames;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Policies\CategoryPolicy;
+
 
 class CategoryController extends Controller
 {
@@ -31,22 +34,39 @@ class CategoryController extends Controller
      */
     public function adminIndex()
     {
-        $categories = DB::table('categorynames')
-            ->get();
+        $pol = new CategoryPolicy();
 
-        return view('admin.categories', ['categories' => $categories]);
+        if ($pol->adminCheck()) {
+            $categories = DB::table('categorynames')->get();
+
+            return view('admin.categories', ['categories' => $categories]);
+        }
+
+        abort(404);
     }
 
     public function showNewForm()
     {
-        return view('admin.categoryNew');
+        $pol = new CategoryPolicy();
+
+        if ($pol->adminCheck()) {
+            return view('admin.categoryNew');
+        }
+
+        abort(404);
     }
 
     public function showUpdateForm($id)
     {
-        $category = CategoryNames::find($id);
+        $pol = new CategoryPolicy();
 
-        return view('admin.categoryEdit', ['category' => $category]);
+        if ($pol->adminCheck()) {
+            $category = CategoryNames::find($id);
+
+            return view('admin.categoryEdit', ['category' => $category]);
+        }
+
+        abort(404);
     }
 
     /**
@@ -56,12 +76,19 @@ class CategoryController extends Controller
      */
     public function create(Request $request)
     {
-        $category = new CategoryNames();
+        $pol = new CategoryPolicy();
 
-        $category->name = $request->input('name');
-        $category->save();
+        if ($pol->adminCheck()) {
 
-        return redirect('admin/categories');
+            $category = new CategoryNames();
+
+            $category->name = $request->input('name');
+            $category->save();
+
+            return redirect('admin/categories');
+        }
+
+        abort(404);
     }
 
     /**
@@ -96,12 +123,17 @@ class CategoryController extends Controller
      */
     public function adminShow($id)
     {
-        if ($id == null)
-            abort(404);
 
-        $category = CategoryNames::find($id);
+        $pol = new CategoryPolicy();
 
-        return view('admin.categoryDetails', ['category' => $category]);
+        if ($pol->adminCheck()) {
+
+            $category = CategoryNames::find($id);
+
+            return view('admin.categoryDetails', ['category' => $category]);
+        }
+
+        abort(404);
     }
 
 
@@ -114,10 +146,16 @@ class CategoryController extends Controller
      */
     public function delete($id)
     {
-        $category = CategoryNames::find($id);
-        $category->delete();
+        $pol = new CategoryPolicy();
 
-        return redirect('admin/categories');
+        if ($pol->adminCheck()) {
+            $category = CategoryNames::find($id);
+            $category->delete();
+
+            return redirect('admin/categories');
+        }
+
+        abort(404);
     }
 
     /**
@@ -129,12 +167,18 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = CategoryNames::find($id);
+        $pol = new CategoryPolicy();
 
-        if ($request->input('name') != null)
-            $category->name = $request->input('name');
-        $category->save();
+        if ($pol->adminCheck()) {
+            $category = CategoryNames::find($id);
 
-        return redirect('admin/categories');
+            if ($request->input('name') != null)
+                $category->name = $request->input('name');
+            $category->save();
+
+            return redirect('admin/categories');
+        }
+
+        abort(404);
     }
 }

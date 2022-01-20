@@ -5,47 +5,19 @@ namespace App\Policies;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryPolicy
 {
     use HandlesAuthorization;
 
 
-    public function index()
+    public function adminCheck()
     {
-    }
-
-    public function adminIndex()
-    {
-    }
-
-    public function showNewForm()
-    {
-    }
-
-    public function showUpdateForm()
-    {
-    }
-
-    public function create()
-    {
-    }
-
-
-    public function show()
-    {
-    }
-
-
-    public function adminShow()
-    {
-    }
-
-    public function delete()
-    {
-    }
-
-    public function update()
-    {
+        if (auth()->check()) {
+            $acctype = auth()->user()->acctype;
+            return $acctype == 'Admin';
+        }
+        return false;
     }
 }

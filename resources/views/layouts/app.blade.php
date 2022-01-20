@@ -24,16 +24,15 @@
     }
 
     footer {
-      background-color: black;
+      background-color: #1a1a1a;
       position: absolute;
       right: 0;
       bottom: 0;
       left: 0;
       height: 200px;
       color: white;
-      display: none;
-    }
 
+    }
 
     body {
       position: relative;
@@ -69,6 +68,19 @@
     h3 {
       color: white;
     }
+
+    .breadcrumb {
+      margin-left: 15px;
+      margin-top: 15px;
+    }
+
+    .footer-link {
+      color: white;
+    }
+
+    .column p {
+      color: white;
+    }
   </style>
 
   <script type="text/javascript">
@@ -83,7 +95,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{ url('/home')}}">Sailor's Dream</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <button id="dpdHeader_btn" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -127,28 +139,70 @@
 
   @yield('content')
 
-
   </main>
   </section>
-  <footer class="page-footer">
+  <footer>
     <div class="column">
-      <h3>Categories</h2>
+      <a href="{{ url('/categories') }}">
+        <h3>Categories</h3>
+      </a>
     </div>
     <div class="column">
-      <h3>User Profile</h2>
-        <p>Edit Profile</p>
-        <p>Order History</p>
-        <p>Wishlist</p>
+      @if(auth()->check())
+      <a href="{{ route('user.id', ['id' => ($id = (auth()->user()->id ) ) ] ) }}">
+        <h3>User Profile</h3>
+        <a href="{{ route('editProfile', ['id' => ($id = (auth()->user()->id ) ) ] ) }}">
+          <p href="">Edit Profile</p>
+        </a>
+        <a href="{{ route('orders') }}">
+          <p>Orders</p>
+        </a>
+        <a>
+          <p>Wishlist</p>
+        </a>
+      </a>
+      @else
+      <a href="{{ url('/login') }}">
+        <h3>User Profile</h3>
+        <a href="{{ url('/login') }}">
+          <p href="">Edit Profile</p>
+        </a>
+        <a href="{{ url('/login') }}">
+          <p>Orders</p>
+        </a>
+        <a>
+          <p>Wishlist</p>
+        </a>
+      </a>
+      @endif
+    </div>
+
+    <div class="column">
+      <a href="{{ url('/about')}}">
+        <h3>About Us</h3>
+      </a>
     </div>
     <div class="column">
-      <h3>About Us</h2>
-    </div>
-    <div class="column">
-      <h3>Helpdesk</h2>
+      <a href="{{ url('/help')}}">
+        <h3>Help</h3>
+      </a>
+      <a>
         <p>Send Ticket</p>
+      </a>
+      <a href="{{ url('/help/faq')}}">
         <p>FAQ</p>
-    </div>
+      </a>
   </footer>
 </body>
+
+<script>
+  const dpdHeader_btn = document.getElementById("dpdHeader_btn");
+  const navBarColor01 = document.getElementById("navbarColor01");
+  dpdHeader_btn.addEventListener("click", function() {
+    if (navBarColor01.classList.contains("show"))
+      navBarColor01.classList.remove("show");
+    else navBarColor01.classList.add("show");
+  });
+</script>
 
 </html>

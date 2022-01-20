@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class WishlistController extends Controller
 {
@@ -25,8 +27,9 @@ class WishlistController extends Controller
      * @param  \App\Models\Wishlist  $wishlist
      * @return \Illuminate\Http\Response
      */
-    public function addProduct($idUser, $idProduct){
-        
+    public function addProduct($idUser, $idProduct)
+    {
+
         $wishlist = Wishlist::find($idUser);
 
         $this->authorize('addProduct', $wishlist);
@@ -41,7 +44,8 @@ class WishlistController extends Controller
      * @param  \App\Models\Wishlist  $wishlist
      * @return \Illuminate\Http\Response
      */
-    public function removeProduct($idUser, $idProduct){
+    public function removeProduct($idUser, $idProduct)
+    {
 
         $wishlist = Wishlist::find($idUser);
 

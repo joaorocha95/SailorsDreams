@@ -9,13 +9,24 @@ class UsersPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Create a new policy instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function adminCheck()
     {
-        //
+        if (auth()->check()) {
+            $acctype = auth()->user()->acctype;
+            return $acctype == 'Admin';
+        }
+        return false;
+    }
+
+    public function logCheck($id)
+    {
+        if (auth()->check())
+            return $id == auth()->user()->id;
+        return false;
+    }
+
+    public function outerCheck()
+    {
+        return auth()->check();
     }
 }

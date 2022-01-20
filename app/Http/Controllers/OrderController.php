@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Auth;
+use App\Policies\OrderPolicy;
 
 class OrderController extends Controller
 {
@@ -19,13 +20,22 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $id = auth()->user()->id;
-        if ($id == null)
-            abort(404);
-        $orders = DB::table('order')->where('client', '=', $id)
-            ->get();
+        $pol = new OrderPolicy();
 
-        return view('pages.orders', ['orders' => $orders]);
+        if ($pol->logCheck()) {
+            $id = auth()->user()->id;
+            $user = User::find($id);
+            if ($user->acctype == 'Client') {
+                $orders = DB::table('order')->where('client', '=', $id)
+                    ->get();
+            } else if ($user->acctype == 'Seller') {
+                $orders = DB::table('order')->where('seller', '=', $id)
+                    ->get();
+            }
+            return view('pages.orders', ['orders' => $orders]);
+        }
+
+        abort(404);
     }
 
     function dateDiff($date1, $date2)
@@ -38,29 +48,58 @@ class OrderController extends Controller
 
     protected function Purchase($product, $user_id)
     {
-        $order = new Order();
-        $order->order_type = 'Purchase';
+        $pol = new OrderPolicy();
 
-        $order->product = $product->id;
-        $order->client = $user_id;
-        $order->total_price = $product->price;
-        $order->save();
-        return $order;
+        if ($pol->logCheck()) {
+            $order = new Order();
+            $order->order_type = 'Purchase';
+
+            $order->product = $product->id;
+            $order->seller = $product->seller;
+            $order->client = $user_id;
+            $order->total_price = $product->price;
+            $order->save();
+
+            $user = User::find($user_id);
+            if ($user == null)
+                abort(404);
+
+            $user->acctype = 'Client';
+            $user->save();
+            return $order;
+        }
+
+        abort(404);
     }
 
     protected function Loan($product, $user_id, $loan_start, $loan_end)
     {
-        if ($product->priceperday == 0 || $product->priceperday == null)
-            abort(404);
+        $pol = new OrderPolicy();
 
-        $order = new Order();
-        $order->order_type = 'Loan';
+        if ($pol->logCheck()) {
+            if ($product->priceperday == 0 || $product->priceperday == null)
+                abort(404);
 
-        $order->product = $product->id;
-        $order->client = $user_id;
-        $order->total_price = $product->priceperday;
-        $order->save();
-        return $order;
+            $order = new Order();
+            $order->order_type = 'Loan';
+
+            $order->product = $product->id;
+            $order->seller = $product->seller;
+            $order->client = $user_id;
+            $order->total_price = $product->priceperday;
+            $order->save();
+
+            $user = User::find($user_id);
+            if ($user == null)
+                abort(404);
+
+            $user->acctype = 'Client';
+            $user->save();
+
+            return $order;
+        }
+
+        abort(404);
     }
 
     /**
@@ -70,31 +109,35 @@ class OrderController extends Controller
      */
     public function create(Request $request)
     {
-        if (!(Auth::check()))
-            return redirect('/login');
+        $pol = new OrderPolicy();
 
-        $product_id = $request->input('id');
-        $user_id = auth()->user()->id;
-        $product = Product::find($product_id);
-        if (!$product->active)
-            abort(401);
-        if ($request->order_type == 'Purchase')
-            $order = $this->Purchase(
-                $product,
-                $user_id
-            );
-        elseif ($request->order_type == 'Loan')
-            $order = $this->Loan(
-                $product,
-                $user_id,
-                $request->input('loan_start'),
-                $request->input('loan_end')
-            );
+        if ($pol->logCheck()) {
 
-        $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $order->id . '%')
-            ->get();
+            $product_id = $request->input('id');
+            $user_id = auth()->user()->id;
+            $product = Product::find($product_id);
+            if (!$product->active)
+                abort(401);
+            if ($request->order_type == 'Purchase')
+                $order = $this->Purchase(
+                    $product,
+                    $user_id
+                );
+            elseif ($request->order_type == 'Loan')
+                $order = $this->Loan(
+                    $product,
+                    $user_id,
+                    $request->input('loan_start'),
+                    $request->input('loan_end')
+                );
 
-        return view('orders.order', ["order" => $order, "product" => $product, "messages" => $messages]);
+            $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $order->id . '%')
+                ->get();
+
+            return redirect()->route('messagePage.id', [$order->id]);
+        }
+
+        abort(404);
     }
 
     /**
@@ -104,14 +147,21 @@ class OrderController extends Controller
      */
     public function show($id)
     {
+        $pol = new OrderPolicy();
         $order = Order::find($id);
-        $product = Product::find($order->product);
-        $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $id . '%')
-            ->get();
 
-        if ($order == null)
-            abort(404);
-        return view('orders.order', ["order" => $order, "product" => $product, "messages" => $messages]);
+        if ($pol->showCheck($order)) {
+
+            $product = Product::find($order->product);
+            $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $id . '%')
+                ->get();
+
+            if ($order == null)
+                abort(404);
+            return view('orders.order', ["order" => $order, "product" => $product, "messages" => $messages]);
+        }
+
+        abort(404);
     }
 
     /**
@@ -123,12 +173,56 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id, $order_status)
     {
-        $order = Order::find($id);
+        $pol = new OrderPolicy();
 
-        $this->authorize('update', $order);
-        $order->order_status = $order_status;
-        $order->save();
+        if ($pol->sellerCheck()) {
+            $order = Order::find($id);
 
-        return $order;
+            $this->authorize('update', $order);
+            $order->order_status = $order_status;
+            $order->save();
+
+            return $order;
+        }
+
+        abort(404);
+    }
+
+    public function endOrder($id)
+    {
+        $pol = new OrderPolicy();
+
+        if ($pol->sellerCheck()) {
+            $order = Order::find($id);
+            if ($order == null)
+                abort(404);
+
+            $order->order_status = 'Transaction_Completed';
+
+            $order->save();
+
+            return back()->with(["id" => $id]);
+        }
+
+        abort(404);
+    }
+
+    public function cancelOrder($id)
+    {
+        $pol = new OrderPolicy();
+
+        if ($pol->sellerCheck()) {
+            $order = Order::find($id);
+            if ($order == null)
+                abort(404);
+
+            $order->order_status = 'Transaction_Failed';
+
+            $order->save();
+
+            return back()->with(["id" => $id]);
+        }
+
+        abort(404);
     }
 }

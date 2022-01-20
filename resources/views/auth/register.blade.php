@@ -48,7 +48,10 @@
   }
 </style>
 
-
+<ol class="breadcrumb">
+  <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+  <li class="breadcrumb-item active">Register</li>
+</ol>
 <!--NEW-->
 <section>
   <form method="POST" action="{{ route('register') }}">
@@ -81,14 +84,6 @@
     @if ($errors->has('phone'))
     <span class="error">
       {{ $errors->first('phone') }}
-    </span>
-    @endif
-
-    <label for="formFile" class="form-label mt-4">Profile Image</label>
-    <input class="form-control" type="file" id="formFile" name="img">
-    @if ($errors->has('img'))
-    <span class="error">
-      {{ $errors->first('img') }}
     </span>
     @endif
 

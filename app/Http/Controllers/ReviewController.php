@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
+use App\Policies\ReviewPolicy;
+
 
 class ReviewController extends Controller
 {
@@ -16,10 +19,11 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index($id)
     {
-        $reviews = Auth::review()->user()->get();
-        return view('pages.review.user', ['review' => $reviews]);
+        $reviews = DB::table('review')->where('to_user', '=', $id)
+            ->get();
+        return view('pages.reviews', ['reviews' => $reviews]);
     }
 
     /**
@@ -29,26 +33,35 @@ class ReviewController extends Controller
      */
     public function newReviewForm($id)
     {
-
         $order = Order::find($id);
-        return view('pages.newReview', ["order" => $order]);
+        $pol = new ReviewPolicy();
+        if ($pol->newReview($order)) {
+            return view('pages.newReview', ["order" => $order]);
+        }
+
+        abort(404);
     }
 
     public function newReview(Request $request, $id)
     {
         $order = Order::find($id);
-        $product = Product::find($order->product);
-        error_log("----------------------------------" .  $order);
-        $review = new Review();
-        $review->orderid = $order->id;
-        $review->to_user = $product->seller;
-        $review->from_user = $order->client;
-        $review->rating = $request->input('rating');
-        $review->comment = $request->input('comment');
+        $pol = new ReviewPolicy();
+        if ($pol->newReview($order)) {
 
-        $review->save();
+            $product = Product::find($order->product);
 
-        return view('products.product', ["product" => $product]);
+            $review = new Review();
+            $review->orderid = $order->id;
+            $review->to_user = $product->seller;
+            $review->from_user = $order->client;
+            $review->rating = $request->input('rating');
+            $review->comment = $request->input('comment');
+
+            $review->save();
+
+            return view('products.product', ["product" => $product]);
+        }
+        abort(404);
     }
 
 
@@ -61,12 +74,6 @@ class ReviewController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $review = Review::find($id);
-        $this->authorize('update', $review);
-        $review->rating = $request->input('rating');
-        $review->comment = $request->input('comment');
-        $review->save();
-        return $review;
     }
 
     /**
@@ -77,9 +84,5 @@ class ReviewController extends Controller
      */
     public function delete(Request $request, $id)
     {
-        $review = Review::find($id);
-        $this->authorize('delete', $review);
-        $review->delete();
-        return $review;
     }
 }

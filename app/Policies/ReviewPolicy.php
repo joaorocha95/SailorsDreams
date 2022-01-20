@@ -11,12 +11,10 @@ class ReviewPolicy
     {
     }
 
-    public function create()
-    {
-    }
 
-    public function update()
+    public function newReview($order)
     {
+        return $order->client == auth()->user()->id;
     }
 
     public function delete()

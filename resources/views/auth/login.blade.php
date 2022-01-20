@@ -51,10 +51,9 @@
     <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
     <li class=" breadcrumb-item active">Login</li>
 </ol>
-
-
 <!--OLD -->
 <section>
+
     <form method="POST" action="{{ route('login') }}">
         {{ csrf_field() }}
         <h2 style="text-align: center;">Login</h2>

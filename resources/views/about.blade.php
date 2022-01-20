@@ -19,6 +19,11 @@
     }
 </style>
 
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+    <li class="breadcrumb-item active">About Us</li>
+</ol>
+
 <h2 class="test">About</h2>
 
 @endsection

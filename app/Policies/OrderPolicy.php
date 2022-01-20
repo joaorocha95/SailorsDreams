@@ -3,37 +3,49 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class OrderPolicy
 {
     use HandlesAuthorization;
 
-    public function index()
+    public function showCheck($order)
     {
+        $client_id = $order->client;
+        $product = Product::find($order->product);
+        $seller = $product->seller;
+
+        if (auth()->check()) {
+            $acctype = auth()->user()->acctype;
+            return auth()->user()->id == $client_id || $acctype == 'Admin' || auth()->user()->id == $seller;
+        }
+        return false;
+    }
+    public function accountCheck($order)
+    {
+        $client_id = $order->client;
+        $product = Product::find($order->product);
+        $seller = $product->seller;
+
+        if (auth()->check()) {
+            $acctype = auth()->user()->acctype;
+            return auth()->user()->id == $client_id || $acctype == 'Admin' || auth()->user()->id == $seller;
+        }
+        return false;
     }
 
-    function dateDiff()
+    public function sellerCheck()
     {
+        if (auth()->check()) {
+            $acctype = auth()->user()->acctype;
+            return $acctype == 'Seller';
+        }
+        return false;
     }
 
-    protected function Purchase()
+    public function logCheck()
     {
-    }
-
-    protected function Loan()
-    {
-    }
-
-    public function create()
-    {
-    }
-
-    public function show()
-    {
-    }
-
-    public function update()
-    {
+        return auth()->check();
     }
 }
