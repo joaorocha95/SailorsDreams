@@ -2,6 +2,8 @@
 
 @section('content')
 
+@section('title','Register')
+
 <style>
   section {
     width: 100%;
@@ -57,37 +59,37 @@
   <form method="POST" action="{{ route('register') }}">
     {{ csrf_field() }}
     <h2 style="text-align: center;">Register</h2>
-    <label for="username">Username</label>
+    <label for="username">Username*</label>
     <input id="username" type="text" name="username" value="{{ old('username') }}" class="form-control" placeholder="Enter username" required autofocus>
     @if ($errors->has('username'))
     <span class="error">
       {{ $errors->first('username') }}
     </span>
     @endif
-    <label for="email" class="form-label mt-4">E-mail Address</label>
-    <input id="email" type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Enter e-mail address" required autofocus>
+    <label for="email" class="form-label mt-4">E-mail Address*</label>
+    <input id="email" type="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Enter e-mail address" required>
     @if ($errors->has('email'))
     <span class="error">
       {{ $errors->first('email') }}
     </span>
     @endif
-    <label for="birthdate">Birth Date</label>
-    <input id="birthdate" type="date" name="birthdate" value="{{ old('birthdate') }}" class="form-control" required autofocus>
+    <label for="birthdate">Birth Date*</label>
+    <input id="birthdate" type="date" name="birthdate" value="{{ old('birthdate') }}" class="form-control" required>
     @if ($errors->has('birthdate'))
     <span class="error">
       {{ $errors->first('birthdate') }}
     </span>
     @endif
 
-    <label for="phone">Phone Number</label>
-    <input id="phone" type="integer" name="phone" value="{{ old('phone') }}" class="form-control" placeholder="Enter phone number" required autofocus>
+    <label for="phone">Phone Number*</label>
+    <input id="phone" type="integer" name="phone" value="{{ old('phone') }}" class="form-control" placeholder="Enter phone number" required>
     @if ($errors->has('phone'))
     <span class="error">
       {{ $errors->first('phone') }}
     </span>
     @endif
 
-    <label for="password" class="form-label mt-4">Password</label>
+    <label for="password" class="form-label mt-4">Password*</label>
     <input id="password" type="password" name="password" class="form-control" placeholder="Enter password" required>
     @if ($errors->has('password'))
     <span class="error">
@@ -95,7 +97,7 @@
     </span>
     @endif
 
-    <label for="password-confirm">Confirm Password</label>
+    <label for="password-confirm">Confirm Password*</label>
     <input id="password-confirm" type="password" name="password_confirmation" class="form-control" placeholder="Confirm password" required>
 
     <button type="submit" class="btn btn-primary">

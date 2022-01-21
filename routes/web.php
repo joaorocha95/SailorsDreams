@@ -21,16 +21,18 @@ use App\Models\Order;
 
 // Home
 Route::get('/', function () {
-    return view('home');
-})->name('home');
+    $products = DB::table('product')->limit(5)->get();
+    return view('home', ["product" => $products]);
+})->name('home')->middleware('banned');
 Route::get('/home', function () {
-    return view('home');
-});
+    $products = DB::table('product')->limit(5)->get();
+    return view('home', ["product" => $products]);
+})->middleware('banned');
 
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('login', 'Auth\LoginController@login');
+Route::post('login', 'Auth\LoginController@login')->middleware('banned');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('register', 'Auth\RegisterController@register');
@@ -39,6 +41,7 @@ Route::post('register', 'Auth\RegisterController@register');
 Route::get('/user/{id}', 'UsersController@show')->name('user.id');
 Route::get('/user/{id}/edit', 'UsersController@update')->name('editProfile');
 Route::patch('/user/{id}/edit', 'UsersController@updateProfile');
+Route::delete('/user/delete/{id}', 'UsersController@delete')->name('deleteUser');
 
 Route::get('/applications', 'ApplicationController@index')->name('showApplications');
 Route::get('/applications/submit', 'ApplicationController@create')->name('newApplication');
@@ -46,6 +49,7 @@ Route::post('/applications/submit', 'ApplicationController@submitApplication');
 Route::get('/applications/{id}', 'ApplicationController@show')->name('showApplication.id');
 Route::patch('/applications/{id}/accept', 'ApplicationController@acceptApplication')->name('acceptApplication');
 Route::patch('/applications/{id}/reject', 'ApplicationController@rejectApplication')->name('rejectApplication');
+
 
 
 //Produtos e Categorias - M02

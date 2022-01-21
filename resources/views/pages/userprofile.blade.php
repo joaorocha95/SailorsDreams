@@ -1,36 +1,53 @@
 @extends('layouts.app')
 
-@section('title', 'Cards')
-
 @section('content')
+
+@section('title','User Profile')
+
 <style>
     .userProfile {
+        display: table-row;
         max-width: 500px;
     }
 
     .profImg {
+        min-height: 500px;
         max-height: 500px;
+    }
+
+    .geral {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        justify-self: center;
+        text-align: center;
+
     }
 </style>
 
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+    @if ($user -> acctype == 'Admin')
+    <li class="breadcrumb-item active">Admin Tools</li>
+    @else
     <li class="breadcrumb-item active">User Profile</li>
+    @endif
 </ol>
 
-<section class="">
+<section class="geral">
 
     <div class="userProfile">
         <div class="card mb-3">
-            <h3 class="card-header">{{$user->username}}</h3>
+            <h3 class="card-header">Username: {{$user->username}}</h3>
             <div class="card-body">
-                <h5 class="card-title">{{$user->acctype}}</h5>
-                <h6 class="card-subtitle text-muted">Support card subtitle</h6>
+                <h5 class="card-title">Account type: {{$user->acctype}}</h5>
+
             </div>
-            <img src="{{ asset('uploads/avatarImages/'. $user->img) }}" class="profImg"></img>
+            <img alt="User Image" src="{{ asset('uploads/avatarImages/'. $user->img) }}" class="profImg"></img>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{$user->email}}</li>
-                <li class="list-group-item">{{$user->phone}}</li>
+                <li class="list-group-item">Email: {{$user->email}}</li>
+                <li class="list-group-item">Phone number: {{$user->phone}}</li>
+                <li class="list-group-item">Birth date: {{$user->birthdate}}</li>
             </ul>
             <div class="card-body">
                 @if ($user -> acctype == 'Admin')
@@ -44,6 +61,12 @@
                 @else
 
                 <a class="btn btn-outline-primary" href="{{ route('orders') }}"> Orders </a>
+
+                <form action="{{ route('deleteUser', [ 'id' => $user->id]) }}" method="post">
+                    <input class="btn btn-outline-primary" type="submit" value="Delete Account" />
+                    <input type="hidden" name="_method" value="delete" />
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                </form>
 
                 <a class="btn btn-outline-primary" href="{{ route('myMessages') }}"> Messages </a>
                 @if ($user -> acctype != 'Seller' && $user -> acctype != 'Admin')
@@ -60,14 +83,13 @@
                         </div>
                     </div>
                 </div>
+                <a class="btn btn-outline-primary" href="{{ route('moreReviews', ['id' => $user->id] )}}"> Reviews </a>
                 @endif
                 @endif
                 <a class="btn btn-outline-primary" href="{{ route('editProfile', ['id' => $user -> id])}}">Edit Profile</a>
             </div>
         </div>
     </div>
-
-
 
 </section>
 <script>

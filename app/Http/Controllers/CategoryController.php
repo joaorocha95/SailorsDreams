@@ -112,7 +112,7 @@ class CategoryController extends Controller
             $products->push(Product::find($item->product_id));
         }
 
-        return view('pages.products', compact('products'));
+        return view('pages.products', compact('products'))->with('flag', '0');
     }
 
     /**

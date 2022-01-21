@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<title>About</title>
+
+@section('title','Product Page')
 
 <!-- Fonts -->
 <!-- Styles -->
@@ -76,6 +77,12 @@
 
     .breadcrumb-item>a {
         color: white;
+    }
+
+    .bottom-div {
+        position: absolute;
+        bottom: 10%;
+        left: 41%;
     }
 </style>
 <!-- 
@@ -168,36 +175,29 @@
                 <p>{{$product->description}}</p>
             </div>
             <div class="tab-pane fade" id="Profile">
-                <p><a style="color: white;" href="{{route('user.id' , ['id' => $seller->id])}}">Seller's Webpage</a></p>
-                <p>Seller's E-mail: {{$seller->email}}</p>
-                <p>Seller's Phone Number: {{$seller->phone}}</p>
+                <p><a style="color: white;" href="{{route('user.id' , ['id' => $product->seller])}}">Seller's Webpage</a></p>
+
             </div>
-            <!--
-        {
-        id":2,"orderid":1,
-        "to_user":6,
-        "from_user":3,
-        "rating":5,
-        "comment":null,
-        "review_date":"2022-01-18"
-        }
-        -->
+
+            <!--Reviews-->
             <div class="tab-pane fade active show" id="Reviews">
-                <a class="btn btn-outline-primary" href="{{ route('moreReviews', ['id' => $product->seller]) }}"> More Reviews </a>
-                @if($reviews != [])
+                @if(count($reviews)+1 != 1)
                 <div class="container">
                     <ul class="hash-list cols-3 cols-1-xs pad-30-all align-center text-sm">
                         @foreach($reviews as $review)
                         <li>
                             <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="wpx-100 img-round mgb-20" title="" alt="" data-edit="false" data-editor="field" data-field="src[Image Path]; title[Image Title]; alt[Image Alternate Text]">
                             <p class="fs-110 font-cond-l" contenteditable="false">"{{$review->comment}}"</p>
-                            <h5 class="font-cond mgb-5 fg-text-d fs-130" contenteditable="false">{{$review->from_user}}</h5>
+                            <h5 class="font-cond mgb-5 fg-text-d fs-130" contenteditable="false">{{$review->from_user}}</h5><img src="{{ asset('uploads/icons/Star_icon.png') }}" style="height:20px;width:20px;margin-bottom:5px;"></img>
                             <small class="font-cond case-u lts-sm fs-80 fg-text-l" contenteditable="false">{{$review->rating}}/5</small>
                         </li>
                         @endforeach
                     </ul>
-                </div>
 
+                </div>
+                <div class="bottom-div">
+                    <a class="btn btn-outline-light" href="{{ route('moreReviews', ['id' => $product->seller]) }}"> More Reviews </a>
+                </div>
                 @else
                 <p>No reviews</p>
                 @endif

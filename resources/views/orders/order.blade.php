@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<title>About</title>
+
+@section('title','Order Page')
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -50,6 +51,25 @@
     .selfMessage:hover {
         background-color: cyan;
     }
+
+    .orderProfile {
+        display: table-row;
+        min-width: 500px;
+        max-width: 500px;
+    }
+
+    .productImg>img {
+        width: 100%;
+    }
+
+    .geral {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        justify-self: center;
+        text-align: center;
+
+    }
 </style>
 
 <ol class="breadcrumb">
@@ -60,48 +80,62 @@
 </ol>
 
 <h2 class="temp1">Order ID: {{ $order->id }}</h2>
-<div class="temp2">
-    <div Product: class="temp2"> Product: {{ $product->productname }}
-    </div>
-    <div class="temp2"> Order Status: {{ $order->order_status }}
-    </div>
-    <div class="temp2"> Order Type: {{ $order->order_type }}
-    </div>
-    <div class="temp2"> Loan Start: {{ $order->loan_start }}
-    </div>
-    <div class="temp2"> Loan End: {{ $order->loan_end }}
-    </div>
-    <div class="temp2"> Total Price: {{ $order->total_price }}
-    </div>
-</div>
 
-@if (Auth::check())
+<section class="geral">
 
-@if (Auth::user()->acctype == 'Client')
-<a class="btn btn-outline-primary" href="{{ route('newReview.id', ['id' => $order->id]) }}"> Review Order</a>
-@endif
+    <div class="orderProfile">
+        <div class="card mb-3">
+            <h3 class="card-header">Product: {{ $product->productname }}</h3>
+            <div class="card-body">
+                <h5 class="card-title">Order Status: {{ $order->order_status }}</h5>
 
-@if (Auth::user()->acctype == 'Seller')
+            </div>
+            <a class="productImg" href="{{ route('products.id', ['id' => $product->id]) }}">
+                <img alt="Product Image" src="{{ asset('uploads/productImages/'. $product->img) }}" class="productImg"></img>
+            </a>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Order Type: {{ $order->order_type }}</li>
+                <li class="list-group-item">Loan Start: {{ $order->loan_start }}</li>
+                <li class="list-group-item">Loan End: {{ $order->loan_end }}</li>
+                <li class="list-group-item">Total Price: {{ $order->total_price }}€</li>
+            </ul>
+            @if (Auth::check())
+            <div class="card-body">
 
-@if($order->order_status == 'In_Negotiation')
+                @if (Auth::user()->acctype == 'Client')
+                <a class="btn btn-outline-primary" href="{{ route('newReview.id', ['id' => $order->id]) }}"> Review Order</a>
+                @endif
 
-<form method="POST" action="{{ route('endOrder', [$order->id]) }}">
-    {{ csrf_field() }}
-    @method('PATCH')
-    <button type="submit">
-        Complete Order
-    </button>
-</form>
+                @if (Auth::user()->acctype == 'Seller')
 
-<form method="POST" action="{{ route('cancelOrder', [$order->id]) }}">
-    {{ csrf_field() }}
-    @method('PATCH')
-    <button type="submit">
-        Cancel Order
-    </button>
-</form>
-@endif
-@endif
-@endif
+                @if($order->order_status == 'In_Negotiation')
+
+                <form method="POST" action="{{ route('endOrder', [$order->id]) }}">
+                    {{ csrf_field() }}
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-outline-primary">
+                        Complete Order
+                    </button>
+                </form>
+
+                <form method="POST" action="{{ route('cancelOrder', [$order->id]) }}">
+                    {{ csrf_field() }}
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-outline-primary">
+                        Cancel Order
+                    </button>
+                </form>
+                @endif
+                @endif
+            </div>
+            @endif
+        </div>
+    </div>
+
+
+
+</section>
+
+
 </div>
 @endsection

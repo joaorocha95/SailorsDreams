@@ -15,19 +15,6 @@ class OrderPolicy
         $client_id = $order->client;
         $product = Product::find($order->product);
         $seller = $product->seller;
-
-        if (auth()->check()) {
-            $acctype = auth()->user()->acctype;
-            return auth()->user()->id == $client_id || $acctype == 'Admin' || auth()->user()->id == $seller;
-        }
-        return false;
-    }
-    public function accountCheck($order)
-    {
-        $client_id = $order->client;
-        $product = Product::find($order->product);
-        $seller = $product->seller;
-
         if (auth()->check()) {
             $acctype = auth()->user()->acctype;
             return auth()->user()->id == $client_id || $acctype == 'Admin' || auth()->user()->id == $seller;

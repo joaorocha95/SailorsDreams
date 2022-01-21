@@ -26,10 +26,14 @@ class OrderController extends Controller
             $id = auth()->user()->id;
             $user = User::find($id);
             if ($user->acctype == 'Client') {
-                $orders = DB::table('order')->where('client', '=', $id)
+                $orders = DB::table('product')
+                    ->join('order', 'product.id', '=', 'order.product')
+                    ->where('order.client', '=', $id)
                     ->get();
             } else if ($user->acctype == 'Seller') {
-                $orders = DB::table('order')->where('seller', '=', $id)
+                $orders = DB::table('order')
+                    ->join('product', 'product.id', '=', 'order.product')
+                    ->where('order.seller', '=', $id)
                     ->get();
             }
             return view('pages.orders', ['orders' => $orders]);
@@ -116,7 +120,7 @@ class OrderController extends Controller
             $product_id = $request->input('id');
             $user_id = auth()->user()->id;
             $product = Product::find($product_id);
-            if (!$product->active)
+            if (!$product->active || $product->seller == $user_id)
                 abort(401);
             if ($request->order_type == 'Purchase')
                 $order = $this->Purchase(
@@ -149,18 +153,16 @@ class OrderController extends Controller
     {
         $pol = new OrderPolicy();
         $order = Order::find($id);
-
         if ($pol->showCheck($order)) {
-
             $product = Product::find($order->product);
             $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $id . '%')
                 ->get();
 
-            if ($order == null)
+            if ($order == null) {
                 abort(404);
+            }
             return view('orders.order', ["order" => $order, "product" => $product, "messages" => $messages]);
         }
-
         abort(404);
     }
 

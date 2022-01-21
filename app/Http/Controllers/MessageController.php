@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Message;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -20,17 +21,28 @@ class MessageController extends Controller
     public function index()
     {
         $id = Auth::user()->id;
+        $user = User::find($id);
         if ($id == null)
             abort(404);
-        $orders = DB::table('order')->where('client', '=', $id)
-            ->get();
 
+        if ($user->acctype == 'Client') {
+            $orders = DB::table('users')
+                ->join('order', 'users.id', '=', 'order.seller')
+                ->where('client', '=', $id)
+                ->get();
+        } else if ($user->acctype == 'Seller') {
+            $orders = DB::table('users')
+                ->join('order', 'users.id', '=', 'order.client')
+                ->where('seller', '=', $id)
+                ->get();
+        }
         $messages = DB::table('message')->where('associated_order', '=', -1)
             ->get();
 
         foreach ($orders as $order) {
             $messages->push(Message::find($order->id));
         }
+
 
         return view('pages.message', ['orders' => $orders], ['messages' => $messages]);
     }
@@ -44,7 +56,9 @@ class MessageController extends Controller
 
 
             $product = Product::find($order->product);
-            $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $id . '%')
+            $messages = DB::table('message')
+                ->join('users', 'users.id', '=', 'message.sender')
+                ->where('associated_order', 'iLIKE', '%' . $id . '%')
                 ->get();
 
             if ($order == null)
@@ -71,8 +85,6 @@ class MessageController extends Controller
         $message->sender = auth()->user()->id;
 
         $message->save();
-
-        error_log($request);
         $order = Order::find($message->associated_order);
         $product = Product::find($order->product);
         $messages = DB::table('message')->where('associated_order', 'iLIKE', '%' . $message->associated_order . '%')

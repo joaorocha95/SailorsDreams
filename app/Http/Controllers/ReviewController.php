@@ -23,7 +23,10 @@ class ReviewController extends Controller
     {
         $reviews = DB::table('review')->where('to_user', '=', $id)
             ->get();
-        return view('pages.reviews', ['reviews' => $reviews]);
+
+        $user = User::find($id);
+
+        return view('pages.reviews', ['reviews' => $reviews, 'id' => $id, 'from' => $user->username]);
     }
 
     /**
@@ -59,7 +62,7 @@ class ReviewController extends Controller
 
             $review->save();
 
-            return view('products.product', ["product" => $product]);
+            return redirect()->route('user.id', ['id' => $order->seller]);
         }
         abort(404);
     }

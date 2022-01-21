@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cards')
+@section('title','Products')
 
 @section('content')
 <style>
@@ -108,4 +108,12 @@
   </a>
   @endforeach
 </section>
+
+@if($flag ==1)
+<div style="position:relative;left:42.5%;margin-bottom:50px;">
+  {{$products->links()}}
+</div>
+@endif
+
+
 @endsection

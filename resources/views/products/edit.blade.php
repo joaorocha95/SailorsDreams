@@ -2,6 +2,8 @@
 
 @section('content')
 
+@section('title','Edit Product')
+
 <style>
   .smaller {
     width: 300px;
@@ -10,6 +12,38 @@
 
   .newProduct {
     align-items: center;
+  }
+
+  fieldset {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    grid-template-columns: 500px 500px 500px;
+    justify-content: center;
+    justify-self: center;
+
+  }
+
+  legend {
+    align-self: center;
+  }
+
+  form {
+    width: 400px;
+    text-align: center;
+  }
+
+  label {
+    float: left;
+    display: block;
+  }
+
+  form .form-group {
+    margin-bottom: 5px;
+  }
+
+  form .form-check {
+    margin-bottom: 5px;
   }
 </style>
 
@@ -25,16 +59,16 @@
     {{ csrf_field() }}
     @method('PATCH')
     <Legend>Edit Product</Legend>
-    <div class="form-group row">
+    <div class="form-group">
       <label for="productname" class="col-sm-2 col-form-label">Product Name:</label>
       <div class="col-sm-10"></div>
       <input class="form-control-plaintext smaller" id="productname" type="text" name="productname" value="{{ old('productname') }}" placeholder="{{$product->productname}}" autofocus>
+      @if ($errors->has('productname'))
+      <span class="error">
+        {{ $errors->first('productname') }}
+      </span>
+      @endif
     </div>
-    @if ($errors->has('productname'))
-    <span class="error">
-      {{ $errors->first('productname') }}
-    </span>
-    @endif
 
     <div class="form-group">
       <label for="name" class="form-label mt-4">Category</label>

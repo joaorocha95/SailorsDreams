@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Application;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ApplicationPolicy
@@ -42,6 +43,18 @@ class ApplicationPolicy
         if (auth()->check()) {
             $acctype = auth()->user()->acctype;
             return $acctype == 'User' || $acctype == 'Client' || $acctype == 'Admin';
+        }
+        return false;
+    }
+
+    public function evaluateCheck($id)
+    {
+        $app = Application::find($id);
+        if ($app == null)
+            return false;
+        if (auth()->check()) {
+            $acctype = auth()->user()->acctype;
+            return $acctype == 'Admin' && $app->application_state == "Evaluating";
         }
         return false;
     }

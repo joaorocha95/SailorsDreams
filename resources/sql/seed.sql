@@ -309,14 +309,15 @@ INSERT INTO lbaw2182.users (username,email,birthDate,password,banned,accType,img
 -----------------------------------
 --  	Product Inserts
 -----------------------------------
-INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 6, 'Veleiro', 'Tem uma folha no leme', TRUE, 200.00, NULL);
-INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 6, 'Lancha', 'Rápida e ainda está inteira!', TRUE, 100.00, NULL);
-INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 9, 'Iate', 'Brand new', TRUE,NULL, 75.00);
-INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 9, 'Ketch', 'Used', TRUE,NULL, 65.00);
-INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 9, 'Iate', 'New', FALSE,NULL, 95.00);
-INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 9, 'Man O War', 'Old', TRUE,200.00, NULL);
-INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 12, 'Barco Leve', 'Brand new', TRUE,200.00, NULL);
-INSERT INTO lbaw2182.Product (seller,productname,description,active,price,pricePerDay) VALUES ( 12, 'Iate Luxo', 'Brand new', TRUE,200.00, NULL);
+INSERT INTO lbaw2182.Product (seller,img,productname,description,active,price,pricePerDay) VALUES ( 6, '1642728125.jpg', 'Veleiro', 'Tem uma folha no leme', TRUE, 200.00, NULL);
+INSERT INTO lbaw2182.Product (seller,img,productname,description,active,price,pricePerDay) VALUES ( 6, '1642727376.jpg', 'Lancha', 'Rápida e ainda está inteira!', TRUE, 100.00, NULL);
+INSERT INTO lbaw2182.Product (seller,img,productname,description,active,price,pricePerDay) VALUES ( 9, '1642727607.jpg', 'Iate', 'Brand new', TRUE,NULL, 75.00);
+INSERT INTO lbaw2182.Product (seller,img,productname,description,active,price,pricePerDay) VALUES ( 9, '1642728201.jpg', 'Ketch', 'Used', TRUE,NULL, 65.00);
+INSERT INTO lbaw2182.Product (seller,img,productname,description,active,price,pricePerDay) VALUES ( 9, '1642727623.jpg', 'Iate', 'New', FALSE,NULL, 95.00);
+INSERT INTO lbaw2182.Product (seller,img,productname,description,active,price,pricePerDay) VALUES ( 9, '1642727780.jpg', 'Man O War', 'Old', TRUE,200.00, NULL);
+INSERT INTO lbaw2182.Product (seller,img,productname,description,active,price,pricePerDay) VALUES ( 12, '1642728140.webp', 'Barco Leve', 'Brand new', TRUE,200.00, NULL);
+INSERT INTO lbaw2182.Product (seller,img,productname,description,active,price,pricePerDay) VALUES ( 12, '1642727909.jpg', 'Iate Luxo', 'Brand new', TRUE,200.00, NULL);
+INSERT INTO lbaw2182.Product (seller,img,productname,description,active,price,pricePerDay) VALUES ( 12, '1642728005.webp', 'Iate', 'Brand new', TRUE,250.00, NULL);
 
 -----------------------------------
 --  	Order Inserts
@@ -329,7 +330,7 @@ INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_s
 INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 4, 10, 9, 'In_Negotiation', 'Loan', NULL, NULL, 125.00);
 INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 7, 7, 12, 'In_Negotiation', 'Purchase', NULL, NULL, 200.00);
 INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 8, 3, 12, 'Transaction_Completed', 'Purchase', NULL, NULL, 200.00);
-INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 2, 10, 12, 'In_Negotiation', 'Purchase', NULL, NULL, 200.00);
+INSERT INTO lbaw2182.Order (product,client,seller,order_status,order_type,loan_start,loan_end, total_price) VALUES ( 9, 10, 12, 'In_Negotiation', 'Purchase', NULL, NULL, 200.00);
 
 -----------------------------------
 --  	Review Inserts

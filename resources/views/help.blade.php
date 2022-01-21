@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<title>Help</title>
+
+@section('title','Help Page')
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -9,13 +10,7 @@
 <!-- Styles -->
 <style>
     .test {
-        font-family: 'Nunito', sans-serif;
-        background-color: #343434;
-        color: #B9B9B9;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
+        text-align: center;
     }
 </style>
 
@@ -26,8 +21,8 @@
 
 <h2 class="test">Help</h2>
 
-<a class="button" href="{{ route('faq') }}"> faq </a>
+<a class="btn btn-outline-primary" href="{{ route('faq') }}"> FAQ </a>
 
-<a class="button"> Tickets </a>
+<a class="btn btn-outline-primary"> Tickets </a>
 
 @endsection

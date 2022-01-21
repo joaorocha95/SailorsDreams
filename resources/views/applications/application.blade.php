@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<title>About</title>
+
+@section('title','Application Page')
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -50,33 +51,57 @@
     .selfMessage:hover {
         background-color: cyan;
     }
+
+    .geral {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        justify-self: center;
+        text-align: center;
+
+    }
 </style>
 
-<h2 class="temp1">Application ID: {{ $application->id }}</h2>
-<div class="temp2">
-    <div Product: class="temp2"> User ID: {{ $application->userid }}
-    </div>
-    <div class="temp2"> Application State: {{ $application->application_state }}
-    </div>
-    <div class="temp2"> Title: {{ $application->title }}
-    </div>
-    <div class="temp2"> Description: {{ $application->description }}
-    </div>
-</div>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('user.id', ['id' => auth()->user()->id]) }}">Admin Tools</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('/applications') }}">Applications Manager</a></li>
+    <li class=" breadcrumb-item active">Application</li>
+</ol>
 
-<form method="POST" action="{{ route('acceptApplication', [$application->id]) }}">
-    {{ csrf_field() }}
-    @method('PATCH')
-    <button type="submit">
-        Accept
-    </button>
-</form>
+<section class="geral">
 
-<form method="POST" action="{{ route('rejectApplication', [$application->id]) }}">
-    {{ csrf_field() }}
-    @method('PATCH')
-    <button type="submit">
-        Reject
-    </button>
-</form>
+    <div class="userProfile">
+        <div class="card mb-3">
+            <h3 class="card-header">Application ID: {{ $application->id }}</h3>
+            <div class="card-body">
+                <h5 class="card-title">User ID: {{ $application->userid }}</h5>
+                <h5 class="card-title">Application State: {{ $application->application_state }}</h5>
+                <h5 class="card-title">Title: {{ $application->title }}</h5>
+            </div>
+            <ul class="list-group list-group-flush">
+                <h5 class="list-group-item">Description: {{ $application->description }}</h5>
+            </ul>
+            <div class="card-body">
+                @if($application->application_state == 'Evaluating')
+                <form method="POST" action="{{ route('acceptApplication', [$application->id]) }}">
+                    {{ csrf_field() }}
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-outline-primary">
+                        Accept
+                    </button>
+                </form>
+
+                <form method="POST" action="{{ route('rejectApplication', [$application->id]) }}">
+                    {{ csrf_field() }}
+                    @method('PATCH')
+                    <button type="submit" class="btn btn-outline-primary">
+                        Reject
+                    </button>
+                </form>
+                @endif
+            </div>
+        </div>
+    </div>
+</section>
 @endsection

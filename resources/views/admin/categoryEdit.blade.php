@@ -2,6 +2,8 @@
 
 @section('content')
 
+@section('title','Edit Category')
+
 <style>
   .smaller {
     width: 300px;

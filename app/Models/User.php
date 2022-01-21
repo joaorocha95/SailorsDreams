@@ -14,7 +14,7 @@ class User extends Authenticatable
   public $table = 'users';
   public $timestamps  = false;
 
-  public $fillable = ['username', 'email', 'password', 'img', 'birthdate', 'phone'];
+  public $fillable = ['username', 'email', 'password', 'img', 'birthdate', 'phone', 'banned'];
 
   /**
    * The attributes that should be hidden for arrays.

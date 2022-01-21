@@ -2,6 +2,8 @@
 
 @section('content')
 
+@section('title','Create Application')
+
 <style>
   .smaller {
     width: 300px;
@@ -31,7 +33,7 @@
     <div class="form-group row">
       <label for="description" class="col-sm-2 col-form-label">Description:</label>
       <div class="col-sm-10"></div>
-      <input class="form-control-plaintext smaller" id="description" type="text" name="description" value="{{ old('description') }}" required autofocus>
+      <input class="form-control-plaintext smaller" id="description" type="text" name="description" value="{{ old('description') }}" required>
     </div>
     @if ($errors->has('description'))
     <span class="error">

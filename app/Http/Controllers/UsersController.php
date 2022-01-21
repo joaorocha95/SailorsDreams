@@ -13,7 +13,6 @@ use App\Policies\UsersPolicy;
 
 class UsersController extends Controller
 {
-
     /**
      * Returns a specific User based on its E-mail
      * 
@@ -129,7 +128,7 @@ class UsersController extends Controller
     {
         $pol = new UsersPolicy();
 
-        if ($pol->logCheck($id)) {
+        if ($pol->logCheck(auth()->user()->id)) {
             $user = User::find($id);
             return view('pages.editUserProfile', ["user" => $user]);
         }
@@ -158,7 +157,6 @@ class UsersController extends Controller
                 $extension = $file->getClientOriginalExtension();
                 $filename = time() . '.' . $extension;
                 $file->move('uploads/avatarImages', $filename);
-                error_log("EntroUUUUU2!");
                 $user->img = $filename;
             }
 
@@ -188,13 +186,13 @@ class UsersController extends Controller
     {
         $pol = new UsersPolicy();
 
-        if ($pol->adminCheck($id)) {
+        if ($pol->adminCheck()) {
             $user = User::find($id);
 
             $user->banned = true;
             $user->save();
 
-            return $user;
+            return redirect()->route('accounts.id', ["id" => $id]);
         }
 
         abort(404);
@@ -211,13 +209,13 @@ class UsersController extends Controller
     {
         $pol = new UsersPolicy();
 
-        if ($pol->adminCheck($id)) {
+        if ($pol->adminCheck(auth()->user()->id)) {
             $user = User::find($id);
 
             $user->banned = false;
             $user->save();
 
-            return view('admin.userDetails', ["user" => $user]);
+            return redirect()->route('accounts.id', ["id" => $id]);
         }
 
         abort(404);
@@ -233,15 +231,12 @@ class UsersController extends Controller
     {
         $pol = new UsersPolicy();
 
-        if ($pol->adminCheck($id)) {
+        if ($pol->logCheck(auth()->user()->id)) {
             $user = User::find($id);
-
-            $this->authorize('delete', $user);
             $user->delete();
 
-            return $user;
+            return redirect()->route('home');
         }
-
         abort(404);
     }
 }

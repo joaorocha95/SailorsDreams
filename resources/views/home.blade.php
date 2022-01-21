@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<title>FAQ</title>
+
+@section('title','Sailors Dream')
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -19,6 +20,7 @@
         background-color: white;
         height: 700px;
         width: 1300px;
+        max-width: 90%;
     }
 
     .img__description {
@@ -78,52 +80,54 @@
         width: 100%;
         height: 100%;
     }
+
+    h2 {
+        color: black;
+        margin: 10px;
+    }
 </style>
 
 
-<audio autoplay id="myAudio">
-    <source src="home.ogg" type="audio/ogg">
-</audio>
 <script>
-    document.getElementById("myAudio").volume = 0.2;
 </script>
 <div class="everything">
-    <h3>DESTAQUE</h3>
-    <div class="produtoDestaque">
-        <img alt="Destaque" src="https://scontent.fopo2-1.fna.fbcdn.net/v/t1.18169-1/p200x200/18664317_1456148631095681_8921032841732140123_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=7206a8&_nc_ohc=M-v9k0XVwMQAX9GgxV6&_nc_ht=scontent.fopo2-1.fna&oh=00_AT8e6Ny0GlD3oMevMNkLI0Bd7ZKEIxwPr66uwmQxFnnGEw&oe=62031120">
-        <div class="produtoDestaque img__description">
-            This image looks super neat.
+    <h2>DESTAQUE</h2>
+    <a class="produtoDestaque" href="{{ route('products.id', ['id' => $product[0]->id]) }}">
+        <img alt="Destaque" src="{{ asset('uploads/productImages/'. $product[0]->img) }}">
+        <div class="img__description">
+            {{$product[0]->description}}
         </div>
-    </div>
+    </a>
 
     <div style="height: 100px;">
     </div>
 
+    <h3 style="color: black;">OUTROS DESTAQUES</h3>
     <div class="multiplosDestaques">
-        <div class="multiplosDestaquesItems">
-            <img alt="Destaque1" src="https://scontent.fopo2-1.fna.fbcdn.net/v/t1.18169-1/p200x200/18664317_1456148631095681_8921032841732140123_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=7206a8&_nc_ohc=M-v9k0XVwMQAX9GgxV6&_nc_ht=scontent.fopo2-1.fna&oh=00_AT8e6Ny0GlD3oMevMNkLI0Bd7ZKEIxwPr66uwmQxFnnGEw&oe=62031120">
+        <a class="multiplosDestaquesItems" href="{{ route('products.id', ['id' => $product[1]->id]) }}">
+            <img alt="Destaque1" src="{{ asset('uploads/productImages/'. $product[1]->img) }}">
             <div class="img__description">
-                This image looks meh.
+                {{$product[1]->description}}
             </div>
-        </div>
-        <div class="multiplosDestaquesItems">
-            <img alt="Destaque2" src="https://scontent.fopo2-1.fna.fbcdn.net/v/t1.18169-1/p200x200/18664317_1456148631095681_8921032841732140123_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=7206a8&_nc_ohc=M-v9k0XVwMQAX9GgxV6&_nc_ht=scontent.fopo2-1.fna&oh=00_AT8e6Ny0GlD3oMevMNkLI0Bd7ZKEIxwPr66uwmQxFnnGEw&oe=62031120">
+        </a>
+        <a class="multiplosDestaquesItems" href="{{ route('products.id', ['id' => $product[2]->id]) }}">
+            <img alt="Destaque2" src="{{ asset('uploads/productImages/'. $product[2]->img) }}">
             <div class="img__description">
-                This image looks decent.
+                {{$product[2]->description}}
             </div>
-        </div>
-        <div class="multiplosDestaquesItems">
-            <img alt="Destaque3" src="https://scontent.fopo2-1.fna.fbcdn.net/v/t1.18169-1/p200x200/18664317_1456148631095681_8921032841732140123_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=7206a8&_nc_ohc=M-v9k0XVwMQAX9GgxV6&_nc_ht=scontent.fopo2-1.fna&oh=00_AT8e6Ny0GlD3oMevMNkLI0Bd7ZKEIxwPr66uwmQxFnnGEw&oe=62031120">
+        </a>
+        <a class="multiplosDestaquesItems" href="{{ route('products.id', ['id' => $product[3]->id]) }}">
+            <img alt="Destaque3" src="{{ asset('uploads/productImages/'. $product[3]->img) }}">
             <div class="img__description">
-                This image looks good.
+                {{$product[3]->description}}
             </div>
-        </div>
-        <div class="multiplosDestaquesItems">
-            <img alt="Destaque4" src="https://scontent.fopo2-1.fna.fbcdn.net/v/t1.18169-1/p200x200/18664317_1456148631095681_8921032841732140123_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=7206a8&_nc_ohc=M-v9k0XVwMQAX9GgxV6&_nc_ht=scontent.fopo2-1.fna&oh=00_AT8e6Ny0GlD3oMevMNkLI0Bd7ZKEIxwPr66uwmQxFnnGEw&oe=62031120">
+        </a>
+        <a class="multiplosDestaquesItems" href="{{ route('products.id', ['id' => $product[4]->id]) }}">
+            <img alt="Destaque4" src="{{ asset('uploads/productImages/'. $product[4]->img) }}">
             <div class="img__description">
-                This image looks awesome.
+                {{$product[4]->description}}
             </div>
-        </div>
+        </a>
     </div>
 </div>
 

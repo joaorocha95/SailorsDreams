@@ -47,8 +47,6 @@ class ApplicationController extends Controller
 
             $application = new Application();
 
-            error_log("----------------------------------------------" . $request->input('title'));
-
             if ($request->id == null)
                 abort(404);
 
@@ -86,7 +84,7 @@ class ApplicationController extends Controller
     {
         $pol = new ApplicationPolicy();
 
-        if ($pol->adminCheck()) {
+        if ($pol->evaluateCheck($id)) {
             $application = Application::find($id);
             if ($application == null)
                 abort(404);
@@ -113,7 +111,7 @@ class ApplicationController extends Controller
     {
         $pol = new ApplicationPolicy();
 
-        if ($pol->adminCheck()) {
+        if ($pol->evaluateCheck($id)) {
             $application = Application::find($id);
             if ($application == null)
                 abort(404);

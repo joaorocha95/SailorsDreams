@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cards')
+@section('title','User Page')
 
 @section('content')
 <style>
@@ -88,7 +88,7 @@
 <ol class="breadcrumb">
   <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
   <li class="breadcrumb-item"><a href="{{ route('user.id', ['id' => auth()->user()->id]) }}">Admin Tools</a></li>
-  <li class=" breadcrumb-item active">Accounts</li>
+  <li class=" breadcrumb-item active">Account Manager</li>
 </ol>
 
 <h2 style="text-align: center;">Accounts</h2>
@@ -100,7 +100,7 @@
         {{ $user->id }}
       </span>
     </div>
-    <img alt="Imagem do User" src="https://scontent.fopo2-1.fna.fbcdn.net/v/t1.18169-1/p200x200/18664317_1456148631095681_8921032841732140123_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=7206a8&_nc_ohc=M-v9k0XVwMQAX9GgxV6&_nc_ht=scontent.fopo2-1.fna&oh=00_AT8e6Ny0GlD3oMevMNkLI0Bd7ZKEIxwPr66uwmQxFnnGEw&oe=62031120">
+    <img alt="Imagem do User" src="{{ asset('uploads/avatarImages/'. $user->img) }}">
     <div class="img_description">
       {{ $user->id }}
       <br>

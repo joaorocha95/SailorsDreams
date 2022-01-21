@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Cards')
+@section('title','Categories')
 
 @section('content')
 <style>
@@ -31,6 +31,12 @@
         height: 105px;
     }
 </style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{ route('user.id', ['id' => auth()->user()->id]) }}">Admin Tools</a></li>
+    <li class=" breadcrumb-item active">Categories Manager</li>
+</ol>
 
 <section id="categories">
 

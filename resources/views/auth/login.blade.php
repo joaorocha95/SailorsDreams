@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+@section('title','Login')
 <style>
     section {
         width: 100%;
@@ -53,7 +55,6 @@
 </ol>
 <!--OLD -->
 <section>
-
     <form method="POST" action="{{ route('login') }}">
         {{ csrf_field() }}
         <h2 style="text-align: center;">Login</h2>
@@ -74,11 +75,11 @@
             {{ $errors->first('password') }}
         </span>
         @endif
-
-
-        <label>
-            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-        </label>
+        @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+        @endif
         <div class="duoBtn">
             <button type="submit" class="btn btn-primary">
                 Login

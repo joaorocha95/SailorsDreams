@@ -9,7 +9,8 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>{{ config('app.name', 'Laravel') }}</title>
+  <!-- <title>{{ config('app.name', 'Laravel') }}</title>-->
+  <title>@yield('title')</title>
 
   <!-- Styles -->
   <!--<link href="{{ asset('css/milligram.min.css') }}" rel="stylesheet">
@@ -170,13 +171,12 @@
         <a href="{{ url('/login') }}">
           <p>Orders</p>
         </a>
-        <a>
+        <a href="{{ url('/login') }}">
           <p>Wishlist</p>
         </a>
       </a>
       @endif
     </div>
-
     <div class="column">
       <a href="{{ url('/about')}}">
         <h3>About Us</h3>

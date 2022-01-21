@@ -1,17 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Cards')
+@section('title','Review')
 
 @section('content')
 <style>
-  .biggerOrder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-  }
-
-  .Order {
+  .reviews {
     border-radius: 10px;
     background-color: #4ACBC9;
     width: 100px;
@@ -24,39 +17,51 @@
     margin: 5px;
   }
 
-  .Order:hover {
+  .reviews:hover {
     background-color: #8AFCFA;
     width: 105px;
     height: 105px;
+  }
+
+  .userProfile {
+    width: 500px;
+    margin-left: 15px;
+    float: left;
+  }
+
+  h2 {
+    text-align: center;
   }
 </style>
 
 <ol class="breadcrumb">
   <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+  @if($id == auth()->user()->id)
+  <li class="breadcrumb-item"><a href="{{ route('user.id', ['id' => auth()->user()->id] ) }}">User Profile</a></li>
+  @else
   <li class="breadcrumb-item"><a href="{{ route('user.id', ['id' => $id = $reviews[1]->to_user ] ) }}">User Profile</a></li>
+  @endif
   <li class="breadcrumb-item active">Reviews</li>
 </ol>
 
-<section id="orders">
+<section id="reviews">
+  <h2 class="temp1">Reviews</h2>
   @if (Auth::check())
   @foreach($reviews as $review)
-  <h2 class="temp1">Review: {{ $review->id }}</h2>
-  <div class="temp2">
-    <div Product: class="temp2"> orderid: {{ $review->orderid }}
-    </div>
-    <div class="temp2"> to_user: {{ $review->to_user }}
-    </div>
-    <div class="temp2"> from_user: {{ $review->from_user }}
-    </div>
-    <div class="temp2"> rating: {{ $review->rating }}
-    </div>
-    <div class="temp2"> comment: {{ $review->comment }}
-    </div>
-    <div class="temp2"> review_date: {{ $review->review_date }}
+  <div class="userProfile">
+    <div class="card mb-3">
+      <h3 class="card-header">From: {{ $from }}</h3>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Order Number: {{ $review->orderid }} </li>
+        <li class="list-group-item">Rating: <img src="{{ asset('uploads/icons/Star_icon.png') }}" style="height:15px;width:15px;margin-bottom:5px"></img>{{ $review->rating }} </li>
+        <li class="list-group-item">Comment: {{ $review->comment }}</li>
+        <li class="list-group-item">Date: {{ $review->review_date }}</li>
+      </ul>
     </div>
   </div>
   @endforeach
   @endif
+
 </section>
 
 @endsection

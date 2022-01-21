@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<title>About</title>
+
+@section('title','Product Details')
 
 <!-- Fonts -->
 <!-- Styles -->
@@ -53,7 +54,6 @@
     .orderForms {
         padding-top: 30px;
         padding-bottom: 30px;
-        background-color: red;
     }
 
     .productInfo .nav-link {
@@ -68,6 +68,10 @@
         border-color: white;
         margin-bottom: 10px;
         padding: 5px;
+    }
+
+    .breadcrumb-item>a {
+        color: white;
     }
 </style>
 <!-- 
@@ -90,8 +94,14 @@
 </div>
 
 <div class="productInfo">
+    <ol class="breadcrumb" style="position: absolute; top: 0px; right: 40px; width: fit-content; padding-left: 5px; padding-right: 5px;">
+        <li class="breadcrumb-item"><a href="{{ url('/home')}}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('user.id', ['id' => auth()->user()->id])}}">Admin Tools</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('/admin/products') }}">Product Manager</a></li>
+        <li class="breadcrumb-item active">Product</li>
+    </ol>
     <h2> {{ $product->productname }} </h2>
-    <h3>
+    <h3 style="color: white;">
         @if($product->price != 0 && $product->pricePerDay != 0)
         Price: {{$product->price}}€ | Price: {{$product->pricePerDay}}€
         @else
@@ -119,7 +129,7 @@
         <form method="POST" action="{{ route('admin.products.edit', ['id' => $product->id])}}">
             @method('PATCH')
             @csrf
-            <div class="input-group" style="background-color: blue;">
+            <div class="input-group">
                 <button class="btn btn-outline-light" type="submit">
                     Edit product
                 </button>
@@ -129,7 +139,7 @@
         <form method="POST" action="{{ route('admin.products.delete', ['id' => $product->id])}}">
             @method('DELETE')
             @csrf
-            <div class="input-group" style="background-color: blue;">
+            <div class="input-group">
                 <button class="btn btn-outline-light" type="submit">
                     Delete product
                 </button>

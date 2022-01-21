@@ -22,12 +22,12 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = DB::table('product')->where('productname', 'iLIKE', '%' . $request->term . '%')
-            ->get();
-        //error_log("Produtos encontrados: " . $products);
+        $products = DB::table('product')->where('productname', 'iLIKE', '%' . $request->term . '%')->simplepaginate(6);
 
-        return view('pages.products', compact('products'));
+        return view('pages.products', compact('products'))->with('flag', '1');
     }
+
+
 
     /**
      * Display a listing of the resource.
@@ -41,7 +41,6 @@ class ProductController extends Controller
         if ($pol->adminCheck()) {
             $products = DB::table('product')->where('productname', 'iLIKE', '%' . $request->term . '%')
                 ->get();
-            //error_log("Produtos encontrados: " . $products);
 
             return view('admin.products', compact('products'));
         }
@@ -73,13 +72,13 @@ class ProductController extends Controller
                 $product->active = false;
 
 
-
-            $file = $request->file('img');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            $file->move('uploads/productImages', $filename);
-            $product->img = $filename;
-
+            if ($request->file('img')) {
+                $file = $request->file('img');
+                $extension = $file->getClientOriginalExtension();
+                $filename = time() . '.' . $extension;
+                $file->move('uploads/productImages', $filename);
+                $product->img = $filename;
+            }
 
             $product->price = $request->input('price');
             $product->priceperday = $request->input('priceperday');
@@ -95,9 +94,8 @@ class ProductController extends Controller
             $reviews = DB::table('review')->where('to_user', '=', $seller->id)
                 ->limit(3)
                 ->get();
-            error_log($reviews);
 
-            return view('products.product', ["product" => $product, "seller" => $seller, "reviews" => $reviews]);
+            return redirect()->route('products.id', ["product" => $product, "seller" => $seller, "reviews" => $reviews]);
         }
 
         abort(404);
@@ -120,7 +118,6 @@ class ProductController extends Controller
         $reviews = DB::table('review')->where('to_user', '=', $seller->id)
             ->limit(3)
             ->get();
-        error_log($reviews);
         return view('products.product', ["product" => $product, "seller" => $seller, "reviews" => $reviews]);
     }
 
@@ -143,7 +140,6 @@ class ProductController extends Controller
             $reviews = DB::table('review')->where('to_user', '=', $seller->id)
                 ->limit(3)
                 ->get();
-            error_log($reviews);
             return view('admin.productDetails', ["product" => $product, "seller" => $seller, "reviews" => $reviews]);
         }
 

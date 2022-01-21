@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title','New Review')
+
 @section('content')
 
 <style>
@@ -19,9 +21,9 @@
     {{ csrf_field() }}
     <Legend>New Review</Legend>
     <div class="form-group row">
-      <label for="rating" class="col-sm-2 col-form-label">Score:</label>
+      <label for="rating" class="col-sm-2 col-form-label">Score(1-5)*:</label>
       <div class="col-sm-10"></div>
-      <input class="form-control-plaintext smaller" id="rating" type="int" name="rating" value="{{ old('rating') }}" required autofocus>
+      <input class="form-control-plaintext smaller" id="rating" type="int" name="rating" value="{{ old('rating') }}" pattern="/^[1-5]$/" required autofocus>
     </div>
     @if ($errors->has('rating'))
     <span class="error">
@@ -32,7 +34,7 @@
     <div class="form-group row">
       <label for="comment" class="col-sm-2 col-form-label">Comment:</label>
       <div class="col-sm-10"></div>
-      <input class="form-control-plaintext smaller" id="comment" type="text" name="comment" value="{{ old('comment') }}" required autofocus>
+      <input class="form-control-plaintext smaller" id="comment" type="text" name="comment" value="{{ old('comment') }}">
     </div>
     @if ($errors->has('comment'))
     <span class="error">
@@ -44,6 +46,7 @@
       Submit
     </button>
     <a class="btn btn-outline-primary" href="{{ route('newProduct')}}">Cancel</a>
+  </form>
 </fieldset>
-</form>
+
 @endsection
