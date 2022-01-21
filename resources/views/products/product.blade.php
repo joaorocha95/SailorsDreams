@@ -195,9 +195,11 @@
                     </ul>
 
                 </div>
+                @if (Auth::check())
                 <div class="bottom-div">
                     <a class="btn btn-outline-light" href="{{ route('moreReviews', ['id' => $product->seller]) }}"> More Reviews </a>
                 </div>
+                @endif
                 @else
                 <p>No reviews</p>
                 @endif
