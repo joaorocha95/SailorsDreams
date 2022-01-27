@@ -11,6 +11,7 @@ Nuno Miguel Paiva de Melo e Castro - up202003324@up.pt
 
 
 
+
 Docker Command:
 
 docker-compose up
@@ -20,9 +21,13 @@ php artisan db:seed
 docker run -it -p 8000:80 --name=lbaw2182 -e DB_DATABASE="lbaw2182" -e DB_SCHEMA="lbaw2182" -e DB_USERNAME="lbaw2182" -e DB_PASSWORD="kJpUCZXS" git.fe.up.pt:5050/lbaw/lbaw2122/lbaw2182
 
 
+
+
 URL: 
 
 http://lbaw2182.lbaw.fe.up.pt
+
+
 
 
 Administration Credentials:
